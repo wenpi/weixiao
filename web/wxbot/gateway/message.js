@@ -73,7 +73,7 @@ function view_message(info, next) {
                 }
             ));
             if (i % 2 == 0) {
-                links.push("\n");
+                links.push("\n\n");
             }
         }
         text += links.join("");
