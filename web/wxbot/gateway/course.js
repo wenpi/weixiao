@@ -32,14 +32,16 @@ function course_view(info, next) {
             for (var i=0; i<info.session.teacher.wxclasses.length; i++) {
                 var wxclass = info.session.teacher.wxclasses[i];
                 links.push(ejs.render(
-                    '<a href="<%- url%>">' + wxclass.name + '</a>', 
+                    '<a href="<%- url%>">' + wxclass.name + '</a>   ', 
                     {
                         url: conf.site_root + '/front/course?classId=' + wxclass.id
                     }
                 ));
+                if (i % 2 == 0 && i !== 0) {
+                    links.push("\n\n");
+                }
             }
-            text += links.join("\n");
-            next(null, text);
+            text += links.join("");
             return next(null, text);
         }
     }
