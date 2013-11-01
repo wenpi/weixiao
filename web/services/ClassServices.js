@@ -21,7 +21,7 @@ function queryBySchoolId(opts){
 exports.queryBySchoolId = function(opts) {
     var deferred = Q.defer();
 
-    queryBySchooleId(opts).then(function(classes) {
+    queryBySchoolId(opts).then(function(classes) {
         if (classes && classes.length >= 0) {
             deferred.resolve(classes);
         } else {
