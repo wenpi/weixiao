@@ -51,13 +51,17 @@ function view_image(info, next) {
         next(null, text);
     };
     function sendLinks() {
-        text = ejs.render(
-            '<a href="<%- url%>">园长查看相册</a>', 
-            {
-                //name: '小一班',
-                url: conf.site_root + '/classPhoto/mobileview'
-            }
-        )
+        var text = '请点击下列连接查看指定班级的相册：\n', links = [];
+        for (var i=0; i<info.session.teacher.wxclasses.length; i++) {
+            var wxclass = info.session.teacher.wxclasses[i];
+            links.push(ejs.render(
+                '<a href="<%- url%>">' + wxclass.name + '</a>', 
+                {
+                    url: conf.site_root + '/classPhoto/mobileview?classId=' + wxclass.id
+                }
+            ));
+        }
+        text += links.join("\n");
         next(null, text);
     };
 

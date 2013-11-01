@@ -27,12 +27,19 @@ function course_view(info, next) {
             );
             return next(null, text);
         } else if (info.session.teacher.isAdmin === 1){
-            text = ejs.render(
-                '<a href="<%- url%>">园长查看课程计划</a>', 
-                {
-                    url: conf.site_root + '/front/course?classId=' + info.session.teacher.id
-                }
-            );
+            text = '请点击下列连接查看指定班级的课程计划：\n';
+            var links = [];
+            for (var i=0; i<info.session.teacher.wxclasses.length; i++) {
+                var wxclass = info.session.teacher.wxclasses[i];
+                links.push(ejs.render(
+                    '<a href="<%- url%>">' + wxclass.name + '</a>', 
+                    {
+                        url: conf.site_root + '/front/course?classId=' + wxclass.id
+                    }
+                ));
+            }
+            text += links.join("\n");
+            next(null, text);
             return next(null, text);
         }
     }

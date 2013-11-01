@@ -63,12 +63,17 @@ function view_message(info, next) {
     }
 
     function sendLinks() {
-        var text =  ejs.render(
-            '<a href="<%- url%>">园长查看消息' + info.session.teacher.wxclasses.length + '</a>', 
-            {
-                url: conf.site_root + '/front/message'
-            }
-        )
+        var text = '请点击下列连接查看指定班级的留言板：\n', links = [];
+        for (var i=0; i<info.session.teacher.wxclasses.length; i++) {
+            var wxclass = info.session.teacher.wxclasses[i];
+            links.push(ejs.render(
+                '<a href="<%- url%>">' + wxclass.name + '</a>', 
+                {
+                    url: conf.site_root + '/front/message?classId=' + wxclass.id
+                }
+            ));
+        }
+        text += links.join("\n");
         next(null, text);
     }
 
