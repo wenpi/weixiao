@@ -9,7 +9,7 @@ var request = require('request');
 function queryBySchoolId(opts){
     var schoolId = opts.schoolId || '-1';
     var sql = [
-        "SELECT * FROM wex_class WHERE school_id = '" + schoolId + "'"
+        "SELECT * FROM wex_class WHERE school_id = '" + schoolId + "' order by code asc"
     ];
     return MysqlServices.query(sql.join(" "));
     //return BaseServices.query(collection, conditions || null, addtions || {sort:[['createdTime', -1]]});

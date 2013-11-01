@@ -67,12 +67,12 @@ function view_message(info, next) {
         for (var i=0; i<info.session.teacher.wxclasses.length; i++) {
             var wxclass = info.session.teacher.wxclasses[i];
             links.push(ejs.render(
-                '<a href="<%- url%>">' + wxclass.name + '</a>&nbsp&nbsp', 
+                '<a href="<%- url%>">' + wxclass.name + '</a>  ', 
                 {
                     url: conf.site_root + '/front/message?classId=' + wxclass.id
                 }
             ));
-            if (i % 2 == 0) {
+            if (i % 2 == 0 && i !== 0) {
                 links.push("\n\n");
             }
         }
