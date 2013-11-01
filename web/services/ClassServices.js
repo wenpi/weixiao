@@ -6,7 +6,7 @@ var request = require('request');
 /*
  * 查询数据
  */
-function queryBySchooleId(opts){
+function queryBySchoolId(opts){
     var schoolId = opts.schoolId || '-1';
     var sql = [
         "SELECT * FROM wex_class WHERE school_id = '" + schoolId + "'"
@@ -18,7 +18,7 @@ function queryBySchooleId(opts){
 /*
  * 返回含有schoolId的数据
  */
-exports.queryBySchooleId = function(opts) {
+exports.queryBySchoolId = function(opts) {
     var deferred = Q.defer();
 
     queryBySchooleId(opts).then(function(classes) {
