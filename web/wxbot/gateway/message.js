@@ -64,7 +64,7 @@ function view_message(info, next) {
 
     function sendLinks() {
         var text =  ejs.render(
-            '<a href="<%- url%>">园长查看消息</a>', 
+            '<a href="<%- url%>">园长查看消息' + info.session.teacher.wxclasses.length + '</a>', 
             {
                 url: conf.site_root + '/front/message'
             }

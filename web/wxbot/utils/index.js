@@ -5,6 +5,7 @@ var conf = require("../../conf");
 var SchoolServices = require("../../services/SchoolServices");
 var UserServices = require("../../services/UserServices");
 var TeacherServices = require("../../services/TeacherServices");
+var ClassServices = require("../../services/ClassServices");
 
 function ensure_school_is_bind (info, next) {
     if (info.session.failedCount === 5) {
@@ -34,6 +35,7 @@ function mobile_input_prompt(info, next) {
     info.ended = true;
     next("抱歉，本功能仅供本园家长及教师使用。\n如需认证，请点击左下角键盘图标后，直接回复您的【手机号】，例如13812345678");
 }
+
 function ensure_user_is_register (info, next) {
     if (info.session.parent || info.session.teacher) { return next(); }
 
@@ -50,7 +52,12 @@ function ensure_user_is_register (info, next) {
             } else {
                 TeacherServices.queryByUserId({userId: info.session.teacher.id}).then(function(teacher) {
                     info.session.teacher.isAdmin = teacher.is_admin;
-                    return next();
+                    ClassServices.queryBySchoolId({schoolId: info.session.school.id}).then(function(wxclasses) {
+                        info.session.teacher.wxclasses = wxclasses;
+                        return next();
+                    }, function(err) {
+                        return next(null, err);
+                    });
                 }, function(err) {
                     return next(null, err);
                 });
