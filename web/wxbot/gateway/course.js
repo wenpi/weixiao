@@ -27,7 +27,7 @@ function course_view(info, next) {
             );
             return next(null, text);
         } else if (info.session.teacher.isAdmin === 1){
-            text = '请点击下列连接查看指定班级的课程计划：\n';
+            text = '请点击下列链接查看指定班级的课程计划：\n';
             var links = [];
             for (var i=0; i<info.session.teacher.wxclasses.length; i++) {
                 var wxclass = info.session.teacher.wxclasses[i];

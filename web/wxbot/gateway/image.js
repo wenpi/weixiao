@@ -51,7 +51,7 @@ function view_image(info, next) {
         next(null, text);
     };
     function sendLinks() {
-        var text = '请点击下列连接查看指定班级的相册：\n', links = [];
+        var text = '请点击下列链接查看指定班级的相册：\n', links = [];
         for (var i=0; i<info.session.teacher.wxclasses.length; i++) {
             var wxclass = info.session.teacher.wxclasses[i];
             links.push(ejs.render(
