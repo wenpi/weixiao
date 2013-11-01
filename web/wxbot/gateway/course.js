@@ -28,13 +28,13 @@ function course_view(info, next) {
             return next(null, text);
         } else if (info.session.teacher.isAdmin === 1){
             text = '请点击下列链接查看指定班级的课程计划：\n';
-            var links = [];
+            var links = [], schoolId = info.session.school.id;
             for (var i=0; i<info.session.teacher.wxclasses.length; i++) {
                 var wxclass = info.session.teacher.wxclasses[i];
                 links.push(ejs.render(
                     '<a href="<%- url%>">' + wxclass.name + '</a>   ', 
                     {
-                        url: conf.site_root + '/front/course?classId=' + wxclass.id
+                        url: conf.site_root + '/front/course?classid=' + wxclass.id + '&schoolid=' + schoolId
                     }
                 ));
                 if (i % 2 == 0 && i !== 0) {

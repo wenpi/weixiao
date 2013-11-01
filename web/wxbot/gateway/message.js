@@ -69,7 +69,7 @@ function view_message(info, next) {
             links.push(ejs.render(
                 '<a href="<%- url%>">' + wxclass.name + '</a>   ', 
                 {
-                    url: conf.site_root + '/front/message?classId=' + wxclass.id
+                    url: conf.site_root + '/front/message?classid=' + wxclass.id
                 }
             ));
             if (i % 2 == 0 && i !== 0) {
