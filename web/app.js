@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -14,7 +13,7 @@ var userRoutes = require('./routes/mobile/user.js');
 var app = express();
 
 // i18n locales
-i18n.configure({
+i18n.configure({{
     locales:['en', 'cn'],
     directory: __dirname + '/locales',
     extension: '.js'
