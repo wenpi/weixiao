@@ -2,7 +2,6 @@
  * Module dependencies.
  */
 var express = require('express');
-var xmlparser = require("./utils/XMLParser");
 var http = require('http');
 var path = require('path');
 var i18n = require("i18n");
@@ -25,11 +24,11 @@ app.set('view engine', 'ejs');
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
-app.use(xmlparser.xml());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
+app.use(express.query());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(i18n.init);
@@ -46,6 +45,11 @@ app.get("/mobile/register", userRoutes.register);
 // the rest api of the weixiao
 
 // the api for weixin stuff
+app.use('/weixin/api', wechat('weixin', function (req, res, next) {
+  // 微信输入信息都在req.weixin上
+  var message = req.weixin;
+  res.reply('hehe');
+}));
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
