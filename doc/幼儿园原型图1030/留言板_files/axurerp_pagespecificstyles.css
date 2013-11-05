@@ -1,0 +1,626 @@
+﻿body {
+    margin: 0px;
+}
+
+div {
+    background-repeat: no-repeat;
+}
+
+.raw_image {
+    width: 100%;
+    height: 100%;
+}
+
+.preload {
+    display: none;
+}
+#main_container {
+}
+
+.form_sketch {
+    border-color: transparent;
+    background-color: transparent;
+}
+
+.u0_normal {
+    background-image: url('../留言板_files/u0_normal.png');
+}
+
+.u0_container {
+    position:absolute;
+    left:66px;
+    top:31px;
+    width:330px;
+    height:404px;
+}
+
+#u0_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:336px;
+    height:410px;
+}
+
+.u1 {
+    position:absolute;
+    left:2px;
+    top:194px;
+    width:326px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u2_normal {
+    background-image: url('../留言板_files/u2_normal.png');
+}
+
+.u2_container {
+    position:absolute;
+    left:68px;
+    top:31px;
+    width:325px;
+    height:37px;
+}
+
+#u2_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:331px;
+    height:43px;
+}
+
+.u3 {
+    position:absolute;
+    left:2px;
+    top:12px;
+    width:321px;
+    height:13px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u4_normal {
+    background-image: url('../留言板_files/u4_normal.png');
+}
+
+.u4_container {
+    position:absolute;
+    left:68px;
+    top:37px;
+    width:77px;
+    height:25px;
+}
+
+#u4_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:83px;
+    height:31px;
+}
+
+.u5 {
+    position:absolute;
+    left:2px;
+    top:6px;
+    width:73px;
+    height:13px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u6_normal {
+    background-image: url('../留言板_files/u6_normal.png');
+}
+
+.u6_container {
+    position:absolute;
+    left:76px;
+    top:93px;
+    width:317px;
+    height:28px;
+}
+
+#u6_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:323px;
+    height:34px;
+}
+
+.u7 {
+    position:absolute;
+    left:2px;
+    top:8px;
+    width:313px;
+    height:13px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u8_normal {
+    background-image: url('../留言板_files/u8_normal.png');
+}
+
+.u8_container {
+    position:absolute;
+    left:76px;
+    top:131px;
+    width:310px;
+    height:82px;
+}
+
+#u8_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:316px;
+    height:88px;
+}
+
+.u9 {
+    position:absolute;
+    left:2px;
+    top:33px;
+    width:306px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u10 {
+    position:absolute;
+    left:488px;
+    top:72px;
+    width:354px;
+    height:266px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u11_normal {
+    background-image: url('../留言板_files/u11_normal.png');
+}
+
+.u11_container {
+    position:absolute;
+    left:82px;
+    top:133px;
+    width:31px;
+    height:30px;
+}
+
+#u11_img {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:31px;
+    height:30px;
+}
+
+.u12 {
+    position:absolute;
+    left:2px;
+    top:7px;
+    width:27px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u13 {
+    position:absolute;
+    left:113px;
+    top:140px;
+    width:194px;
+    height:15px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u14 {
+    position:absolute;
+    left:76px;
+    top:174px;
+    width:301px;
+    height:26px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u15_normal {
+    background-image: url('../留言板_files/u8_normal.png');
+}
+
+.u15_container {
+    position:absolute;
+    left:76px;
+    top:213px;
+    width:310px;
+    height:82px;
+}
+
+#u15_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:316px;
+    height:88px;
+}
+
+.u16 {
+    position:absolute;
+    left:2px;
+    top:33px;
+    width:306px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u17_normal {
+    background-image: url('../留言板_files/u11_normal.png');
+}
+
+.u17_container {
+    position:absolute;
+    left:82px;
+    top:210px;
+    width:31px;
+    height:30px;
+}
+
+#u17_img {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:31px;
+    height:30px;
+}
+
+.u18 {
+    position:absolute;
+    left:2px;
+    top:7px;
+    width:27px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u19 {
+    position:absolute;
+    left:115px;
+    top:218px;
+    width:167px;
+    height:15px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u20 {
+    position:absolute;
+    left:76px;
+    top:250px;
+    width:301px;
+    height:39px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u21_normal {
+    background-image: url('../留言板_files/u21_normal.png');
+}
+
+.u21_container {
+    position:absolute;
+    left:76px;
+    top:68px;
+    width:100px;
+    height:25px;
+}
+
+#u21_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:106px;
+    height:31px;
+}
+
+.u22 {
+    position:absolute;
+    left:2px;
+    top:5px;
+    width:96px;
+    height:15px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u23_normal {
+    background-image: url('../留言板_files/u8_normal.png');
+}
+
+.u23_container {
+    position:absolute;
+    left:74px;
+    top:339px;
+    width:310px;
+    height:82px;
+}
+
+#u23_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:316px;
+    height:88px;
+}
+
+.u24 {
+    position:absolute;
+    left:2px;
+    top:33px;
+    width:306px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u25_normal {
+    background-image: url('../留言板_files/u11_normal.png');
+}
+
+.u25_container {
+    position:absolute;
+    left:76px;
+    top:336px;
+    width:31px;
+    height:30px;
+}
+
+#u25_img {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:31px;
+    height:30px;
+}
+
+.u26 {
+    position:absolute;
+    left:2px;
+    top:7px;
+    width:27px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u27 {
+    position:absolute;
+    left:106px;
+    top:340px;
+    width:103px;
+    height:13px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u28 {
+    position:absolute;
+    left:70px;
+    top:373px;
+    width:301px;
+    height:13px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u29_normal {
+    background-image: url('../留言板_files/u11_normal.png');
+}
+
+.u29_container {
+    position:absolute;
+    left:114px;
+    top:387px;
+    width:31px;
+    height:30px;
+}
+
+#u29_img {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:31px;
+    height:30px;
+}
+
+.u30 {
+    position:absolute;
+    left:2px;
+    top:7px;
+    width:27px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u31 {
+    position:absolute;
+    left:148px;
+    top:392px;
+    width:103px;
+    height:15px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u32 {
+    position:absolute;
+    left:230px;
+    top:393px;
+    width:150px;
+    height:13px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u33_normal {
+    background-image: url('../留言板_files/u33_normal.png');
+}
+
+.u33_container {
+    position:absolute;
+    left:322px;
+    top:338px;
+    width:58px;
+    height:25px;
+}
+
+#u33_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:64px;
+    height:31px;
+}
+
+.u34 {
+    position:absolute;
+    left:2px;
+    top:6px;
+    width:54px;
+    height:13px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u35_normal {
+    background-image: url('../留言板_files/u21_normal.png');
+}
+
+.u35_container {
+    position:absolute;
+    left:296px;
+    top:68px;
+    width:100px;
+    height:25px;
+}
+
+#u35_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:106px;
+    height:31px;
+}
+
+.u36 {
+    position:absolute;
+    left:2px;
+    top:6px;
+    width:96px;
+    height:13px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+

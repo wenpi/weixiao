@@ -9,10 +9,10 @@ wx_place 场所
   - 联系电话/phone:
   - 信息/infos: json object
     {
-	intros: {template: 'text', articles: [**, **]},
-        announces: {template: 'list', articles: [**, **]},
-	uniques: {template: 'gallery', articles: [**, **]},
-	honors: {template: 'gallery', articles: [**, **]}
+    	intros: {template: 'text', articles: [**, **]},
+      announces: {template: 'list', articles: [**, **]},
+    	uniques: {template: 'gallery', articles: [**, **]},
+    	honors: {template: 'gallery', articles: [**, **]}
     }
 
 wx_class 班级
@@ -29,6 +29,7 @@ wx_course 课程
   - 名称/name: 
   - 是否是全部课程/is_all: (创建场所后,有一个默认属性:全部,主要私立幼儿园一个班只有1个老师)
   - 课程时间/schedules: json array [{date:1}]
+
 wx_teacher 老师
   - 唯一标识/uuid:
   - 姓名/name:
@@ -60,16 +61,16 @@ wx_parent 学生家长
   - 登录密码/passwd:
   - 孩子信息/childs: json array [**, **]
 
-wx_article (可以作为通知/介绍文字/介绍图片)
+wx_article (可以作为通知/介绍文字/介绍图片/亲子作业)
   - 唯一标识/uuid:
   - 标题/title:
   - 内容/content: json array [{type: 'text', source: "这是一个文本"}, {type: 'img', source: "素材库id"} {type: 'video', source: "素材库id"}]
   - 所属场所/place_id:
   - 所属班级/class_id:
-  - 发布人/author: {id: **, type: teacher|parent|system}
-  - 发布时间/published_time:
+  - 发布人/poster: {id: **, type: teacher|parent|system}
+  - 发布时间/poster_time:
 
-wx_topics (留言/亲子作业)
+wx_message (留言)
   - 唯一标识/uuid:
   - 类型/type:
   - 标题/title:
@@ -80,7 +81,7 @@ wx_topics (留言/亲子作业)
   - 发布时间/posted_time:
   - 是否可以回复/can_reply: bool
 
-wx_topics_replys (留言回复)
+wx_message_reply (留言回复)
   - 唯一标识/uuid:
   - 标题/title:
   - 内容/content: json array [{type: 'text', source: "这是一个文本"}, {type: 'img', source: "素材库id"} {type: 'video', source: "素材库id"}]
@@ -95,7 +96,8 @@ wx_source (素材库)
   - 类型/type:
   - 所属场所/place_id:
   - 所属班级/class_id:
-  - 发布时间/created_time:
+  - 发布人/poster: {id: **, type: teacher|parent|system}
+  - 发布时间/poster_time:
 
 个人中心
   -- 孩子点滴 [成长历史, 体检报告]
@@ -104,6 +106,8 @@ wx_source (素材库)
   -- 留言板 亲子作业 课程表
 本园动态
   -- 
+
+ntalks2013@gmail.com/chinamode
 
 
 
