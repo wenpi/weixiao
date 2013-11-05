@@ -7,12 +7,11 @@
   },
   "dependencies": {
     "express": "3.4.4",
+    "debug": "*",
     "ejs": "*",
     "mongodb": "*",
     "monk": "*",
     "q": "*",
-    "xml2js": "*",
-    "i18n": "*",
-    "wechat": "*"
+    "weixin-robot": "*"
   }
 }

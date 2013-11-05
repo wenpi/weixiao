@@ -1,3 +1,0 @@
-{
-    "WeiXiao": "WeiXiao CN"
-}

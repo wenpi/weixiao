@@ -2,55 +2,52 @@
  * Module dependencies.
  */
 var express = require('express');
+var debug = require('debug');
+var log = debug('weexiao');
+var error = debug('weexiao:error');
+
+var conf = require('./conf');
+
 var http = require('http');
 var path = require('path');
-var i18n = require("i18n");
 
-var defaultRoutes = require('./routes/mobile/index');
-var userRoutes = require('./routes/mobile/user.js');
+/*
+ * webot for weixin invoke
+ */ 
+var webot = require('weixin-robot');
 
 var app = express();
 
-// i18n locales
-i18n.configure({{
-    locales:['en', 'cn'],
-    directory: __dirname + '/locales',
-    extension: '.js'
-});
 // all environments
-app.set('port', process.env.PORT || 3000);
+app._conf = conf;
+app.set('port', conf.port || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
-app.use(express.session());
+app.use(express.session({secret: 'weixin secret', cookie: {maxAge: 60000}}));
 app.use(express.query());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(i18n.init);
 
-// development only
-if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
-}
-
-// the web gui for the end user
-app.get('/mobile', defaultRoutes.index);
-app.get("/mobile/register", userRoutes.register);
+// define the routes
+require("./routes")(app);
 
 // the rest api of the weixiao
 
 // the api for weixin stuff
-app.use('/weixin/api', wechat('weixin', function (req, res, next) {
-  // 微信输入信息都在req.weixin上
-  var message = req.weixin;
-  res.reply('hehe');
-}));
+require("./wxbot")(app, webot);
+webot.watch(app, { token: conf.weixin, path: '/weixin/api' });
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+
+var port = conf.port || 3000;
+var hostname = conf.hostname || '127.0.0.1';
+
+app.listen(port, hostname, function() {
+  log('listening on ', hostname, port);
 });
+
+app.enable('trust proxy');
