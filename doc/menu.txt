@@ -1,5 +1,5 @@
 wx_place 场所
-  - 唯一标识/uuid:
+  - 唯一标识/_id:
   - 名称/name: 
   - 类型/type: 幼儿园/Kinder Garden(KD) 初期默认KD
   - 所属集团/group:  连锁集团信息
@@ -16,7 +16,7 @@ wx_place 场所
     }
 
 wx_class 班级
-  - 唯一标识/uuid
+  - 唯一标识/_id
   - 名称/name:
   - 所属场所/place_id:
   - 入学年月/register_date:yyyy-MM
@@ -25,20 +25,20 @@ wx_class 班级
   - 课程安排: json array
 
 wx_course 课程
-  - 唯一标识/uuid:
+  - 唯一标识/_id:
   - 名称/name: 
   - 是否是全部课程/is_all: (创建场所后,有一个默认属性:全部,主要私立幼儿园一个班只有1个老师)
   - 课程时间/schedules: json array [{date:1}]
 
 wx_teacher 老师
-  - 唯一标识/uuid:
+  - 唯一标识/_id:
   - 姓名/name:
   - 手机/mobile:
   - 所属场所/place_id:
   - 登录密码/passwd:
 
 wx_student 学生
-  - 唯一标识/uuid:
+  - 唯一标识/_id:
   - 姓名/name:
   - 性别/gender:
   - 当前所属场所/cur_place_id:
@@ -47,7 +47,7 @@ wx_student 学生
     [{place_id:**, class_id:[**, **]}]
 
 wx_student_events 学生事件
-  - 唯一标识/uuid:
+  - 唯一标识/_id:
   - 当前所属场所/cur_place_id:
   - 当前所属班级/cur_class_id:
   - 所属小孩/student_id:
@@ -55,14 +55,14 @@ wx_student_events 学生事件
   - 事件内容/content: json_array [{topic_id:**}]
 
 wx_parent 学生家长
-  - 唯一标识/uuid:
+  - 唯一标识/_id:
   - 姓名/name:
   - 性别/gender:
   - 登录密码/passwd:
   - 孩子信息/childs: json array [**, **]
 
 wx_article (可以作为通知/介绍文字/介绍图片/亲子作业)
-  - 唯一标识/uuid:
+  - 唯一标识/_id:
   - 标题/title:
   - 内容/content: json array [{type: 'text', source: "这是一个文本"}, {type: 'img', source: "素材库id"} {type: 'video', source: "素材库id"}]
   - 所属场所/place_id:
@@ -71,7 +71,7 @@ wx_article (可以作为通知/介绍文字/介绍图片/亲子作业)
   - 发布时间/poster_time:
 
 wx_message (留言)
-  - 唯一标识/uuid:
+  - 唯一标识/_id:
   - 类型/type:
   - 标题/title:
   - 内容/content: json array [{type: 'text', source: "这是一个文本"}, {type: 'img', source: "素材库id"} {type: 'video', source: "素材库id"}]
@@ -82,7 +82,7 @@ wx_message (留言)
   - 是否可以回复/can_reply: bool
 
 wx_message_reply (留言回复)
-  - 唯一标识/uuid:
+  - 唯一标识/_id:
   - 标题/title:
   - 内容/content: json array [{type: 'text', source: "这是一个文本"}, {type: 'img', source: "素材库id"} {type: 'video', source: "素材库id"}]
   - 所属场所/place_id:
@@ -92,7 +92,7 @@ wx_message_reply (留言回复)
   - 发布时间/posted_time:
 
 wx_source (素材库)
-  - 唯一标识/uuid:
+  - 唯一标识/_id:
   - 类型/type:
   - 所属场所/place_id:
   - 所属班级/class_id:

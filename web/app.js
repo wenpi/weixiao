@@ -11,10 +11,6 @@ var conf = require('./conf');
 var http = require('http');
 var path = require('path');
 
-/*
- * webot for weixin invoke
- */ 
-var webot = require('weixin-robot');
 
 var app = express();
 
@@ -33,13 +29,15 @@ app.use(express.query());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-// define the routes
+// WAP站点的页面流控制类
 require("./routes")(app);
 
-// the rest api of the weixiao
+// REST API
+require("./rest")(app);
 
-// the api for weixin stuff
-require("./wxbot")(app, webot);
+// 回复机器人
+var webot = require('weixin-robot');
+require("./wxbot")(webot);
 webot.watch(app, { token: conf.weixin, path: '/weixin/api' });
 
 
