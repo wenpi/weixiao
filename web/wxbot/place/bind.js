@@ -11,23 +11,16 @@ module.exports = function(webot) {
 		pattern: /^PLACEBIND-.*$/i,
 		handler: function(info, next) {
 			if (!info.is("text")) { next(); }
+			if (info.session.place) { next(); }
 
-			var uid = info.text.substring(12);
-			// 根据标识查询
-			PlaceServices.get(uid).then(function(place) {
-				if (place && place.enabled === false) {
-					place.weixinId = info.sp;
-					place.enabled = true;
-					PlaceServices.update(place).then(function() {
-						next(null, place.name + "激活成功!");
-					}, function() {
-						next(null, "服务异常，请重新输入或者联系服务提供商。");
-					});
-				} else {
-					next(null, "标识码输入错误或者该幼儿园已激活。");
-				}
+			var uid = info.text.substring('PLACEBIND-'.length);
+			PlaceServices.bind(uid, info.sp).then(function(place) {
+				info.session.place = place;
+				next(null, place.name + "绑定成功。");
 			}, function(err) {
-				next(null, "标识码输入错误，请重新输入。");
+				throw err;
+			}).fail(function(err) {
+				next(null, err.message || err);
 			});
 		}
 	});

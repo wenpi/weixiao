@@ -12,6 +12,8 @@ module.exports = function(webot) {
 
 	// 定义place域, 检查幼儿园是否激活
 	webot.domain("place", function ensure_place_is_bind(info, next) {
+		if (info.session.place) { next(); }
+
 		PlaceServices.query({weixinId: info.sp}, function(err, places) {
 			if (err) {
 				info.ended = true;

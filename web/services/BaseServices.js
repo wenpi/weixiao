@@ -18,7 +18,7 @@ exports.query = function(collection, conditions, addtions){
 
     collection.find(conditions || {}, addtions || {}, function(e, docs){
     	if (e) {
-    		deferred.reject(e);
+    		deferred.reject(e);;
     	} else {
     		deferred.resolve(docs);
     	}
@@ -32,12 +32,12 @@ exports.create = function(collection, obj){
     var deferred = Q.defer();
 
     if(obj._id) {
-        deferred.reject({error: "ID is provided."});
+        deferred.reject({status:400, message: "400:ID is provided."});
     }
 
     collection.insert(obj, function (err, doc) {
         if (err) {
-            deferred.reject(e);;
+            deferred.reject(e);
         } else {
             deferred.resolve(doc);
         }
@@ -52,20 +52,20 @@ exports.get = function(collection, obj){
     var deferred = Q.defer();
 
     if(!obj._id) {
-        deferred.reject({error: "ID is required."});
+        deferred.reject({status:400, message: "400:ID is not provided."});
     }
 
     // Submit to the DB
     collection.find({_id: obj._id}, {}, function (err, docs) {
         if (err) {
-            deferred.reject(err);
+            deferred.reject(e);
         } else {
             if (docs.length === 1) {
                 deferred.resolve(docs[0]);
             } else if (docs.length === 0) {
-                deferred.reject({"error": "_id is not found.", "status": 404});
+                deferred.reject({status: 400, message: "Record is not found."});
             } else {
-                deferred.reject({"error": "_id is not unqinued.", "status": 500});
+                deferred.reject({status: 500, message: "Record is not unqinued."});
             }
             
         }
@@ -80,18 +80,18 @@ exports.update = function(collection, obj){
     var deferred = Q.defer();
 
     if(!obj._id) {
-        deferred.reject({error: "ID is required."});
+        deferred.reject({status:400, message: "400:ID is not provided."});
     }
 
     // Submit to the DB
     collection.updateById(obj._id, obj, function (err, effects) {
         if (err) {
-            deferred.reject(err);
+            deferred.reject(e);
         } else {
             if (effects === 1) {
-                deferred.resolve();
+                deferred.resolve(obj);
             } else {
-                deferred.reject(effects);
+                deferred.reject("500:Only one record should be effected. now is " + effects);
             }
             
         }
@@ -106,14 +106,14 @@ exports.remove = function(collection, obj){
     var deferred = Q.defer();
 
     if(!obj._id) {
-        deferred.reject({error: "ID is required."});
+        deferred.reject({status:400, message: "400:ID is not provided."});
     }
 
     collection.remove({
         "_id" : obj._id
     }, function (err, removed) {
         if (!removed) {
-            deferred.reject(err);
+            deferred.reject("500:it is not removed");
         } else {
             deferred.resolve();
         }

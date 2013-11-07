@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
-app.use(express.session({secret: 'weixin secret', cookie: {maxAge: 60000}}));
+app.use(express.session({secret: 'weexiao secret', cookie: {maxAge: 60000}}));
 app.use(express.query());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
