@@ -1,20 +1,19 @@
 /**
  * Module dependencies.
  */
-var express = require('express');
+// 服务器配置
+var conf = require('./conf');
+// 日志输出
 var debug = require('debug');
 var log = debug('weexiao');
 var error = debug('weexiao:error');
-
-var conf = require('./conf');
-
+// Express依赖
+var express = require('express');
 var http = require('http');
 var path = require('path');
 
-
+// 配置Express
 var app = express();
-
-// all environments
 app._conf = conf;
 app.set('port', conf.port || 3000);
 app.set('views', path.join(__dirname, 'views'));
@@ -40,12 +39,10 @@ var webot = require('weixin-robot');
 require("./wxbot")(webot);
 webot.watch(app, { token: conf.weixin, path: '/weixin/api' });
 
-
+// 启动express
 var port = conf.port || 3000;
 var hostname = conf.hostname || '127.0.0.1';
-
 app.listen(port, hostname, function() {
   log('listening on ', hostname, port);
 });
-
 app.enable('trust proxy');
