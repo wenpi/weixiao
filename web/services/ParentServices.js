@@ -1,6 +1,6 @@
 var Q = require("q");
 var BaseServices = require("./BaseServices");
-var collection = BaseServices.getCollection('wex_palce');
+var collection = BaseServices.getCollection('wex_parent');
 
 /*
  * 查询菜单数据

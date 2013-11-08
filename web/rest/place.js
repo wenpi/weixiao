@@ -72,9 +72,7 @@ exports.remove = function() {
             res.json(400, {error: "ID is required."})
         }
 
-        PlaceServices.remove({
-            _id: req.params._id
-        }).then(function(doc) {
+        PlaceServices.remove(req.params._id).then(function(doc) {
             res.json(200, {});
         }, function(err) {
             res.json(500, err);
