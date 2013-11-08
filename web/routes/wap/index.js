@@ -3,7 +3,7 @@
  */
 
 exports.index = function(req, res) {
-	var placeId = req.params.placeId;
-	console.info(placeId);
+	var schoolId = req.params.schoolId;
+	console.info(schoolId);
  	res.render('wap/index', { title: "WeeXiao" });
 };

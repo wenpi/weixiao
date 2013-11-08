@@ -1,10 +1,10 @@
-var PlaceServices = require("../services/PlaceServices");
+var SchoolServices = require("../services/SchoolServices");
 /*
  * GET list the object
  */
 exports.list = function(){
 	return function(req, res) {
-        PlaceServices.query().then(function(docs) {
+        SchoolServices.query().then(function(docs) {
             res.json(200, docs);
         }, function(err) {
             res.json(err.status || 500, err);
@@ -17,7 +17,7 @@ exports.list = function(){
  */
 exports.create = function() {
 	return function(req, res) {
-        PlaceServices.create(req.body).then(function(doc) {
+        SchoolServices.create(req.body).then(function(doc) {
             res.json(201, doc);
         }, function(err) {
             res.json(err.status || 500, err);
@@ -33,7 +33,7 @@ exports.get = function() {
         if(!req.params._id) {
             res.json(400, {message: "ID is required."})
         }
-        PlaceServices.get(req.params._id).then(function(doc) {
+        SchoolServices.get(req.params._id).then(function(doc) {
             res.json(200, doc);
         }, function(err) {
             res.json(err.status || 500, err);
@@ -49,9 +49,9 @@ exports.update = function() {
         if(!req.params._id) {
             res.json(400, {error: "ID is required."})
         }
-        PlaceServices.get(req.params._id).then(function(doc) {
+        SchoolServices.get(req.params._id).then(function(doc) {
             req.body._id = req.params._id;
-            PlaceServices.update(req.body).then(function(doc) {
+            SchoolServices.update(req.body).then(function(doc) {
                 res.json(200, {});
             }, function(err) {
                 res.json(err.status || 500, err);
@@ -72,7 +72,7 @@ exports.remove = function() {
             res.json(400, {error: "ID is required."})
         }
 
-        PlaceServices.remove(req.params._id).then(function(doc) {
+        SchoolServices.remove(req.params._id).then(function(doc) {
             res.json(200, {});
         }, function(err) {
             res.json(500, err);

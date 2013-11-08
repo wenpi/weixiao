@@ -4,11 +4,11 @@
  * Author:
  * hopesfish at 163.com
  */
-var PlaceServices = require("../../services/PlaceServices");
+var SchoolServices = require("../../services/SchoolServices");
 
 module.exports = function(webot) {
-	webot.set('place intro', {
-		domain: "place",
+	webot.set('school intro', {
+		domain: "school",
 		pattern: /^PLACEINTRO$/i,
 		handler: function(info, next) {
 			next(null, "场所介绍");

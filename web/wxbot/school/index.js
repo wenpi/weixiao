@@ -7,9 +7,9 @@ var utils = require("../utils");
 
 module.exports = function(webot) {
 
-    // 除了bind,其他服务都必须在place域下面
+    // 除了bind,其他服务都必须在school域下面
     webot.loads("bind", "intro");
 
-    // 定义place域, 检查幼儿园是否激活
-    webot.domain("place", utils.ensure_place_is_bind);
+    // 定义school域, 检查幼儿园是否激活
+    webot.domain("school", utils.ensure_school_is_bind);
 }

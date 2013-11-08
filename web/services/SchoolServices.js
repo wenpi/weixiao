@@ -45,13 +45,13 @@ exports.remove = remove;
 exports.getByWeixinId = function(weixinId) {
 	var deferred = Q.defer();
 
-    PlaceServices.query({weixinId: weixinId}, function(err, places) {
+    SchoolServices.query({weixinId: weixinId}, function(err, schools) {
 	    if (err) {
 	        deferred.reject(err);
 	    }
 
-	    if (places.length === 1) {
-	        deferred.resovle(places[0]);
+	    if (schools.length === 1) {
+	        deferred.resovle(schools[0]);
 	    } else {
 	    	deferred.reject({status: 500, message: "该微信账号未绑定幼儿园。"});
 	    }
@@ -73,23 +73,23 @@ exports.bind = function(_id, weixinId) {
         deferred.reject({status: 400, message: "微信ID未提供。"});
     }
 
-    query({weixinId: weixinId}).then(function(places) {
-    	if (places.length > 0) {
+    query({weixinId: weixinId}).then(function(schools) {
+    	if (schools.length > 0) {
     		throw new Error("该微信账号已经绑定幼儿园。");
     	} else {
     		return get(_id);
     	}
     })
-	.then(function(place) {
-		if (place && place.enabled === true) {
+	.then(function(school) {
+		if (school && school.enabled === true) {
 			throw new Error("该幼儿园已经绑定微信账号。");
 		} else {
-			place.weixinId = weixinId;
-			place.enabled = true;
-			return update(place);
+			school.weixinId = weixinId;
+			school.enabled = true;
+			return update(school);
 		}
-	}).then(function(place) {
-		deferred.resolve(place);
+	}).then(function(school) {
+		deferred.resolve(school);
 	}).fail(function(err) {
 		deferred.reject({status: 500, message: err.message});
 	});

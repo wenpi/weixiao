@@ -2,7 +2,7 @@
  * GET register page.
  */
 exports.register = function(req, res){
-	var placeId = req.params.placeId;
-	console.info(placeId);
+	var schoolId = req.params.schoolId;
+	console.info(schoolId);
  	res.render('wap/user/register', {});
 };

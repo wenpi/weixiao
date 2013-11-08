@@ -1,13 +1,13 @@
 /*
  * route to the wap
  */
-var place = require('./place');
+var school = require('./school');
 
 module.exports = function(app) {
-	// the web rest api for the place
-	app.get('/api/place', place.list());
-	app.post("/api/place", place.create());
-	app.get("/api/place/:_id", place.get());
-	app.put("/api/place/:_id", place.update());
-	app.delete("/api/place/:_id", place.remove());
+	// the web rest api for the school
+	app.get('/api/school', school.list());
+	app.post("/api/school", school.create());
+	app.get("/api/school/:_id", school.get());
+	app.put("/api/school/:_id", school.update());
+	app.delete("/api/school/:_id", school.remove());
 }

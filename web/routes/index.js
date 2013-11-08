@@ -6,6 +6,6 @@ var userRoutes = require('./wap/user.js');
 
 module.exports = function(app) {
 	// the web gui for the end user
-	app.get('/wap/place/:placeId', defaultRoutes.index);
-	app.get("/wap/place/:placeId/register", userRoutes.register);
+	app.get('/wap/school/:schoolId', defaultRoutes.index);
+	app.get("/wap/school/:schoolId/register", userRoutes.register);
 }
