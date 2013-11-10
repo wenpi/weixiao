@@ -1,6 +1,6 @@
 var Q = require("q");
 var BaseServices = require("./BaseServices");
-var collection = BaseServices.getCollection('wex_palce');
+var collection = BaseServices.getCollection('wex_school');
 
 /*
  * 查询菜单数据
@@ -42,16 +42,16 @@ exports.remove = remove;
 /*
  * 返回绑定的场所
  */
-exports.getByWeixinId = function(weixinId) {
+exports.getByOpenId = function(openId) {
 	var deferred = Q.defer();
 
-    SchoolServices.query({weixinId: weixinId}, function(err, schools) {
+    query({openId: openId}, function(err, schools) {
 	    if (err) {
 	        deferred.reject(err);
 	    }
 
 	    if (schools.length === 1) {
-	        deferred.resovle(schools[0]);
+	        deferred.resolve(schools[0]);
 	    } else {
 	    	deferred.reject({status: 500, message: "该微信账号未绑定幼儿园。"});
 	    }
@@ -62,18 +62,18 @@ exports.getByWeixinId = function(weixinId) {
 /**
  * 和微信账号绑定
  */
-exports.bind = function(_id, weixinId) {
+exports.bind = function(_id, openId) {
     var deferred = Q.defer();
 
 	if(!_id) {
         deferred.reject({status: 400, message: "激活标识未提供。"});
     }
 
-	if(!weixinId) {
+	if(!openId) {
         deferred.reject({status: 400, message: "微信ID未提供。"});
     }
 
-    query({weixinId: weixinId}).then(function(schools) {
+    query({openId: openId}).then(function(schools) {
     	if (schools.length > 0) {
     		throw new Error("该微信账号已经绑定幼儿园。");
     	} else {
@@ -84,7 +84,7 @@ exports.bind = function(_id, weixinId) {
 		if (school && school.enabled === true) {
 			throw new Error("该幼儿园已经绑定微信账号。");
 		} else {
-			school.weixinId = weixinId;
+			school.openId = openId;
 			school.enabled = true;
 			return update(school);
 		}

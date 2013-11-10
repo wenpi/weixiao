@@ -1,3 +1,5 @@
+var utils = require("./utils");
+
 module.exports = function(webot) {
 	webot.loads("weexiao", "school", "parent");
 
@@ -12,4 +14,7 @@ module.exports = function(webot) {
 			}
 		}
 	});
+
+    // 定义school域, 检查幼儿园是否激活
+    webot.beforeReply(utils.ensure_school_is_bind);
 }

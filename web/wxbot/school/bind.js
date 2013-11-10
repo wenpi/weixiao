@@ -8,12 +8,12 @@ var SchoolServices = require("../../services/SchoolServices");
 
 module.exports = function(webot) {
 	webot.set('school bind', {
-		pattern: /^PLACEBIND-.*$/i,
+		pattern: /^SCHOOLBIND-.*$/i,
 		handler: function(info, next) {
 			if (!info.is("text")) { next(); }
 			if (info.session.school) { next(); }
 
-			var uid = info.text.substring('PLACEBIND-'.length);
+			var uid = info.text.substring('SCHOOLBIND-'.length);
 			SchoolServices.bind(uid, info.sp).then(function(school) {
 				info.session.school = school;
 				next(null, school.name + "绑定成功。");

@@ -9,7 +9,7 @@ var SchoolServices = require("../../services/SchoolServices");
 module.exports = function(webot) {
 	webot.set('school intro', {
 		domain: "school",
-		pattern: /^PLACEINTRO$/i,
+		pattern: /^(SCHOOLINTRO|(学校)?介绍)/i,
 		handler: function(info, next) {
 			next(null, "场所介绍");
 		}

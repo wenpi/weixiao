@@ -42,20 +42,16 @@ exports.remove = remove;
 /*
  * 返回绑定的场所
  */
-exports.getByWeixinId = function(weixinId) {
+exports.getByOpenId = function(openId) {
 	var deferred = Q.defer();
 
-    SchoolServices.query({weixinId: weixinId}, function(err, schools) {
-	    if (err) {
-	        deferred.reject(err);
-	    }
-
-	    if (schools.length === 1) {
-	        deferred.resovle(schools[0]);
-	    } else {
-	    	deferred.reject({status: 500, message: "该微信账号未绑定幼儿园。"});
-	    }
-	});
+	setTimeout(function() {
+		if (openId == 'panwei') {
+			deferred.resolve({name: 'panwei'});
+		} else {
+			deferred.reject(null);
+		}
+	}, 1000);
 
 	return deferred.promise;
 }
