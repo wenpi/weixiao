@@ -15,7 +15,7 @@ module.exports = {
       passwd: 'passw0rd'
     }
   },
-  site_root: 'http://127.0.0.1:3000/',
+  site_root: 'http://127.0.0.1:3000',
   salt: 'weexiao',
   weixin: 'weexiao'
 };

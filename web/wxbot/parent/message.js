@@ -4,7 +4,8 @@
  * Author:
  * - hopesfish at 163.com
  */
-var conf = require("../../conf");
+var ejs = require('ejs');
+var conf = require('../../conf');
 module.exports = function(webot) {
 	// 留言提示语
 	webot.set('parent message', {
@@ -28,6 +29,7 @@ module.exports = function(webot) {
 					info.rewait("parent message input");
 					return next(null, "您还没输入文字，请留言：");
 				}
+				// TODO 消息入库
 				delete info.session.parent.messages;
 				return next(null, "留言已提交！点击【我的留言】查看留言最新状态。");
 			}
@@ -43,6 +45,23 @@ module.exports = function(webot) {
 			info.session.parent.messages.push(info.text);
 			info.wait("parent message input");
 			return next(null, "已存成草稿，您可继续输入文字。发送【好】提交留言，发送【不】取消留言");
+		}
+	});
+
+	// 查看留言状态
+	webot.set('parent message check', {
+		domain: "parent",
+		pattern: /^(查看留言|(check )?message|我的留言|PARENT_MESSAGE_CHECK)/i,
+		handler: function(info, next) {
+			return next(null,
+				ejs.render(
+					'您有条<%= count%>未读消息。<a href="<%= url%>">查看</a>', 
+					{
+						count: 2,
+						url: conf.site_root + '/message?schoolOpenId' + info.sp +' &parentopenId' + info.uid
+					}
+				)
+			);
 		}
 	});
 }

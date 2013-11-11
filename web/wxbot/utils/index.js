@@ -3,7 +3,12 @@ var SchoolServices = require("../../services/SchoolServices");
 var ParentServices = require("../../services/ParentServices");
 
 function ensure_school_is_bind (info, next) {
-    if (info.session.school) { return next(); }
+    if (info.session.school) {
+        return next();
+    }
+    if (info.is("text") && info.text.indexOf("SCHOOLBIND") >= 0) {
+        return next();
+    }
 
     SchoolServices.getByOpenId(info.sp).then(function(school) {
         info.session.school = school;
