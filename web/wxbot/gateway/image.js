@@ -6,7 +6,6 @@
  */
 var ejs = require('ejs');
 var conf = require('../../conf');
-var TeacherServices = require("../../services/TeacherServices");
 
 function add_image_start(info, next) {
 	var prompt = [
@@ -32,17 +31,6 @@ function add_image_start(info, next) {
             return sendPrompt();
         } else if (info.session.teacher.isAdmin === 1){
             return sendStop();
-        } else {
-            TeacherServices.queryByUserId({userId: info.session.teacher.id}).then(function(teacher) {
-                info.session.teacher.isAdmin = teacher.is_admin;
-                if (info.session.teacher.isAdmin === 0) {
-                    return sendPrompt();
-                } else if (info.session.teacher.isAdmin === 1){
-                    return sendStop();
-                }
-            }, function(err) {
-                return next(null, err);
-            });
         }
     } else {
         return next(null, "抱歉，您不是认证用户，不能发布图片！");
@@ -80,17 +68,6 @@ function view_image(info, next) {
             return sendLink();
         } else if (info.session.teacher.isAdmin === 1){
             return sendLinks();
-        } else {
-            TeacherServices.queryByUserId({userId: info.session.teacher.id}).then(function(teacher) {
-                info.session.teacher.isAdmin = teacher.is_admin;
-                if (info.session.teacher.isAdmin === 0) {
-                    return sendLink();
-                } else if (info.session.teacher.isAdmin === 1){
-                    return sendLinks();
-                }
-            }, function(err) {
-                return next(null, err);
-            });
         }
     } else {
         return next(null, text);

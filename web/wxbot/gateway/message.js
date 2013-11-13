@@ -7,7 +7,6 @@
 var ejs = require('ejs');
 var conf = require('../../conf');
 var MessageServices = require("../../services/MessageServices");
-var TeacherServices = require("../../services/TeacherServices");
 
 function add_message_start(info, next) {
     if (info.session.parent) {
@@ -28,18 +27,8 @@ function add_message_start(info, next) {
             return sendPrompt();
         } else if (info.session.teacher.isAdmin === 1){
             return sendStop();
-        } else {
-            TeacherServices.queryByUserId({userId: info.session.teacher.id}).then(function(teacher) {
-                info.session.teacher.isAdmin = teacher.is_admin;
-                if (info.session.teacher.isAdmin === 0) {
-                    return sendPrompt();
-                } else if (info.session.teacher.isAdmin === 1){
-                    return sendStop();
-                }
-            }, function(err) {
-                return next(null, err);
-            });
         }
+
     } else {
         return next(null, "抱歉，您不是认证用户，不能发布消息！");
     }
@@ -50,16 +39,7 @@ function view_message(info, next) {
         return next(null, "抱歉，您不是认证用户，不能查看消息！");
     }
 
-    var user = info.session.parent;
-    if (info.session.teacher) {
-        if (info.session.teacher.isAdmin === 0) {
-            user = info.session.teacher;
-        } else if (info.session.teacher.isAdmin === 1) {
-            return sendLinks();
-        } else {
-            user = null;
-        }
-    }
+    var user;
 
     function sendLink() {
        MessageServices.query(user).then(function(count) {
@@ -81,6 +61,7 @@ function view_message(info, next) {
             next(null, text);
         });
     }
+
     function sendLinks() {
         var text =  ejs.render(
             '<a href="<%- url%>">园长查看消息</a>', 
@@ -91,22 +72,17 @@ function view_message(info, next) {
         next(null, text);
     }
 
-    if (user) {
-       return sendLink();
-   } else if (info.session.teacher) {
-        TeacherServices.queryByUserId({userId: info.session.teacher.id}).then(function(teacher) {
-            info.session.teacher.isAdmin = teacher.is_admin;
+    if (info.session.teacher) {
+        user = info.session.parent;
+        sendLink();
+    } else if (info.session.teacher) {
+        if (info.session.teacher.isAdmin === 0) {
             user = info.session.teacher;
-            if (info.session.teacher.isAdmin === 0) {
-                return sendLink();
-            } else if (info.session.teacher.isAdmin === 1){
-                return sendLinks();
-            }
-        }, function(err) {
-            return next(null, err);
-        });
-   }
-
+            sendLink();
+        } else if (info.session.teacher.isAdmin === 1) {
+            return sendLinks();
+        }
+    }
 }
 
 module.exports = function(webot) {

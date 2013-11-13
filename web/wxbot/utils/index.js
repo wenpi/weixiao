@@ -4,6 +4,7 @@ var request = require('request');
 var conf = require("../../conf");
 var SchoolServices = require("../../services/SchoolServices");
 var UserServices = require("../../services/UserServices");
+var TeacherServices = require("../../services/TeacherServices");
 
 function ensure_school_is_bind (info, next) {
     if (info.session.failedCount === 5) {
@@ -44,7 +45,16 @@ function ensure_user_is_register (info, next) {
         break;
         case '1':
             info.session.teacher = user;
-            return next();
+            if (info.session.teacher.isAdmin !== undefined) {
+                return next();
+            } else {
+                TeacherServices.queryByUserId({userId: info.session.teacher.id}).then(function(teacher) {
+                    info.session.teacher.isAdmin = teacher.is_admin;
+                    return next();
+                }, function(err) {
+                    return next(null, err);
+                });
+            }
         break;
         default:
             return mobile_input_prompt(info, next);
