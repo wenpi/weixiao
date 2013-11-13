@@ -13,20 +13,30 @@ function course_view(info, next) {
         text = ejs.render(
             '<a href="<%- url%>">请点击这里查看课程计划</a>', 
             {
-                //name: info.session.parent.name,
                 url: conf.site_root + '/front/course?parentId=' + info.session.parent.id
             }
         )
+        return next(null, text);
     } else if (info.session.teacher) {
-        text = ejs.render(
-            '<a href="<%- url%>">请点击这里查看课程计划</a>', 
-            {
-                name: info.session.teacher.name,
-                url: conf.site_root + '/front/course?teacherId=' + info.session.teacher.id
-            }
-        )
+        if (info.session.teacher.isAdmin === 0) {
+            text = ejs.render(
+                '<a href="<%- url%>">请点击这里查看课程计划</a>', 
+                {
+                    url: conf.site_root + '/front/course?teacherId=' + info.session.teacher.id
+                }
+            );
+            return next(null, text);
+        } else if (info.session.teacher.isAdmin === 1){
+            text = ejs.render(
+                '<a href="<%- url%>">园长查看课程计划</a>', 
+                {
+                    url: conf.site_root + '/front/course?classId=' + info.session.teacher.id
+                }
+            );
+            return next(null, text);
+        }
     }
-    return next(null, text);
+    
 }
 
 module.exports = function(webot) {

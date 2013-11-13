@@ -20,7 +20,7 @@ function add_image_start(info, next) {
         next(null, '' + prompt);
     }
     function sendStop() {
-        next(null, '抱歉，管理员无法使用该功能。');
+        next(null, '抱歉！园长，管理员无法使用该功能。');
     }
 
 	if (info.session.parent) {

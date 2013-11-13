@@ -24,7 +24,7 @@ function add_image_start(info, next) {
         }
         // 园长 管理员
         function stopSelect() {
-            next(null, "抱歉，管理员无法使用该功能！");
+            next(null, "抱歉！园长，管理员无法使用该功能。！");
         }
         // 判断是否是管理员
         if (info.session.teacher.isAdmin === 0) {

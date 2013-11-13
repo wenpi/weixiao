@@ -21,7 +21,7 @@ function add_message_start(info, next) {
             next(null, '' + prompt);
         }
         function sendStop() {
-            next(null, '抱歉，管理员无法使用该功能。');
+            next(null, '抱歉！园长，管理员无法使用该功能。');
         }
         if (info.session.teacher.isAdmin === 0) {
             return sendPrompt();
@@ -72,7 +72,7 @@ function view_message(info, next) {
         next(null, text);
     }
 
-    if (info.session.teacher) {
+    if (info.session.parent) {
         user = info.session.parent;
         sendLink();
     } else if (info.session.teacher) {
