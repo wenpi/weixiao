@@ -10,4 +10,5 @@ module.exports = function(app) {
 	app.get("/api/school/:_id", school.get());
 	app.put("/api/school/:_id", school.update());
 	app.delete("/api/school/:_id", school.remove());
+	app.get("/api/school/:_id/syncmenu", school.syncWeixinMenu());
 }

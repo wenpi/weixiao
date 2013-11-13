@@ -12,6 +12,7 @@
     "mongodb": "*",
     "monk": "*",
     "q": "*",
+    "wechat": "*",
     "weixin-robot": "*"
   }
 }
