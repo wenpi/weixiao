@@ -157,12 +157,10 @@ exports.syncWeixinMenu = function(_id, configs) {
 
     api.getAccessToken(function(err, result) {
         if (err) {
-            console.info("----");
             return deferred.reject(err);
         }
         api.createMenu(initMenu(_id), function(err, result) {
             if (err) {
-                console.info("====----");
                 return deferred.reject(err);
             }
             deferred.resolve(result);

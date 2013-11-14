@@ -13,6 +13,7 @@
     "monk": "*",
     "q": "*",
     "wechat": "*",
-    "weixin-robot": "*"
+    "weixin-robot": "*",
+    "node-mysql": "*"
   }
 }

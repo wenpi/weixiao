@@ -7,16 +7,27 @@
 var ejs = require('ejs');
 var conf = require('../../conf');
 var MessageServices = require("../../services/MessageServices");
+
+function publish_message_start(info, next) {
+    info.wait("parent message input");
+    return next(null, "请您在" + conf.timeout.desc + "内留言，只能输入文字：");
+};
+
 module.exports = function(webot) {
     // 留言提示语
-    webot.set('parent message', {
+    webot.set('parent message start by text', {
         domain: "parent",
-        pattern: /^(留言|(leave )?message|咨询|PARENT_MESSAGE_INPUT)/i,
-        handler: function(info, next) {
-            info.wait("parent message input");
-            return next(null, "请您在" + conf.timeout.desc + "内留言，只能输入文字：");
-        }
+        pattern: /^(留言|(leave )?message|咨询)/i,
+        handler: publish_message_start
     });
+    webot.set('parent message start by event', {
+        domain: "parent",
+        pattern: function(info) {
+            return info.event === 'PARENT_MESSAGE_INPUT';
+        },
+        handler: publish_message_start
+    });
+
     // 等待留言输入
     webot.waitRule('parent message input', function(info, next) {
         if (!info.is("text")) {
