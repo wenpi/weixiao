@@ -1,13 +1,29 @@
 var Q = require("q");
 var BaseServices = require("./BaseServices");
+var MysqlServices = require("./MysqlServices");
 var collection = BaseServices.getCollection('wex_school');
 var wechat = require('wechat');
 
 /*
  * 查询菜单数据
  */
+/* for mongodb
 function query(conditions, addtions){
     return BaseServices.query(collection, conditions || null, addtions || {sort:[['createdTime', -1]]});
+};
+*/
+// for mysql
+function query(conditions){
+    var extra = '';
+    for (var prop in conditions) {
+        var val = conditions[prop];
+        if (prop === 'openId') {
+            prop = 'open_id'
+        }
+        extra += 'and ' + prop + "='" + val + "'";
+    }
+    return MysqlServices.query("select * from wex_school where 1=1 " + extra);
+    //return BaseServices.query(collection, conditions || null, addtions || {sort:[['createdTime', -1]]});
 };
 exports.query = query;
 /*
@@ -22,15 +38,24 @@ exports.create = create;
 /*
  * 获得记录
  */
+/* for mongodb
 function get(_id) {
     return BaseServices.get(collection, {_id: _id});
-};
+};*/
+function get(id) {
+    return MysqlServices.get("select * from wex_school where id = " + id);
+}
 exports.get = get;
 /*
  * 更新数据
  */
+/* for mongodb
 function update(obj) {
     return BaseServices.update(collection, obj);
+};*/
+// for mysql
+function update(obj) {
+    return MysqlServices.query("update wex_school set open_id = '" + obj.openId + "', enabled = 1 where id = " + obj.id);
 };
 exports.update = update;
 /*
@@ -46,16 +71,14 @@ exports.remove = remove;
 exports.getByOpenId = function(openId) {
     var deferred = Q.defer();
 
-    query({openId: openId}, function(err, schools) {
-        if (err) {
-            deferred.reject(err);
-        }
-
-        if (schools.length === 1) {
+    query({openId: openId}).then(function(schools) {
+        if (schools && schools.length === 1) {
             deferred.resolve(schools[0]);
         } else {
             deferred.reject({status: 500, message: "该微信账号未绑定幼儿园。"});
         }
+    }, function(err) {
+        deferred.reject(err);
     });
 
     return deferred.promise;
@@ -64,7 +87,7 @@ exports.getByOpenId = function(openId) {
  * 和微信账号绑定
  */
 exports.bind = function(_id, openId) {
-    var deferred = Q.defer();
+    var deferred = Q.defer(), gbSchool;
 
     if(!_id) {
         deferred.reject({status: 400, message: "激活标识未提供。"});
@@ -85,12 +108,14 @@ exports.bind = function(_id, openId) {
         if (school && school.enabled === true) {
             throw new Error("该幼儿园已经绑定微信账号。");
         } else {
+            school.id = _id;
             school.openId = openId;
             school.enabled = true;
+            gbSchool = school;
             return update(school);
         }
-    }).then(function(school) {
-        deferred.resolve(school);
+    }).then(function() {
+        deferred.resolve(gbSchool);
     }).fail(function(err) {
         deferred.reject({status: 500, message: err.message});
     });
