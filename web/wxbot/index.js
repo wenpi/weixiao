@@ -1,7 +1,7 @@
 var utils = require("./utils");
 
 module.exports = function(webot) {
-	webot.loads("weexiao", "gateway");//, "school", "parent");
+	webot.loads("weexiao", "gateway", "school", "parent");
 
 	// 默认欢迎词
 	webot.set('greeting', {

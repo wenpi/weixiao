@@ -71,7 +71,7 @@ exports.remove = remove;
 /*
  * 返回绑定的场所
  */
-exports.getByOpenId = function(openId) {
+exports.queryByOpenId = function(openId) {
     var deferred = Q.defer();
 
     query({openId: openId}).then(function(schools) {
@@ -108,12 +108,12 @@ exports.bind = function(_id, openId) {
         }
     })
     .then(function(school) {
-        if (school && school.enabled === true) {
+        if (school && (school.enabled + '') === 1) {
             throw new Error("该幼儿园已经绑定微信账号。");
         } else {
             school.id = _id;
             school.openId = openId;
-            school.enabled = true;
+            school.enabled = 1;
             gbSchool = school;
             return update(school);
         }

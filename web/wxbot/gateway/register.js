@@ -22,16 +22,16 @@ module.exports = function(webot) {
 				return next(null, registered);
 			}
 
-	        // 用手机号去家长表和老师表查询,如果获得结果就返回相应激活页面链接
-		    UserServices.getByMobile({mobile: mobile}).then(function(user) {
+	        // 用手机号去用户表查询,如果获得结果就返回相应激活页面链接
+		    UserServices.queryByMobile(mobile).then(function(user) {
 		    	if (user) {
-		    		var enabled = user.enabled + '';
-		    		if (enabled === '0') {
+		    		var username = user.username + '';
+		    		if (username != mobile) {
 			    		return next(null, ejs.render(
-							'请点击<a href="<%= url%>">认证链接</a>完成家长认证操作。', 
-							{url: conf.site_root + '/register?mobile=' + mobile + '&userOpenId' + info.uid}
+							'请点击<a href="<%= url%>">认证链接</a>完成用户认证操作。', 
+							{url: conf.site_root + '/register?mobile=' + mobile + '&userOpenId=' + info.uid}
 						));
-		    		} else if (enabled === '1') {
+		    		} else if (enabled === mobile) {
 		    			return next(null, registered);
 		    		}
 		    	} else {

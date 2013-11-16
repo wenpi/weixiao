@@ -42,7 +42,7 @@ exports.remove = remove;
 /*
  * 返回绑定的场所
  */
-exports.getByOpenId = function(openId) {
+exports.queryByOpenId = function(openId) {
 	var deferred = Q.defer();
 
 	setTimeout(function() {

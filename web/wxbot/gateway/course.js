@@ -11,18 +11,18 @@ function course_view(info, next) {
     var text = "抱歉，您不是认证用户，不能查看课程安排！";
     if (info.session.parent) {
         text = ejs.render(
-            '您是认证家长:"<%= name%>">。<br/><a href="<%= url%>">点击这里，立即查看课程安排</a>', 
+            '家长，您好：<br/><a href="<%= url%>">请点击这里，查看课程安排</a>', 
             {
-                name: '大明',
-                url: conf.site_root + '/course?parentId' + info.session.parent.id
+                //name: info.session.parent.name,
+                url: conf.site_root + '/course?parentId=' + info.session.parent.id
             }
         )
     } else if (info.session.teacher) {
         text = ejs.render(
-            '您是认证老师:"<%= name%>">。<br/><a href="<%= url%>">点击这里，立即查看课程安排</a>', 
+            '老师，您好：<br/><a href="<%= url%>">请点击这里，查看课程安排</a>', 
             {
-                name: '陈老师',
-                url: conf.site_root + '/course?teacherId' + info.session.teacher.id
+                name: info.session.teacher.name,
+                url: conf.site_root + '/course?teacherId=' + info.session.teacher.id
             }
         )
     }
@@ -32,14 +32,14 @@ function course_view(info, next) {
 module.exports = function(webot) {
 	// 修改个人资料提示语
 	webot.set('user course view start by text', {
-		domain: "user",
+		domain: "gateway",
 		pattern: /^(课程安排|(view )?course)/i,
 		handler: course_view
 	});
 	webot.set('user course view start by event', {
-		domain: "user",
+		domain: "gateway",
 		pattern: function(info) {
-			return info.event === 'COURSE_VIEW';
+			return info.param.event === 'COURSE_VIEW';
 		},
 		handler: course_view
 	});

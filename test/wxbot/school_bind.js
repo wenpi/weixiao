@@ -30,3 +30,5 @@ module.exports = function() {
 		});
 	});
 }
+
+// webot send --des http://localhost:3000/weixin/api --token weexiao t SCHOOLBIND-{schoolId}

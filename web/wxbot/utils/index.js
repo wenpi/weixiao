@@ -7,30 +7,31 @@ function ensure_school_is_bind (info, next) {
     if (info.session.school) {
         return next();
     }
+
     if (info.is("text") && info.text.indexOf("SCHOOLBIND") >= 0) {
         return next();
     }
 
-    SchoolServices.getByOpenId(info.sp).then(function(school) {
+    SchoolServices.queryByOpenId(info.sp).then(function(school) {
         info.session.school = school;
-        next();
+        return next();
     }, function() {
         info.ended = true;
-        next("抱歉，该幼儿园的微信服务尚未激活。");
+        return next("抱歉，该幼儿园的微信服务尚未激活。");
     });
 }
 
 function mobile_input_prompt(info, next) {
-    info.wait("user mobile input");
+    info.ended = true;
     next("抱歉，您还不是该幼儿园的认证用户。如需认证，请输入文字【认证】及您【手机号】，如：认证13812345678");
 }
 function ensure_user_is_register (info, next) {
     if (info.session.parent || info.session.teacher) { return next(); }
 
-    UserServices.getByOpenId({schoolOpenId: info.sp, userOpenId: info.uid}).then(function(user) {
-        switch(parent.type + '') {
+    UserServices.queryByOpenId({schoolOpenId: info.sp, userOpenId: info.uid}).then(function(user) {
+        switch(user.type + '') {
         case '0':
-            info.session.parent = parent;
+            info.session.parent = user;
             return next();
         break;
         case '1':
