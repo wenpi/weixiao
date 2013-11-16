@@ -1,8 +1,11 @@
 var Q = require("q");
-var BaseServices = require("./BaseServices");
-var MysqlServices = require("./MysqlServices");
-var collection = BaseServices.getCollection('wex_school');
 var wechat = require('wechat');
+var conf = require("../conf");
+var MysqlServices = require("./MysqlServices");
+var BaseServices = require("./BaseServices");
+var collection = BaseServices.getCollection('wex_school');
+
+
 
 /*
  * 查询菜单数据
@@ -129,37 +132,61 @@ exports.bind = function(_id, openId) {
 function initMenu(schoolId) {
     return {
         "button":[{
-            "name":"Home",
+            "name":"本园动态",
             "sub_button":[{  
                 "type": "view",
-                "name": "Intro",
-                "url": "http://www.baidu.com?schoolId=" + schoolId
+                "name": "幼儿园向导",
+                "url": conf.site_root + "/guide?schoolId=" + schoolId
+            }, {  
+                "type": "view",
+                "name": "每周食谱",
+                "url": conf.site_root +  "/recipe?schoolId=" + schoolId
+            }, {  
+                "type": "click",
+                "name": "课程安排",
+                "key": "COURSE_VIEW"
+            }, {  
+                "type": "view",
+                "name": "重要通知",
+                "url": conf.site_root +  "/annoucement?schoolId=" + schoolId
             }]
         }, {
-            "name":"Class",
+            "name":"班级墙",
             "sub_button":[{  
                 "type": "click",
-                "name": "Message",
-                "key": "PARENT_MESSAGE_INPUT"
+                "name": "发布留言",
+                "key": "MESSAGE_ADD"
             }, {
                 "type": "click",
-                "name": "My Message",
-                "key":"PARENT_MESSAGE_CHECK"
+                "name": "留言板",
+                "key":"MESSAGE_VIEW"
             }, {
                 "type": "click",
-                "name": "Publish",
-                "key":"PARENT_IMAGE_INPUT"
+                "name": "发布照片",
+                "key":"IMAGE_ADD"
+            }, {
+                "type": "click",
+                "name": "班级相册",
+                "key": "IMAGE_VIEW"
             }]
         }, {
-            "name":"Profile",
+            "name":"个人中心",
             "sub_button":[{  
-                "type":"click",
-                "name":"Regsiter",
-                "key":"PARENT_REGISTER"
+                "type": "click",
+                "name": "儿童成长记录",
+                "key": "KID_RECORD_VIEW"
+            }, {  
+                "type": "click",
+                "name": "添加成长记录",
+                "key": "KID_RECORD_ADD"
+            }, {  
+                "type": "click",
+                "name": "修改个人资料",
+                "key": "PROFILE_EDIT"
             }, {
-                "type":"view",
-                "name":"Profile",
-                "url": "http://www.baidu.com?schoolId=" + schoolId
+                "type": "click",
+                "name": "修改密码",
+                "key": "PASSWORD_EDIT"
             }]
         }]
     }

@@ -13,20 +13,6 @@ function publish_image_start(info, next) {
 }
 
 module.exports = function(webot) {
-	// 留言提示语
-	webot.set('parent image start by text', {
-		domain: "parent",
-		pattern: /^(发布图片|(publish )?image)/i,
-		handler: publish_image_start
-	});
-	webot.set('parent image start by event', {
-		domain: "parent",
-		pattern: function(info) {
-			return info.event === 'PARENT_IMAGE_INPUT';
-		},
-		handler: publish_image_start
-	});
-
 	// 等待主题输入
 	webot.waitRule('parent image input text', function(info, next) {
 		if (!info.is("text")) {
@@ -51,12 +37,12 @@ module.exports = function(webot) {
 			var title = info.session.parent.publishImage.title;
 			console.info(info.session.parent.publishImage);
 			delete info.session.parent.publishImage;
-			return next(null, "主题为【" + title + "】的图片已发布！点击【我的发布】查看。");
+			return next(null, "主题为【" + title + "】的图片已发布！点击【班级相册】查看。");
 		}
 		// 接受取消指令
 		if (info.is("text") && info.text === '不') {
 			delete info.session.parent.publishImage;
-			return next(null, "发布操作已取消，如需发布请再次点击【我要发布】。");
+			return next(null, "发布操作已取消，如需发布请再次点击【发布照片】。");
 		}
 
 		if (!info.is("image")) {

@@ -8,26 +8,7 @@ var ejs = require('ejs');
 var conf = require('../../conf');
 var MessageServices = require("../../services/MessageServices");
 
-function publish_message_start(info, next) {
-    info.wait("parent message input");
-    return next(null, "请您在" + conf.timeout.desc + "内留言，只能输入文字：");
-};
-
 module.exports = function(webot) {
-    // 留言提示语
-    webot.set('parent message start by text', {
-        domain: "parent",
-        pattern: /^(留言|(leave )?message|咨询)/i,
-        handler: publish_message_start
-    });
-    webot.set('parent message start by event', {
-        domain: "parent",
-        pattern: function(info) {
-            return info.event === 'PARENT_MESSAGE_INPUT';
-        },
-        handler: publish_message_start
-    });
-
     // 等待留言输入
     webot.waitRule('parent message input', function(info, next) {
         if (!info.is("text")) {
@@ -43,12 +24,12 @@ module.exports = function(webot) {
                 }
                 // TODO 消息入库
                 delete info.session.parent.messages;
-                return next(null, "留言已提交！点击【我的留言】查看留言最新状态。");
+                return next(null, "留言已提交！点击【留言板】查看留言最新状态。");
             }
             // 接受取消指令
             if (info.text === '不') {
                 delete info.session.parent.messages;
-                return next(null, "留言已取消，如需留言请再次点击【我要留言】。");
+                return next(null, "留言已取消，如需留言请再次点击【发布留言】。");
             }
             // 构造message
             if (!info.session.parent.messages) {
@@ -57,37 +38,6 @@ module.exports = function(webot) {
             info.session.parent.messages.push(info.text);
             info.wait("parent message input");
             return next(null, "已存成草稿，您可继续输入文字。发送【好】提交留言，发送【不】取消留言");
-        }
-    });
-
-    // 查看留言状态
-    webot.set('parent message check', {
-        domain: "parent",
-        pattern: /^(查看留言|(check )?message|我的留言|PARENT_MESSAGE_CHECK)/i,
-        handler: function(info, next) {
-            MessageServices.query().then(function(messages) {
-                next(null,
-                    ejs.render(
-                        '您有条<%= count%>未读消息。<a href="<%= url%>">查看</a>', 
-                        {
-                            count: messages.length,
-                            url: conf.site_root + '/message?schoolOpenId' + info.sp +' &parentopenId' + info.uid
-                        }
-                    )
-                );
-            }, function() {
-                // TODO
-                next(null,
-                    ejs.render(
-                        '您有条<%= count%>未读消息。<a href="<%= url%>">查看</a>', 
-                        {
-                            count: messages.length,
-                            url: conf.site_root + '/message?schoolOpenId' + info.sp +' &parentopenId' + info.uid
-                        }
-                    )
-                );
-            });
-            
         }
     });
 }
