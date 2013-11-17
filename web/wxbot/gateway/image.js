@@ -8,7 +8,13 @@ var ejs = require('ejs');
 var conf = require('../../conf');
 
 function add_image_start(info, next) {
-	var prompt = "您发布的图片将对本班老师和家长公开，需在" + conf.timeout.desc + "内完成该项操作，请你输入发布主题：";
+	var prompt = [
+        "通过这里上传的图片将直接显示在班级相册中，仅本班所有家长及老师可见。",
+        "上传照片前，请先输入主题文字，简单描述一下您要发布的照片内容。",
+        "例如“和孩子一起读书” “集体户外游戏小青蛙跳荷叶”等，需在",
+        conf.timeout.desc,
+        "内完成该项操作。请输入照片主题："].join("");
+
 	if (info.session.parent) {
 		info.wait("user image input text");
 		return next(null, '家长，您好：<br/>' + prompt);

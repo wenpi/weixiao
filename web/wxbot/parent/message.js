@@ -6,12 +6,14 @@
  */
 var ejs = require('ejs');
 var conf = require('../../conf');
+var utils = require("../utils");
 var MessageServices = require("../../services/MessageServices");
 
 module.exports = function(webot) {
     // 等待留言输入
     webot.waitRule('parent message input', function(info, next) {
         if (!info.is("text")) {
+            utils.operation_is_failed(info, next);
             info.rewait("parent message input");
             return next(null, "抱歉，只能输入文字。");
         }
@@ -19,6 +21,7 @@ module.exports = function(webot) {
             // 接受提交指令
             if (info.text === '好') {
                 if (!info.session.parent.messages || info.session.parent.messages.length == 0) {
+                    utils.operation_is_failed(info, next);
                     info.rewait("parent message input");
                     return next(null, "您还没输入文字，请留言：");
                 }

@@ -7,7 +7,7 @@
 var utils = require("../utils");
 
 module.exports = function(webot) {
-	webot.loads("message", "image");
+	webot.loads("message", "image", "record");
 
     webot.domain("parent", utils.ensure_parent_is_register);
 }

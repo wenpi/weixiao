@@ -6,11 +6,13 @@
  */
 var ejs = require('ejs');
 var conf = require('../../conf');
+var utils = require("../utils");
 
 module.exports = function(webot) {
 	// 等待主题输入
 	webot.waitRule('parent image input text', function(info, next) {
 		if (!info.is("text")) {
+			utils.operation_is_failed(info, next);
 			info.rewait("parent image input text");
 			return next(null, "抱歉，只能输入文字。");
 		}
@@ -18,13 +20,14 @@ module.exports = function(webot) {
 		info.session.parent.publishImage = {title: '', urls: []};
 		info.session.parent.publishImage.title = info.text;
 		info.wait("parent image input image");
-		return next(null, "请上传主题为【" + info.text + "】的图片：");
+		return next(null, "主题【" + info.text + "】创建成功，请直接选择上传您要分享的图片：");
 	});
 
 	webot.waitRule('parent image input image', function(info, next) {
 		// 接受提交指令
 		if (info.is("text") && info.text === '好') {
 			if (info.session.parent.publishImage.urls.length == 0) {
+				utils.operation_is_failed(info, next);
 				info.rewait("parent image input image");
 				return next(null, "您还没上传图片，请上传：");
 			}
@@ -41,10 +44,10 @@ module.exports = function(webot) {
 		}
 
 		if (!info.is("image")) {
+			utils.operation_is_failed(info, next);
 			info.rewait("parent image input image");
 			return next(null, "抱歉，只能上传图片。");
-		}
-		if (info.is("image")) {
+		} else {
 			// 构造image
 			if (info.session.parent.publishImage) {
 				info.session.parent.publishImage.urls.push(info.param.picUrl);

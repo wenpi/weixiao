@@ -26,12 +26,35 @@ module.exports = function(webot) {
 		    UserServices.queryByMobile(mobile).then(function(user) {
 		    	if (user) {
 		    		var username = user.username + '';
-		    		if (username != mobile) {
+		    		if (username !== mobile) {
+			    		info.wait("user register profile image");
+			    		return next(null, "请上传您的头像图片：");
+		    		} else {
+		    			return next(null, registered);
+		    		}
+		    	} else {
+		    		return next(null, failed);
+		    	}
+		    }, function() {
+		        return next(null, failed);
+		    });
+		}
+	});
+
+	webot.waitRule('user register profile image', function(info, next) {
+		if (!info.is("image")) {
+			info.rewait("user register profile image");
+			return next(null, "抱歉，只能上传图片。");
+		}else {
+		    UserServices.queryByMobile(mobile).then(function(user) {
+		    	if (user) {
+		    		var username = user.username + '';
+		    		if (username !== mobile) {
 			    		return next(null, ejs.render(
 							'请点击<a href="<%= url%>">认证链接</a>完成用户认证操作。', 
-							{url: conf.site_root + '/register?mobile=' + mobile + '&userOpenId=' + info.uid}
+							{url: conf.site_root + '/register?mobile=' + mobile + '&userOpenId=' + info.uid + '&profileImage=' + info.param.picUrl}
 						));
-		    		} else if (enabled === mobile) {
+		    		} else {
 		    			return next(null, registered);
 		    		}
 		    	} else {

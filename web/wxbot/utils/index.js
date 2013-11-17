@@ -4,6 +4,12 @@ var ParentServices = require("../../services/ParentServices");
 var UserServices = require("../../services/UserServices");
 
 function ensure_school_is_bind (info, next) {
+    if (info.session.failedCount === 5) {
+        delete info.session.failedCount;
+        info.ended = true;
+        return next("抱歉，您的错误操作太多，请仔细阅读帮助文字。");
+    }
+
     if (info.session.school) {
         return next();
     }
@@ -23,7 +29,7 @@ function ensure_school_is_bind (info, next) {
 
 function mobile_input_prompt(info, next) {
     info.ended = true;
-    next("抱歉，您还不是该幼儿园的认证用户。如需认证，请输入文字【认证】及您【手机号】，如：认证13812345678");
+    next("抱歉，本处功能只供本园家长及教师使用。如需认证，请回复文字【认证】及您的【手机号】，如：认证13812345678");
 }
 function ensure_user_is_register (info, next) {
     if (info.session.parent || info.session.teacher) { return next(); }
@@ -65,6 +71,14 @@ function ensure_teacher_is_register (info, next) {
     }
 }
 
+function operation_is_failed (info, next) {
+    if (info.session.failedCount) {
+        info.session.failedCount += 1;
+    } else {
+        info.session.failedCount = 1;
+    }
+}
+
 // Export校验功能函数
 module.exports.ensure_school_is_bind = ensure_school_is_bind;
 
@@ -89,5 +103,7 @@ module.exports.ensure_teacher_is_register = function (info, next) {
         ensure_teacher_is_register(info, next);
     }
 }
+
+module.exports.operation_is_failed = operation_is_failed;
 
 
