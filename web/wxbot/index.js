@@ -5,7 +5,9 @@ module.exports = function(webot) {
 
 	// 默认欢迎词
 	webot.set('greeting', {
-		pattern: ".*",
+		pattern: function() {
+			return true;
+		},
 		handler: function(info, next) {
 			if (info.session.school) {
 				next("欢迎使用" + info.session.school.name + "微信服务。");

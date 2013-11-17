@@ -46,7 +46,7 @@ function get(_id) {
     return BaseServices.get(collection, {_id: _id});
 };*/
 function get(id) {
-    return MysqlServices.get("select * from wex_school where id = " + id);
+    return MysqlServices.get("select * from wex_school where id = '" + id + "'");
 }
 exports.get = get;
 /*
@@ -58,7 +58,7 @@ function update(obj) {
 };*/
 // for mysql
 function update(obj) {
-    return MysqlServices.query("update wex_school set open_id = '" + obj.openId + "', enabled = 1 where id = " + obj.id);
+    return MysqlServices.query("update wex_school set open_id = '" + obj.openId + "', enabled = 1 where id = '" + obj.id + "'");
 };
 exports.update = update;
 /*
@@ -108,7 +108,7 @@ exports.bind = function(_id, openId) {
         }
     })
     .then(function(school) {
-        if (school && (school.enabled + '') === 1) {
+        if (school && (school.enabled + '') === '1') {
             throw new Error("该幼儿园已经绑定微信账号。");
         } else {
             school.id = _id;
@@ -136,11 +136,11 @@ function initMenu(schoolId) {
             "sub_button":[{  
                 "type": "view",
                 "name": "幼儿园向导",
-                "url": conf.site_root + "/guide?schoolId=" + schoolId
+                "url": conf.site_root + "/front/" + schoolId
             }, {  
                 "type": "view",
                 "name": "每周食谱",
-                "url": conf.site_root +  "/recipe?schoolId=" + schoolId
+                "url": conf.site_root +  "/front/dinner/" + schoolId
             }, {  
                 "type": "click",
                 "name": "课程安排",

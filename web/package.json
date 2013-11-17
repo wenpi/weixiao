@@ -14,6 +14,7 @@
     "q": "*",
     "wechat": "*",
     "weixin-robot": "*",
-    "node-mysql": "*"
+    "node-mysql": "*",
+    "request": "*"
   }
 }

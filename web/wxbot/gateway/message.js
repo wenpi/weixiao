@@ -29,7 +29,7 @@ function view_message(info, next) {
             '家长，您好：<br/>您有条<%= count%>未读消息。<br/><a href="<%= url%>">请点击这里，查看消息</a>', 
             {
                 count: 10,
-                url: conf.site_root + '/message?shoolId' + info.session.school.id +' &parentId=' + info.session.parent.id
+                url: conf.site_root + '/front/message' //?shoolId' + info.session.school.id +' &parentId=' + info.session.parent.id
             }
         )
     } else if (info.session.teacher) {
@@ -37,7 +37,7 @@ function view_message(info, next) {
             '老师，您好：<br/>您有条<%= count%>未读消息。<br/><a href="<%= url%>">请点击这里，查看消息</a>', 
             {
                 count: 10,
-                url: conf.site_root + '/message?shoolId' + info.session.school.id +' &teacherId=' + info.session.teacher.id
+                url: conf.site_root + '/front/message' //?shoolId' + info.session.school.id +' &teacherId=' + info.session.teacher.id
             }
         )
     }
@@ -81,7 +81,7 @@ module.exports = function(webot) {
                         '您有条<%= count%>未读消息。<a href="<%= url%>">查看</a>', 
                         {
                             count: messages.length,
-                            url: conf.site_root + '/message?schoolOpenId' + info.sp +' &parentopenId' + info.uid
+                            url: conf.site_root + '/front/message?schoolOpenId' + info.sp +' &parentopenId' + info.uid
                         }
                     )
                 );
@@ -92,7 +92,7 @@ module.exports = function(webot) {
                         '您有条<%= count%>未读消息。<a href="<%= url%>">查看</a>', 
                         {
                             count: messages.length,
-                            url: conf.site_root + '/message?schoolOpenId' + info.sp +' &parentopenId' + info.uid
+                            url: conf.site_root + '/front/message?schoolOpenId' + info.sp +' &parentopenId' + info.uid
                         }
                     )
                 );

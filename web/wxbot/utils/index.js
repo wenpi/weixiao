@@ -1,4 +1,7 @@
 var Q = require("q");
+var fs = require('fs');
+var request = require('request');
+var conf = require("../../conf");
 var SchoolServices = require("../../services/SchoolServices");
 var ParentServices = require("../../services/ParentServices");
 var UserServices = require("../../services/UserServices");
@@ -71,12 +74,21 @@ function ensure_teacher_is_register (info, next) {
     }
 }
 
-function operation_is_failed (info, next) {
+function operation_is_failed(info, next) {
     if (info.session.failedCount) {
         info.session.failedCount += 1;
     } else {
         info.session.failedCount = 1;
     }
+}
+
+function download_image(picUrl, localFile) {
+    request.head(picUrl, function(err, res, body){
+        //console.log('content-type:', res.headers['content-type']);
+        //console.log('content-length:', res.headers['content-length']);
+
+        request(picUrl).pipe(fs.createWriteStream(conf.upload_root + '/' + localFile));
+    });
 }
 
 // Export校验功能函数
@@ -105,5 +117,7 @@ module.exports.ensure_teacher_is_register = function (info, next) {
 }
 
 module.exports.operation_is_failed = operation_is_failed;
+
+module.exports.download_image = download_image;
 
 
