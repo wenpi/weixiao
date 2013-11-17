@@ -39,7 +39,7 @@ module.exports = function(webot) {
 	webot.set('user profile edit start by event', {
 		domain: "gateway",
 		pattern: function(info) {
-			return info.param.event === 'PROFILE_EDIT';
+			return info.param.eventKey === 'PROFILE_EDIT';
 		},
 		handler: profile_edit
 	});

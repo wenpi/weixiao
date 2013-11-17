@@ -52,7 +52,7 @@ module.exports = function(webot) {
 	webot.set('user kid record add start by event', {
 		domain: "gateway",
 		pattern: function(info) {
-			return info.param.event === 'KID_RECORD_ADD';
+			return info.param.eventKey === 'KID_RECORD_ADD';
 		},
 		handler: add_image_start
 	});
@@ -66,7 +66,7 @@ module.exports = function(webot) {
     webot.set('user kid record view start by event', {
         domain: "gateway",
         pattern: function(info) {
-            return info.param.event === 'KID_RECORD_VIEW';
+            return info.param.eventKey === 'KID_RECORD_VIEW';
         },
         handler: view_image
     });

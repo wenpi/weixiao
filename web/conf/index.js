@@ -25,8 +25,8 @@ module.exports = {
     }
   },
   site_root: 'http://kid.weexiao.com',
-  //upload_root: '/var/www/html/kindergarten/upload',
-  upload_root: 'C:/upload/images',
+  upload_root: '/var/www/html/kindergarten/upload',
+  //upload_root: 'C:/upload/images',
   salt: 'weexiao',
   weixin: 'weexiao'
 };

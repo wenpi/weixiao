@@ -211,6 +211,7 @@ exports.syncWeixinMenu = function(_id, configs) {
         if (err) {
             return deferred.reject(err);
         }
+        console.info(initMenu(_id).button[0]);
         api.createMenu(initMenu(_id), function(err, result) {
             if (err) {
                 return deferred.reject(err);

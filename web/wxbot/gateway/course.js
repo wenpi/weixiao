@@ -39,7 +39,7 @@ module.exports = function(webot) {
 	webot.set('user course view start by event', {
 		domain: "gateway",
 		pattern: function(info) {
-			return info.param.event === 'COURSE_VIEW';
+			return info.param.eventKey === 'COURSE_VIEW';
 		},
 		handler: course_view
 	});

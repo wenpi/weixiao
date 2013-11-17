@@ -58,7 +58,7 @@ module.exports = function(webot) {
 	webot.set('user image add start by event', {
 		domain: "gateway",
 		pattern: function(info) {
-			return info.param.event === 'IMAGE_ADD';
+			return info.param.eventKey === 'IMAGE_ADD';
 		},
 		handler: add_image_start
 	});
@@ -72,7 +72,7 @@ module.exports = function(webot) {
     webot.set('user image view start by event', {
         domain: "gateway",
         pattern: function(info) {
-            return info.param.event === 'IMAGE_VIEW';
+            return info.param.eventKey === 'IMAGE_VIEW';
         },
         handler: view_image
     });

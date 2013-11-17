@@ -42,7 +42,7 @@ webot.watch(app, { token: conf.weixin, path: '/weixin/api' });
 // 启动express
 var port = conf.port || 3000;
 var hostname = conf.hostname || '127.0.0.1';
-app.listen(port, hostname, function() {
-  log('listening on ', hostname, port);
+app.listen(port, function() {
+  console.info('listening on ', hostname, port);
 });
 app.enable('trust proxy');

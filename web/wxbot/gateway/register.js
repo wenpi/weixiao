@@ -54,7 +54,7 @@ module.exports = function(webot) {
 		    		var username = user.username + '';
 		    		if (username !== mobile) {
 		    			var extra = info.param.picUrl.substring(info.param.picUrl.lastIndexOf(".")) || 'jpg';
-		    			var filename = info.session.school.id + '_' + mobile + '_profileimage_' + (new Date()).getTime() + extra;
+		    			var filename = info.session.school.id + '_' + mobile + '_profileimage_' + (new Date()).getTime();// + extra;
 		    			utils.download_image(info.param.picUrl, filename);
 		    			delete info.session.mobile;
 			    		return next(null, ejs.render(

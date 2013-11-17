@@ -54,7 +54,7 @@ module.exports = function(webot) {
     webot.set('user message start by event', {
         domain: "gateway",
         pattern: function(info) {
-            return info.param.event === 'MESSAGE_ADD';
+            return info.param.eventKey === 'MESSAGE_ADD';
         },
         handler: add_message_start
     });
@@ -68,7 +68,7 @@ module.exports = function(webot) {
     webot.set('user message view start by event', {
         domain: "gateway",
         pattern: function(info) {
-            return info.param.event === 'MESSAGE_VIEW';
+            return info.param.eventKey === 'MESSAGE_VIEW';
         },
         handler: view_message
     });

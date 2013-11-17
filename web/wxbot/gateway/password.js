@@ -39,7 +39,7 @@ module.exports = function(webot) {
 	webot.set('user password edit start by event', {
 		domain: "gateway",
 		pattern: function(info) {
-			return info.param.event === 'PASSWORD_EDIT';
+			return info.param.eventKey === 'PASSWORD_EDIT';
 		},
 		handler: password_edit
 	});
