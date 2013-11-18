@@ -25,10 +25,25 @@ module.exports = function(webot) {
                     info.rewait("parent message input");
                     return next(null, "您还没输入文字，请留言：");
                 }
-                // TODO 消息入库
-                console.info(info.session.parent.messages);
+                // 消息入库
+                MessageServices.create(info.session.parent, {
+                    title: '',
+                    content: info.session.parent.messages.join(" "),
+                    type: '0',
+                    top: '0'
+                }).then(function() {
+                    var text = ejs.render(
+                        '留言已提交！<br/><a href="<%= url%>">请点击这里查看</a>或者点击菜单【留言板】', 
+                        {
+                            url: conf.site_root + '/front/message' //?shoolId' + info.session.school.id +' &teacherId=' + info.session.teacher.id
+                        }
+                    );
+                    return next(null, text);
+                }, function() {
+                    next(null, "抱歉，后台异常，无法提交留言。");
+                });
                 delete info.session.parent.messages;
-                return next(null, "留言已提交！点击【留言板】查看留言最新状态。");
+                return;
             }
             // 接受取消指令
             if (info.text === '不') {
@@ -42,6 +57,8 @@ module.exports = function(webot) {
             info.session.parent.messages.push(info.text);
             info.wait("parent message input");
             return next(null, "已存成草稿，您可继续输入文字。发送【好】提交留言，发送【不】取消留言");
+        } else {
+            return next(null, "抱歉，您不是认证家长，无法使用该功能。");
         }
     });
 }

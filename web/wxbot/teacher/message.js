@@ -58,17 +58,31 @@ module.exports = function(webot) {
             return next(null, "抱歉，只能输入数字1或者2。");
         }
         if (info.session.teacher) {
+            var top = '0';
             if (info.text === '1') { // 置顶
-
-            } else if (info.text === '2') { // 不置顶
-
-            } else {
-                return next(null, "后台异常，请重新发起操作。");
+                top = '1';
             }
             // TODO 消息入库
             console.info(info.session.teacher.messages);
+            // 消息入库
+            MessageServices.create(info.session.teacher, {
+                title: '',
+                content: info.session.teacher.messages.join(" "),
+                type: '1',
+                top: top
+            }).then(function() {
+                var text = ejs.render(
+                    '留言已提交！<br/><a href="<%= url%>">请点击这里查看</a>或者点击菜单【留言板】', 
+                    {
+                        url: conf.site_root + '/front/message' //?shoolId' + info.session.school.id +' &teacherId=' + info.session.teacher.id
+                    }
+                );
+                return next(null, text);
+            }, function() {
+                next(null, "抱歉，后台异常，无法提交留言。");
+            });
             delete info.session.teacher.messages;
-            return next(null, "留言已提交！点击【留言板】查看留言最新状态。");
+            return;
         } else {
             return next(null, "后台异常，请重新发起操作。");
         }

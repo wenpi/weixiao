@@ -11,7 +11,7 @@ function password_edit(info, next) {
     var text = "抱歉，您不是认证用户，不能修改密码！";
     if (info.session.parent) {
         text = ejs.render(
-            '家长，您好：<br/><a href="<%= url%>">请点击这里，修改密码</a>', 
+            '<a href="<%= url%>">请点击这里，修改密码</a>', 
             {
                 //name: '大明',
                 url: conf.site_root + '/password?parentId=' + info.session.parent.id
@@ -19,7 +19,7 @@ function password_edit(info, next) {
         )
     } else if (info.session.teacher) {
         text = ejs.render(
-            '老师，您好：<br/><a href="<%= url%>">请点击这里，修改密码</a>', 
+            '<a href="<%= url%>">请点击这里，修改密码</a>', 
             {
                 //name: '陈老师',
                 url: conf.site_root + '/password?teacherId=' + info.session.teacher.id

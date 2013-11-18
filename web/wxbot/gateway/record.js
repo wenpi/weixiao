@@ -11,10 +11,10 @@ function add_image_start(info, next) {
 	var prompt = "发布文字记录请回复【1】<br/>发布照片记录请回复【2】";
 	if (info.session.parent) {
 		info.wait("parent kid record select type");
-		return next(null, "家长，您好：<br/>" + prompt);
+		return next(null, "" + prompt);
     } else if (info.session.teacher) {
 		info.wait("teacher kid record select type");
-		return next(null, "老师，您好：<br/>" +prompt);
+		return next(null, "" +prompt);
     } else {
         return next(null, "抱歉，您不是认证用户，不能发布成长记录！");
     }
@@ -24,7 +24,7 @@ function view_image(info, next) {
     var text = "抱歉，您不是认证用户，不能查看成长记录！";
     if (info.session.parent) {
         text = ejs.render(
-            '家长，您好：<br/><a href="<%= url%>">请点击这里查看孩子成长记录</a>', 
+            '<a href="<%= url%>">请点击这里查看孩子成长记录</a>', 
             {
                 //name: '小明',
                 url: conf.site_root + '/record?shoolId=' + info.session.school.id +' &parentId=' + info.session.parent.id
@@ -32,7 +32,7 @@ function view_image(info, next) {
         )
     } else if (info.session.teacher) {
         text = ejs.render(
-            '老师，您好：<br/><a href="<%= url%>">请点击这里查看孩子成长记录</a>', 
+            '<a href="<%= url%>">请点击这里查看孩子成长记录</a>', 
             {
                 //name: '小明',
                 url: conf.site_root + '/record?shoolId=' + info.session.school.id +' &teacherId=' + info.session.teacher.id

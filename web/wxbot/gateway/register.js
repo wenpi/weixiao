@@ -53,6 +53,7 @@ module.exports = function(webot) {
 		    	if (user) {
 		    		var username = user.username + '';
 		    		if (username !== mobile) {
+		    			console.info(info.param.picUrl);
 		    			var extra = info.param.picUrl.substring(info.param.picUrl.lastIndexOf(".")) || 'jpg';
 		    			var filename = info.session.school.id + '_' + mobile + '_profileimage_' + (new Date()).getTime();// + extra;
 		    			utils.download_image(info.param.picUrl, filename);

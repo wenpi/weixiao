@@ -10,11 +10,11 @@ var MessageServices = require("../../services/MessageServices");
 
 function add_message_start(info, next) {
     if (info.session.parent) {
-        var prompt = "家长，您好：<br/>通过这里输入的文字将直接显示在班级留言板上，仅有您和老师可见。需在" + conf.timeout.desc + "内完成该项操作，请输入您想对老师说的话：";
+        var prompt = "通过这里输入的文字将直接显示在班级留言板上，仅有您和老师可见。需在" + conf.timeout.desc + "内完成该项操作，请输入您想对老师说的话：";
         info.wait("parent message input");
         return next(null, prompt);
     } else if (info.session.teacher) {
-        var prompt = "老师，您好：<br/>通过这里输入的文字将直接显示在班级留言墙上，您所在班级所有家长和老师可见。需在" + conf.timeout.desc + "内完成该项操作，请输入您想对家长们说的话：";
+        var prompt = "通过这里输入的文字将直接显示在班级留言墙上，您所在班级所有家长和老师可见。需在" + conf.timeout.desc + "内完成该项操作，请输入您想对家长们说的话：";
         info.wait("teacher message input");
         return next(null, prompt);
     } else {
@@ -26,7 +26,7 @@ function view_message(info, next) {
     var text = "抱歉，您不是认证用户，不能查看消息！";
     if (info.session.parent) {
         text = ejs.render(
-            '家长，您好：<br/>您有条<%= count%>未读消息。<br/><a href="<%= url%>">请点击这里，查看消息</a>', 
+            '您有条<%= count%>未读消息。<br/><a href="<%= url%>">请点击这里，查看消息</a>', 
             {
                 count: 10,
                 url: conf.site_root + '/front/message' //?shoolId' + info.session.school.id +' &parentId=' + info.session.parent.id
@@ -34,7 +34,7 @@ function view_message(info, next) {
         )
     } else if (info.session.teacher) {
         text = ejs.render(
-            '老师，您好：<br/>您有条<%= count%>未读消息。<br/><a href="<%= url%>">请点击这里，查看消息</a>', 
+            '您有条<%= count%>未读消息。<br/><a href="<%= url%>">请点击这里，查看消息</a>', 
             {
                 count: 10,
                 url: conf.site_root + '/front/message' //?shoolId' + info.session.school.id +' &teacherId=' + info.session.teacher.id
