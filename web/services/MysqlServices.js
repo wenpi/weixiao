@@ -12,13 +12,14 @@ var pool  = mysql.createPool({
 module.exports.query = function(sql) {
     var deferred = Q.defer();
 
+    console.info(sql);
 	pool.getConnection(function(err, connection) {
 		if (err) {
 			return deferred.reject(err);
 		}
 
-		console.info(sql);
 		connection.query(sql, function(err, rows) {
+			connection.release();
 			if (err) {
 				return deferred.reject(err);
 			}
@@ -33,13 +34,14 @@ module.exports.query = function(sql) {
 module.exports.get = function(sql) {
     var deferred = Q.defer();
 
+    console.info(sql);
 	pool.getConnection(function(err, connection) {
 		if (err) {
 			return deferred.reject(err);
 		}
 
-		console.info(sql);
 		connection.query(sql, function(err, rows) {
+			connection.release();
 			if (err) {
 				return deferred.reject(err);
 			}

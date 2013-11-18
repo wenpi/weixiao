@@ -148,7 +148,7 @@ function initMenu(schoolId) {
             }, {  
                 "type": "view",
                 "name": "重要通知",
-                "url": conf.site_root +  "/annoucement?schoolId=" + schoolId
+                "url": conf.site_root +  "/front/notice/" + schoolId
             }]
         }, {
             "name":"班级墙",
