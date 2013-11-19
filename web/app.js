@@ -23,7 +23,11 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
-app.use(express.session({ secret: 'weexiao', store: new express.session.MemoryStore() }));
+app.use(express.session({
+	secret: 'weexiao',
+	store: new express.session.MemoryStore(),
+    expires: new Date(Date.now() + conf.timeout.val)
+}));
 //app.use(express.session({secret: 'weexiao secret', cookie: {maxAge: conf.timeout.val}}));
 app.use(express.query());
 app.use(app.router);
