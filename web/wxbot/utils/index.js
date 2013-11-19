@@ -32,7 +32,7 @@ function ensure_school_is_bind (info, next) {
 
 function mobile_input_prompt(info, next) {
     info.ended = true;
-    next("抱歉，本处功能只供本园家长及教师使用。如需认证，请回复文字【认证】及您的【手机号】，如：认证13812345678");
+    next("抱歉，本功能仅供本园家长及教师使用。\n如需认证，请回复文字【认证】及您的【手机号】，如：认证13812345678");
 }
 function ensure_user_is_register (info, next) {
     if (info.session.parent || info.session.teacher) { return next(); }

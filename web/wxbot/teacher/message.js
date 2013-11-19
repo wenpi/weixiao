@@ -12,6 +12,10 @@ var MessageServices = require("../../services/MessageServices");
 module.exports = function(webot) {
     // 等待留言输入
     webot.waitRule('teacher message input', function(info, next) {
+        if (info.is("event")) {
+            delete info.session.teacher.messages;
+            return next();
+        }
         if (!info.is("text")) {
             utils.operation_is_failed(info, next);
             info.rewait("teacher message input");
@@ -26,7 +30,7 @@ module.exports = function(webot) {
                     return next(null, "您还没输入文字，请留言：");
                 }
                 info.wait("teacher message top");
-                return next(null, "您是否需要置顶这条消息，使家长们每天可见？<br/>回复【1】代表是<br/>回复【2】代表否");
+                return next(null, "您是否需要置顶这条消息，使家长们每天可见？\n回复【1】代表是\n回复【2】代表否");
             }
             // 接受取消指令
             if (info.text === '不') {
@@ -47,6 +51,10 @@ module.exports = function(webot) {
 
     // 是否置顶
     webot.waitRule('teacher message top', function(info, next) {
+        if (info.is("event")) {
+            delete info.session.teacher.messages;
+            return next();
+        }
         if (!info.is("text")) {
             utils.operation_is_failed(info, next);
             info.rewait("teacher message top");
@@ -72,7 +80,7 @@ module.exports = function(webot) {
                 top: top
             }).then(function() {
                 var text = ejs.render(
-                    '留言已提交！<br/><a href="<%= url%>">请点击这里查看</a>或者点击菜单【留言板】', 
+                    '留言已提交！\n<a href="<%- url%>">请点击这里，查看</a>或者点击菜单【留言板】', 
                     {
                         url: conf.site_root + '/front/message' //?shoolId' + info.session.school.id +' &teacherId=' + info.session.teacher.id
                     }

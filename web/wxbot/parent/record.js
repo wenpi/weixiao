@@ -11,6 +11,9 @@ var utils = require("../utils");
 module.exports = function(webot) {
 	// 等待主题输入
 	webot.waitRule('parent kid record select type', function(info, next) {
+        if (info.is("event")) {
+            return next();
+        }
 		if (!info.is("text")) {
 			info.rewait("parent kid record image text");
 			return next(null, "抱歉，只能输入文字。");
@@ -36,6 +39,10 @@ module.exports = function(webot) {
 
     // 等待文字记录输入
     webot.waitRule('parent kid record input text', function(info, next) {
+        if (info.is("event")) {
+            delete info.session.parent.records;
+            return next();
+        }
         if (!info.is("text")) {
             info.rewait("parent kid record input text");
             return next(null, "抱歉，只能输入文字。");
@@ -51,7 +58,7 @@ module.exports = function(webot) {
                 console.info(info.session.parent.records);
                 delete info.session.parent.records;
                 var response = ejs.render(
-		            '发布成功，<br/><a href="<%= url%>">请点击这里查看成长记录</a>', 
+		            '发布成功，\n<a href="<%- url%>">请点击这里，查看成长记录</a>', 
 		            {
 		                url: conf.site_root + '/record?parentId=' + info.session.parent.id
 		         	}
@@ -75,6 +82,10 @@ module.exports = function(webot) {
 
 	// 等待图片记录的主题输入
 	webot.waitRule('parent kid record image text', function(info, next) {
+        if (info.is("event")) {
+            delete info.session.parent.imageRecord;
+            return next();
+        }
 		if (!info.is("text")) {
 			utils.operation_is_failed(info, next);
 			info.rewait("parent kid record image text");
@@ -89,6 +100,10 @@ module.exports = function(webot) {
 
 	// 等待图片记录
 	webot.waitRule('parent kid record image upload', function(info, next) {
+        if (info.is("event")) {
+            delete info.session.parent.imageRecord;
+            return next();
+        }
 		// 接受提交指令
 		if (info.is("text") && info.text === '好') {
 			if (info.session.parent.imageRecord.urls.length == 0) {
@@ -101,7 +116,7 @@ module.exports = function(webot) {
 			console.info(info.session.parent.imageRecord);
 			delete info.session.parent.imageRecord;
             var response = ejs.render(
-	            '发布成功，<br/><a href="<%= url%>">请点击这里查看成长记录</a>', 
+	            '发布成功，\n<a href="<%- url%>">请点击这里，查看成长记录</a>', 
 	            {
 	                url: conf.site_root + '/record?parentId=' + info.session.parent.id
 	         	}

@@ -8,7 +8,7 @@ var ejs = require('ejs');
 var conf = require('../../conf');
 
 function add_image_start(info, next) {
-	var prompt = "发布文字记录请回复【1】<br/>发布照片记录请回复【2】";
+	var prompt = "发布文字记录请回复【1】\n发布照片记录请回复【2】";
 	if (info.session.parent) {
 		info.wait("parent kid record select type");
 		return next(null, "" + prompt);
@@ -24,7 +24,7 @@ function view_image(info, next) {
     var text = "抱歉，您不是认证用户，不能查看成长记录！";
     if (info.session.parent) {
         text = ejs.render(
-            '<a href="<%= url%>">请点击这里查看孩子成长记录</a>', 
+            '<a href="<%- url%>">请点击这里，查看孩子成长记录</a>', 
             {
                 //name: '小明',
                 url: conf.site_root + '/record?shoolId=' + info.session.school.id +' &parentId=' + info.session.parent.id
@@ -32,7 +32,7 @@ function view_image(info, next) {
         )
     } else if (info.session.teacher) {
         text = ejs.render(
-            '<a href="<%= url%>">请点击这里查看孩子成长记录</a>', 
+            '<a href="<%- url%>">请点击这里，查看孩子成长记录</a>', 
             {
                 //name: '小明',
                 url: conf.site_root + '/record?shoolId=' + info.session.school.id +' &teacherId=' + info.session.teacher.id

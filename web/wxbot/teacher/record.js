@@ -11,6 +11,9 @@ var utils = require("../utils");
 module.exports = function(webot) {
 	// 等待主题输入
 	webot.waitRule('teacher kid record select type', function(info, next) {
+        if (info.is("event")) {
+            return next();
+        }
 		if (!info.is("text")) {
 			utils.operation_is_failed(info, next);
 			info.rewait("teacher kid record image text");
@@ -39,6 +42,10 @@ module.exports = function(webot) {
 
     // 等待文字记录输入
     webot.waitRule('teacher kid record input text', function(info, next) {
+        if (info.is("event")) {
+        	delete info.session.teacher.records;
+            return next();
+        }
         if (!info.is("text")) {
             info.rewait("teacher kid record input text");
             return next(null, "抱歉，只能输入文字。");
@@ -55,7 +62,7 @@ module.exports = function(webot) {
                 console.info(info.session.teacher.records);
                 delete info.session.teacher.records;
                 var response = ejs.render(
-		            '发布成功，<br/><a href="<%= url%>">请点击这里查看成长记录</a>', 
+		            '发布成功，\n<a href="<%- url%>">请点击这里，查看成长记录</a>', 
 		            {
 		                url: conf.site_root + '/record?teacherId=' + info.session.teacher.id
 		         	}
@@ -79,6 +86,10 @@ module.exports = function(webot) {
 
 	// 等待图片记录的主题输入
 	webot.waitRule('teacher kid record image text', function(info, next) {
+        if (info.is("event")) {
+        	delete info.session.teacher.imageRecord;
+            return next();
+        }
 		if (!info.is("text")) {
 			utils.operation_is_failed(info, next);
 			info.rewait("teacher kid record image text");
@@ -93,6 +104,10 @@ module.exports = function(webot) {
 
 	// 等待图片记录
 	webot.waitRule('teacher kid record image upload', function(info, next) {
+        if (info.is("event")) {
+        	delete info.session.teacher.imageRecord;
+            return next();
+        }
 		// 接受提交指令
 		if (info.is("text") && info.text === '好') {
 			if (info.session.teacher.imageRecord.urls.length == 0) {
@@ -104,7 +119,7 @@ module.exports = function(webot) {
 			console.info(info.session.teacher.imageRecord);
 			delete info.session.teacher.imageRecord;
             var response = ejs.render(
-	            '发布成功，<br/><a href="<%= url%>">请点击这里查看成长记录</a>', 
+	            '发布成功，\n<a href="<%- url%>">请点击这里，查看成长记录</a>', 
 	            {
 	                url: conf.site_root + '/record?teacherId=' + info.session.teacher.id
 	         	}

@@ -11,7 +11,7 @@ function profile_edit(info, next) {
     var text = "抱歉，您不是认证用户，不能修改个人资料！";
     if (info.session.parent) {
         text = ejs.render(
-            '<a href="<%= url%>">请点击这里，修改个人资料</a>', 
+            '<a href="<%- url%>">请点击这里，修改个人资料</a>', 
             {
                 //name: '大明',
                 url: conf.site_root + '/profile?parentId=' + info.session.parent.id
@@ -19,7 +19,7 @@ function profile_edit(info, next) {
         )
     } else if (info.session.teacher) {
         text = ejs.render(
-            '<a href="<%= url%>">请点击这里，修改个人资料</a>', 
+            '<a href="<%- url%>">请点击这里，修改个人资料</a>', 
             {
                 //name: '陈老师',
                 url: conf.site_root + '/profile?teacherId=' + info.session.teacher.id

@@ -26,7 +26,7 @@ function view_message(info, next) {
     var text = "抱歉，您不是认证用户，不能查看消息！";
     if (info.session.parent) {
         text = ejs.render(
-            '您有条<%= count%>未读消息。<br/><a href="<%= url%>">请点击这里，查看消息</a>', 
+            '您有条<%= count%>未读消息。\n<a href="<%- url%>">请点击这里，查看消息</a>', 
             {
                 count: 10,
                 url: conf.site_root + '/front/message' //?shoolId' + info.session.school.id +' &parentId=' + info.session.parent.id
@@ -34,7 +34,7 @@ function view_message(info, next) {
         )
     } else if (info.session.teacher) {
         text = ejs.render(
-            '您有条<%= count%>未读消息。<br/><a href="<%= url%>">请点击这里，查看消息</a>', 
+            '您有条<%= count%>未读消息。\n<a href="<%- url%>">请点击这里，查看消息</a>', 
             {
                 count: 10,
                 url: conf.site_root + '/front/message' //?shoolId' + info.session.school.id +' &teacherId=' + info.session.teacher.id
@@ -78,7 +78,7 @@ module.exports = function(webot) {
             MessageServices.query().then(function(messages) {
                 next(null,
                     ejs.render(
-                        '您有条<%= count%>未读消息。<a href="<%= url%>">查看</a>', 
+                        '您有条<%= count%>未读消息。<a href="<%- url%>">查看</a>', 
                         {
                             count: messages.length,
                             url: conf.site_root + '/front/message?schoolOpenId' + info.sp +' &parentopenId' + info.uid
@@ -89,7 +89,7 @@ module.exports = function(webot) {
                 // TODO
                 next(null,
                     ejs.render(
-                        '您有条<%= count%>未读消息。<a href="<%= url%>">查看</a>', 
+                        '您有条<%= count%>未读消息。<a href="<%- url%>">查看</a>', 
                         {
                             count: messages.length,
                             url: conf.site_root + '/front/message?schoolOpenId' + info.sp +' &parentopenId' + info.uid

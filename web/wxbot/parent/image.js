@@ -11,6 +11,9 @@ var utils = require("../utils");
 module.exports = function(webot) {
 	// 等待主题输入
 	webot.waitRule('parent image input text', function(info, next) {
+        if (info.is("event")) {
+            return next();
+        }
 		if (!info.is("text")) {
 			utils.operation_is_failed(info, next);
 			info.rewait("parent image input text");
@@ -24,6 +27,10 @@ module.exports = function(webot) {
 	});
 
 	webot.waitRule('parent image input image', function(info, next) {
+        if (info.is("event")) {
+        	delete info.session.parent.publishImage;
+            return next();
+        }
 		// 接受提交指令
 		if (info.is("text") && info.text === '好') {
 			if (info.session.parent.publishImage.urls.length == 0) {

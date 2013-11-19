@@ -16,7 +16,7 @@ function add_image_start(info, next) {
         "内完成该项操作。请输入照片主题："].join("");
 
 	if (info.session.parent) {
-		info.wait("user image input text");
+		info.wait("parent image input text");
 		return next(null, '' + prompt);
     } else if (info.session.teacher) {
 		info.wait("teacher image input text");
@@ -30,7 +30,7 @@ function view_image(info, next) {
     var text = "抱歉，您不是认证用户，不能查看图片！";
     if (info.session.parent) {
         text = ejs.render(
-            '<a href="<%= url%>">请点击这里，查看本班相册</a>', 
+            '<a href="<%- url%>">请点击这里，查看本班相册</a>', 
             {
                 //name: '小一班',
                 url: conf.site_root + '/message?shoolId' + info.session.school.id +' &parentId' + info.session.parent.id
@@ -38,7 +38,7 @@ function view_image(info, next) {
         )
     } else if (info.session.teacher) {
         text = ejs.render(
-            '<a href="<%= url%>">请点击这里，查看本班相册</a>', 
+            '<a href="<%- url%>">请点击这里，查看本班相册</a>', 
             {
                 //name: '小一班',
                 url: conf.site_root + '/message?shoolId' + info.session.school.id +' &teacherId' + info.session.teacher.id

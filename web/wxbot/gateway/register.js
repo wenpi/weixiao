@@ -53,15 +53,15 @@ module.exports = function(webot) {
 		    	if (user) {
 		    		var username = user.username + '';
 		    		if (username !== mobile) {
-		    			console.info(info.param.picUrl);
-		    			var extra = info.param.picUrl.substring(info.param.picUrl.lastIndexOf(".")) || 'jpg';
-		    			var filename = info.session.school.id + '_' + mobile + '_profileimage_' + (new Date()).getTime();// + extra;
+		    			var filename = mobile + '_profile_' + (new Date()).getTime();// + extra;
 		    			utils.download_image(info.param.picUrl, filename);
 		    			delete info.session.mobile;
-			    		return next(null, ejs.render(
-							'请点击<a href="<%= url%>">认证链接</a>完成用户认证操作。', 
+		    			var text = ejs.render(
+							'请点击<a href="<%- url%>">认证链接</a>完成用户认证操作。', 
 							{url: conf.site_root + '/user/mobileRegister?mobile=' + mobile + '&openId=' + info.uid + '&profileImage=' + filename}
-						));
+						);
+						console.info(text);
+			    		return next(null, text);
 		    		} else {
 		    			return next(null, registered);
 		    		}
