@@ -61,7 +61,7 @@ module.exports = function(webot) {
 			}
 			info.wait("parent image input image");
 			var len = info.session.parent.publishImage.urls.length;
-			return next(null, "已存草稿图片" + len + "张，您可继续上传图片。发送【好】发布图片，发送【不】取消发布");
+			return next(null, "已存草稿图片" + len + "张，您可继续上传图片。\n发送【好】发布图片，发送【不】取消发布");
 		}
 	});
 }

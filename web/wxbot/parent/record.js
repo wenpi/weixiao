@@ -26,11 +26,11 @@ module.exports = function(webot) {
         switch(text) {
         case "1":
         	info.wait("parent kid record input text");
-        	return next(null, "通过这里输入的文字记录将直接显示在记录时间轴上，仅有您和本班老师可见。请输入文字：");
+        	return next(null, "通过这里输入的文字记录将直接显示在记录时间轴上，仅有您和本班老师可见。\n\n请输入文字：");
         break;
         case "2":
         	info.wait("parent kid record image text");
-        	return next(null, "通过这里上传的图片记录将直接显示在记录时间轴上，仅您和本班老师可见。上传照片前，请先输入主题文字，简单描述一下您要发布的照片内容。例如“和孩子一起读书” “集体户外游戏小青蛙跳荷叶”等。请输入主题：");
+        	return next(null, "通过这里上传的图片记录将直接显示在记录时间轴上，仅您和本班老师可见。\n\n上传照片前，请先输入主题文字，简单描述一下您要发布的照片内容。例如“和孩子一起读书” “集体户外游戏小青蛙跳荷叶”等。\n\n请输入主题：");
         default:
         	info.rewait("parent kid record select type");
         	return next(null, "抱歉，只能输入数字1或者2。");
@@ -76,7 +76,7 @@ module.exports = function(webot) {
             }
             info.session.parent.records.push(info.text);
             info.wait("parent kid record input text");
-            return next(null, "已存成草稿，您可继续输入文字。发送【好】提交成长记录，发送【不】取消");
+            return next(null, "已存成草稿，您可继续输入文字。\n\n发送【好】提交文字记录\n发送【不】取消");
         }
     });
 
@@ -140,7 +140,7 @@ module.exports = function(webot) {
 			}
 			info.wait("parent kid record image upload");
 			var len = info.session.parent.imageRecord.urls.length;
-			return next(null, "已存草稿图片" + len + "张，您可继续上传图片。发送【好】发布图片记录，发送【不】取消发布");
+			return next(null, "已存草稿图片" + len + "张，您可继续上传图片。\n\n发送【好】发布图片记录\n发送【不】取消");
 		}
 	});
 }

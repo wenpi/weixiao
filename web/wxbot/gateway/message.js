@@ -10,11 +10,11 @@ var MessageServices = require("../../services/MessageServices");
 
 function add_message_start(info, next) {
     if (info.session.parent) {
-        var prompt = "通过这里输入的文字将直接显示在班级留言板上，仅有您和老师可见。需在" + conf.timeout.desc + "内完成该项操作，请输入您想对老师说的话：";
+        var prompt = "通过这里输入的文字将直接显示在班级留言板上，仅有您和老师可见，需在" + conf.timeout.desc + "内完成该项操作。\n\n请输入您想对老师说的话：";
         info.wait("parent message input");
         return next(null, prompt);
     } else if (info.session.teacher) {
-        var prompt = "通过这里输入的文字将直接显示在班级留言墙上，您所在班级所有家长和老师可见。需在" + conf.timeout.desc + "内完成该项操作，请输入您想对家长们说的话：";
+        var prompt = "通过这里输入的文字将直接显示在班级留言墙上，您所在班级所有家长和老师可见，需在" + conf.timeout.desc + "内完成该项操作。\n\n请输入您想对家长们说的话：";
         info.wait("teacher message input");
         return next(null, prompt);
     } else {
@@ -23,25 +23,28 @@ function add_message_start(info, next) {
 };
 
 function view_message(info, next) {
-    var text = "抱歉，您不是认证用户，不能查看消息！";
-    if (info.session.parent) {
-        text = ejs.render(
-            '您有条<%= count%>未读消息。\n<a href="<%- url%>">请点击这里，查看消息</a>', 
-            {
-                count: 10,
-                url: conf.site_root + '/front/message' //?shoolId' + info.session.school.id +' &parentId=' + info.session.parent.id
-            }
-        )
-    } else if (info.session.teacher) {
-        text = ejs.render(
-            '您有条<%= count%>未读消息。\n<a href="<%- url%>">请点击这里，查看消息</a>', 
-            {
-                count: 10,
-                url: conf.site_root + '/front/message' //?shoolId' + info.session.school.id +' &teacherId=' + info.session.teacher.id
-            }
-        )
+    if (info.session.parent === undefined && info.session.teacher === undefined) {
+        return next(null, "抱歉，您不是认证用户，不能查看消息！");
     }
-    return next(null, text);
+
+    MessageServices.query(info.session.parent || info.session.teacher).then(function(count) {
+        var text =  ejs.render(
+            '<% if (count !== 0) { %>您有条<%= count%>未读消息。\n<%}%><a href="<%- url%>">请点击这里查看消息</a>', 
+            {
+                count: count,
+                url: conf.site_root + '/front/message'
+            }
+        )
+        next(null, text);
+    }, function(err) {
+        var text =  ejs.render(
+            '后台异常，无法查询未读消息条目。\n<a href="<%- url%>">请点击这里查看消息</a>', 
+            {
+                url: conf.site_root + '/front/message'
+            }
+        )
+        next(null, text);
+    });
 }
 
 module.exports = function(webot) {
@@ -73,28 +76,3 @@ module.exports = function(webot) {
         handler: view_message
     });
 }
-
-/*
-            MessageServices.query().then(function(messages) {
-                next(null,
-                    ejs.render(
-                        '您有条<%= count%>未读消息。<a href="<%- url%>">查看</a>', 
-                        {
-                            count: messages.length,
-                            url: conf.site_root + '/front/message?schoolOpenId' + info.sp +' &parentopenId' + info.uid
-                        }
-                    )
-                );
-            }, function() {
-                // TODO
-                next(null,
-                    ejs.render(
-                        '您有条<%= count%>未读消息。<a href="<%- url%>">查看</a>', 
-                        {
-                            count: messages.length,
-                            url: conf.site_root + '/front/message?schoolOpenId' + info.sp +' &parentopenId' + info.uid
-                        }
-                    )
-                );
-            });
-*/

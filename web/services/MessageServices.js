@@ -46,3 +46,36 @@ module.exports.create = function(user, message) {
 
 	return deferred.promise;
 }
+
+module.exports.query = function(user) {
+    var deferred = Q.defer(),
+    	url = conf.site_root + '/index.php/message/unreadcount/' + md5(user.id);
+
+    console.info(url);
+
+	request.post(
+	    url,
+	    {
+	    	form: {
+	    		'userid': user.id,
+	    		'usertype': user.type
+	    	}
+	    },
+	    function (error, response, body) {
+	    	console.info(response.body)
+	        if (error) {
+	        	console.info(response.body)
+	        	deferred.reject(error);
+	        }
+	        try {
+	        	var count = parseInt(JSON.parse(response.body).result.count) || 0;
+	        	deferred.resolve(count);
+	        } catch (e) {
+	        	deferred.resolve(0);
+	        }
+	        
+	    }
+	);
+
+	return deferred.promise;
+}

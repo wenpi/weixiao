@@ -24,7 +24,7 @@ function view_image(info, next) {
     var text = "抱歉，您不是认证用户，不能查看成长记录！";
     if (info.session.parent) {
         text = ejs.render(
-            '<a href="<%- url%>">请点击这里，查看孩子成长记录</a>', 
+            '<a href="<%- url%>">请点击这里查看成长记录</a>', 
             {
                 //name: '小明',
                 url: conf.site_root + '/record?shoolId=' + info.session.school.id +' &parentId=' + info.session.parent.id
@@ -32,7 +32,7 @@ function view_image(info, next) {
         )
     } else if (info.session.teacher) {
         text = ejs.render(
-            '<a href="<%- url%>">请点击这里，查看孩子成长记录</a>', 
+            '<a href="<%- url%>">请点击这里查看成长记录</a>', 
             {
                 //name: '小明',
                 url: conf.site_root + '/record?shoolId=' + info.session.school.id +' &teacherId=' + info.session.teacher.id

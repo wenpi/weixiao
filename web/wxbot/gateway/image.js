@@ -9,11 +9,11 @@ var conf = require('../../conf');
 
 function add_image_start(info, next) {
 	var prompt = [
-        "通过这里上传的图片将直接显示在班级相册中，仅本班所有家长及老师可见。",
-        "上传照片前，请先输入主题文字，简单描述一下您要发布的照片内容。",
+        "通过这里上传的图片将直接显示在班级相册中，仅本班所有家长及老师可见。\n\n",
+        "上传照片前，请先输入主题文字，简单描述一下您要发布的照片内容。\n\n",
         "例如“和孩子一起读书” “集体户外游戏小青蛙跳荷叶”等，需在",
         conf.timeout.desc,
-        "内完成该项操作。请输入照片主题："].join("");
+        "内完成该项操作。\n\n请输入照片主题："].join("");
 
 	if (info.session.parent) {
 		info.wait("parent image input text");
@@ -30,7 +30,7 @@ function view_image(info, next) {
     var text = "抱歉，您不是认证用户，不能查看图片！";
     if (info.session.parent) {
         text = ejs.render(
-            '<a href="<%- url%>">请点击这里，查看本班相册</a>', 
+            '<a href="<%- url%>">请点击这里查看相册</a>', 
             {
                 //name: '小一班',
                 url: conf.site_root + '/message?shoolId' + info.session.school.id +' &parentId' + info.session.parent.id
@@ -38,7 +38,7 @@ function view_image(info, next) {
         )
     } else if (info.session.teacher) {
         text = ejs.render(
-            '<a href="<%- url%>">请点击这里，查看本班相册</a>', 
+            '<a href="<%- url%>">请点击这里查看相册</a>', 
             {
                 //name: '小一班',
                 url: conf.site_root + '/message?shoolId' + info.session.school.id +' &teacherId' + info.session.teacher.id

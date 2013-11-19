@@ -43,7 +43,7 @@ module.exports = function(webot) {
             }
             info.session.teacher.messages.push(info.text);
             info.wait("teacher message input");
-            return next(null, "已存成草稿，您可继续输入文字。发送【好】完成文字输入，发送【不】取消发布");
+            return next(null, "已存成草稿，您可继续输入文字。\n发送【好】完成文字输入，发送【不】取消发布");
         } else {
             return next(null, "后台异常，请重新发起操作。");
         }
