@@ -37,7 +37,7 @@ module.exports = function(webot) {
                     top: '0'
                 }).then(function() {
                     var text = ejs.render(
-                        '留言已提交！\n<a href="<%- url%>">请点击这里，查看</a>或者点击菜单【留言板】', 
+                        '留言已提交！\n<a href="<%- url%>">请点击这里查看留言</a>', 
                         {
                             url: conf.site_root + '/front/message' //?shoolId' + info.session.school.id +' &teacherId=' + info.session.teacher.id
                         }
@@ -60,7 +60,7 @@ module.exports = function(webot) {
             }
             info.session.parent.messages.push(info.text);
             info.wait("parent message input");
-            return next(null, "已存成草稿，您可继续输入文字。\n发送【好】提交留言，发送【不】取消留言");
+            return next(null, "已存成草稿，您可继续输入文字。\n\n发送【好】提交留言\n发送【不】取消");
         } else {
             return next(null, "抱歉，您不是认证家长，无法使用该功能。");
         }
