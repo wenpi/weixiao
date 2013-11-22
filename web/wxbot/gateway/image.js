@@ -28,20 +28,12 @@ function add_image_start(info, next) {
 
 function view_image(info, next) {
     var text = "抱歉，您不是认证用户，不能查看图片！";
-    if (info.session.parent) {
+    if (info.session.parent || info.session.teacher) {
         text = ejs.render(
             '<a href="<%- url%>">请点击这里查看相册</a>', 
             {
                 //name: '小一班',
-                url: conf.site_root + '/message?shoolId' + info.session.school.id +' &parentId' + info.session.parent.id
-            }
-        )
-    } else if (info.session.teacher) {
-        text = ejs.render(
-            '<a href="<%- url%>">请点击这里查看相册</a>', 
-            {
-                //name: '小一班',
-                url: conf.site_root + '/message?shoolId' + info.session.school.id +' &teacherId' + info.session.teacher.id
+                url: conf.site_root + '/classPhoto/mobileview'
             }
         )
     }
