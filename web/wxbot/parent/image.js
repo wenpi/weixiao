@@ -72,7 +72,6 @@ module.exports = function(webot) {
 			info.rewait("parent image input image");
 			return next(null, "抱歉，只能上传图片。");
 		} else {
-			console.info(111111111);
 			// 构造image
 			if (info.session.parent.publishImage) {
 				info.session.parent.publishImage.photos.push(info.param.picUrl);
