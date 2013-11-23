@@ -49,7 +49,7 @@ module.exports = function(webot) {
             ImageServices.create(info.session.parent, info.session.parent.publishImage).then(function() {
             	delete info.session.parent.publishImage;
                 var text = ejs.render(
-                    '图片已发布！\n<a href="<%- url%>">请点击这里，查看</a>或者点击菜单【班级相册】', 
+                    '图片已发布！\n<a href="<%- url%>">请点击这里查看</a>或者点击菜单【班级相册】', 
                     {
                         url: conf.site_root + '/classPhoto/mobileview' //?shoolId' + info.session.school.id +' &teacherId=' + info.session.teacher.id
                     }
@@ -59,6 +59,7 @@ module.exports = function(webot) {
             	delete info.session.parent.publishImage;
                 next(null, "抱歉，后台异常，无法发布图片。");
             });
+            return;
 		}
 		// 接受取消指令
 		if (info.is("text") && info.text === '不') {

@@ -13,7 +13,7 @@ var request = require('request');
  */
 module.exports.create = function(user, message) {
     var deferred = Q.defer(),
-    	url = conf.site_root + '/classphoto/mobileSavePhoto';
+    	url = conf.site_root + '/classPhoto/mobileSavePhoto';
 
     var data = {
 		'title': message.title || '',
