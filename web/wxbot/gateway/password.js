@@ -14,7 +14,7 @@ function password_edit(info, next) {
             '<a href="<%- url%>">请点击这里修改密码</a>', 
             {
                 //name: '大明',
-                url: conf.site_root + '/password?parentId=' + info.session.parent.id
+                url: conf.site_root + '/user/mobilePassword'
             }
         )
     } else if (info.session.teacher) {
@@ -22,7 +22,7 @@ function password_edit(info, next) {
             '<a href="<%- url%>">请点击这里修改密码</a>', 
             {
                 //name: '陈老师',
-                url: conf.site_root + '/password?teacherId=' + info.session.teacher.id
+                url: conf.site_root + '/user/mobilePassword'
             }
         )
     }

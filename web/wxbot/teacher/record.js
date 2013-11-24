@@ -1,14 +1,97 @@
 /**
  * Usage:
- * - 发布亲子记录功能
+ * - 发布成长记录功能
  * Author:
  * - hopesfish at 163.com
  */
 var ejs = require('ejs');
 var conf = require('../../conf');
 var utils = require("../utils");
+var UserServices = require("../../services/UserServices");
+var RecordServices = require("../../services/RecordServices");
 
 module.exports = function(webot) {
+    // 输入孩子关键字
+    webot.waitRule('teacher kid record name prompt', function(info, next) {
+        if (info.is("event")) {
+            return next();
+        }
+
+        if (!info.is("text")) {
+            utils.operation_is_failed(info, next);
+            info.rewait("teacher kid record name prompt");
+            return next(null, "抱歉，只能输入文字。");
+        }
+
+        delete info.session.students;
+        info.session.students = [];
+        UserServices.queryStudentsAsTeacher({
+            userId: info.session.teacher.id
+        }).then(function(results) {
+            var students = [];
+            for (var i=0; i<results.length; i++) {
+                var student = results[i];
+                if (student.name && student.name.indexOf(info.text) >= 0) {
+                    students.push(student);
+                }
+            }
+            if (students.length == 0) {
+                info.rewait("teacher kid record name prompt");
+                return next(null, "抱歉，查不到匹配的孩子。");
+            }
+
+            if (students.length == 1) {
+                info.session.students = students;
+                info.wait("teacher kid record select type");
+                return next(null, "为孩子：" + students[0].name + "\n\n发布文字记录请回复【1】\n发布照片记录请回复【2】");
+            }
+            if (students.length > 5) {
+                info.rewait("teacher kid record name prompt");
+                return next(null, "抱歉，查找匹配的孩子超过5位，请提供更详细信息。");
+            }
+            var prompt = "请回复孩子所对应的数字：\n";
+            for (var i=0; i<students.length; i++) {
+                var student = students[i];
+                prompt += "【" + (i+1) + "】 " + student.name + "\n";
+            }
+            info.session.students = students;
+            info.wait("teacher kid select");
+            return next(null, prompt);
+        });
+    });
+    // 输入孩子关键字
+    webot.waitRule('teacher kid select', function(info, next) {
+        if (info.is("event")) {
+            return next();
+        }
+        if (!info.is("text")) {
+            utils.operation_is_failed(info, next);
+            info.rewait("teacher kid select");
+            return next(null, "抱歉，只能输入文字。");
+        }
+
+        var idx = parseInt(info.text, 10);
+        var students = info.session.students;
+
+        if (isNaN(idx)) {
+            utils.operation_is_failed(info, next);
+            info.rewait("teacher kid select");
+            return next(null, "抱歉，只能输入数字。");
+        }
+
+        if (idx > students.length) {
+            utils.operation_is_failed(info, next);
+            info.rewait("teacher kid select");
+            return next(null, "抱歉，没有这个选项。");
+        }
+
+        var student = students[idx - 1];
+        info.session.students = [];
+        info.session.students.push(student);
+        info.wait("teacher kid record select type");
+        return next(null, "为孩子：" + student.name + "\n\n发布文字记录请回复【1】\n发布照片记录请回复【2】");
+    });
+
 	// 等待主题输入
 	webot.waitRule('teacher kid record select type', function(info, next) {
         if (info.is("event")) {
@@ -58,21 +141,30 @@ module.exports = function(webot) {
                     info.rewait("teacher kid record input text");
                     return next(null, "您还没输入文字，请输入文字：");
                 }
-                // TODO 消息入库
-                console.info(info.session.teacher.records);
-                delete info.session.teacher.records;
-                var response = ejs.render(
-		            '发布成功，\n<a href="<%- url%>">请点击这里，查看成长记录</a>', 
-		            {
-		                url: conf.site_root + '/record?teacherId=' + info.session.teacher.id
-		         	}
-	         	);
-                return next(null, response);
+                // 记录入库
+                RecordServices.create(info.session.teacher, {
+                    studentId: info.session.students[0].id,
+                    contenttype: '0',
+                    content: info.session.teacher.records.join(" ")
+                }).then(function() {
+                    delete info.session.teacher.records;
+                    var response = ejs.render(
+                        '发布成功！\n<a href="<%- url%>">请点击这里查看成长记录</a>', 
+                        {
+                            url: conf.site_root + '/studentPath/mobileView'
+                        }
+                    );
+                    return next(null, response);
+                }, function() {
+                    delete info.session.teacher.records;
+                    next(null, "抱歉，后台异常，无法发布成长记录。");
+                });
+                return;
             }
             // 接受取消指令
             if (info.text === '不') {
                 delete info.session.teacher.records;
-                return next(null, "操作已取消，如需再次发布请再次点击【发布亲子记录】。");
+                return next(null, "操作已取消，如需再次发布请再次点击【发布成长记录】。");
             }
             // 构造message
             if (!info.session.teacher.records) {
@@ -96,7 +188,7 @@ module.exports = function(webot) {
 			return next(null, "抱歉，只能输入文字。");
 		}
 		// 构造image
-		info.session.teacher.imageRecord = {title: '', urls: []};
+		info.session.teacher.imageRecord = {title: '', photos: []};
 		info.session.teacher.imageRecord.title = info.text;
 		info.wait("teacher kid record image upload");
 		return next(null, "主题【" + info.text + "】创建成功，请选择您要上传的图片：");
@@ -110,26 +202,41 @@ module.exports = function(webot) {
         }
 		// 接受提交指令
 		if (info.is("text") && info.text === '好') {
-			if (info.session.teacher.imageRecord.urls.length == 0) {
+			if (info.session.teacher.imageRecord.photos.length == 0) {
 				info.rewait("teacher kid record image upload");
 				return next(null, "您还没上传图片，请上传：");
 			}
-			// TODO 上传图片
-			var title = info.session.teacher.imageRecord.title;
-			console.info(info.session.teacher.imageRecord);
-			delete info.session.teacher.imageRecord;
-            var response = ejs.render(
-	            '发布成功，\n<a href="<%- url%>">请点击这里，查看成长记录</a>', 
-	            {
-	                url: conf.site_root + '/record?teacherId=' + info.session.teacher.id
-	         	}
-         	);
-            return next(null, response);
+            // 图片入库
+            for (var i=0; i<info.session.teacher.imageRecord.photos.length; i++) {
+                var filename = info.session.teacher.mobile + '_record_' + (new Date()).getTime()+ '_' + i;
+                utils.download_image(info.session.teacher.imageRecord.photos[i], filename);
+                info.session.teacher.imageRecord.photos[i] = filename;
+            }
+            // 记录入库
+            RecordServices.create(info.session.teacher, {
+                studentId: info.session.students[0].id,
+                contenttype: '1',
+                content: info.session.teacher.imageRecord.title,
+                photos: info.session.teacher.imageRecord.photos
+            }).then(function() {
+                delete info.session.teacher.records;
+                var response = ejs.render(
+                    '发布成功！\n<a href="<%- url%>">请点击这里查看成长记录</a>', 
+                    {
+                        url: conf.site_root + '/studentPath/mobileView'
+                    }
+                );
+                return next(null, response);
+            }, function() {
+                delete info.session.teacher.records;
+                next(null, "抱歉，后台异常，无法发布成长记录。");
+            });
+            return;
 		}
 		// 接受取消指令
 		if (info.is("text") && info.text === '不') {
 			delete info.session.teacher.imageRecord;
-			return next(null, "操作已取消，如需发布请再次点击【添加亲子记录】。");
+			return next(null, "操作已取消，如需发布请再次点击【添加成长记录】。");
 		}
 
 		if (!info.is("image")) {
@@ -139,10 +246,10 @@ module.exports = function(webot) {
 		} else {
 			// 构造image
 			if (info.session.teacher.imageRecord) {
-				info.session.teacher.imageRecord.urls.push(info.param.picUrl);
+				info.session.teacher.imageRecord.photos.push(info.param.picUrl);
 			}
 			info.wait("teacher kid record image upload");
-			var len = info.session.teacher.imageRecord.urls.length;
+			var len = info.session.teacher.imageRecord.photos.length;
 			return next(null, "已存草稿图片" + len + "张，您可继续上传图片。\n\n发送【好】发布图片记录\n发送【不】取消");
 		}
 	});

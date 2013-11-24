@@ -42,7 +42,7 @@ module.exports = function(webot) {
 			
             // 图片入库
             for (var i=0; i<info.session.parent.publishImage.photos.length; i++) {
-    			var filename = info.session.parent.mobile + '_image_' + (new Date()).getTime();
+    			var filename = info.session.parent.mobile + '_image_' + (new Date()).getTime() + '_' + i;
     			utils.download_image(info.session.parent.publishImage.photos[i], filename);
     			info.session.parent.publishImage.photos[i] = filename;
             }

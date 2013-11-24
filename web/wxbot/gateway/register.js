@@ -15,9 +15,9 @@ module.exports = function(webot) {
 
     // 认证用户
 	webot.set('user register start by text', {
-		pattern: /^认证1\d{10}$/i,
+		pattern: /^1(3|4|5|8)\d{9}$/i,
 		handler: function(info, next) {
-			var mobile = info.text.substring('认证'.length);
+			var mobile = info.text;
 
 			if (info.session.parent || info.session.teacher) {
 				return next(null, registered);
@@ -30,7 +30,7 @@ module.exports = function(webot) {
 		    		if (username !== mobile) {
 		    			info.session.mobile = mobile;
 			    		info.wait("user register profile image");
-			    		return next(null, "请上传您的头像图片：");
+			    		return next(null, "请上传孩子照片作为头像图片：");
 		    		} else {
 		    			return next(null, registered);
 		    		}

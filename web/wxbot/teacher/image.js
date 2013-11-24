@@ -7,6 +7,7 @@
 var ejs = require('ejs');
 var conf = require('../../conf');
 var utils = require("../utils");
+var ImageServices = require("../../services/ImageServices");
 
 module.exports = function(webot) {
 	// 等待主题输入
@@ -20,7 +21,7 @@ module.exports = function(webot) {
 			return next(null, "抱歉，只能输入文字。");
 		}
 		// 构造image
-		info.session.teacher.publishImage = {title: '', urls: []};
+		info.session.teacher.publishImage = {title: '', photos: []};
 		info.session.teacher.publishImage.title = info.text;
 		info.wait("teacher image input image");
 		return next(null, "主题【" + info.text + "】创建成功，请直接选择上传您要分享的图片：");
@@ -33,16 +34,31 @@ module.exports = function(webot) {
         }
 		// 接受提交指令
 		if (info.is("text") && info.text === '好') {
-			if (info.session.teacher.publishImage.urls.length == 0) {
+			if (info.session.teacher.publishImage.photos.length == 0) {
 				utils.operation_is_failed(info, next);
 				info.rewait("teacher image input image");
 				return next(null, "您还没上传图片，请上传：");
 			}
-			// TODO 上传图片
-			var title = info.session.teacher.publishImage.title;
-			console.info(info.session.teacher.publishImage);
-			delete info.session.teacher.publishImage;
-			return next(null, "主题为【" + title + "】的图片已发布！点击【班级相册】查看。");
+			// 上传图片
+            for (var i=0; i<info.session.teacher.publishImage.photos.length; i++) {
+    			var filename = info.session.teacher.mobile + '_image_' + (new Date()).getTime() + '_' + i;
+    			utils.download_image(info.session.teacher.publishImage.photos[i], filename);
+    			info.session.teacher.publishImage.photos[i] = filename;
+            }
+            ImageServices.create(info.session.teacher, info.session.teacher.publishImage).then(function() {
+            	delete info.session.teacher.publishImage;
+                var text = ejs.render(
+                    '图片已发布！\n<a href="<%- url%>">请点击这里查看</a>或者点击菜单【班级相册】', 
+                    {
+                        url: conf.site_root + '/classPhoto/mobileview' //?shoolId' + info.session.school.id +' &teacherId=' + info.session.teacher.id
+                    }
+                );
+                return next(null, text);
+            }, function() {
+            	delete info.session.teacher.publishImage;
+                next(null, "抱歉，后台异常，无法发布图片。");
+            });
+            return;
 		}
 		// 接受取消指令
 		if (info.is("text") && info.text === '不') {
@@ -57,11 +73,11 @@ module.exports = function(webot) {
 		} else {
 			// 构造image
 			if (info.session.teacher.publishImage) {
-				info.session.teacher.publishImage.urls.push(info.param.picUrl);
+				info.session.teacher.publishImage.photos.push(info.param.picUrl);
 			}
 			info.wait("teacher image input image");
-			var len = info.session.teacher.publishImage.urls.length;
-			return next(null, "已存草稿图片" + len + "张，您可继续上传图片。\n发送【好】发布图片，发送【不】取消发布");
+			var len = info.session.teacher.publishImage.photos.length;
+			return next(null, "已存草稿图片" + len + "张，您可继续上传图片。\n发送【好】发布图片\n发送【不】取消");
 		}
 	});
 }
