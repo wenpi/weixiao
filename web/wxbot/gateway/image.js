@@ -13,7 +13,7 @@ function add_image_start(info, next) {
         "上传照片前，请先输入主题文字，简单描述一下您要发布的照片内容。\n\n",
         "例如“和孩子一起读书” “集体户外游戏小青蛙跳荷叶”等，需在",
         conf.timeout.desc,
-        "内完成该项操作。\n\n请输入照片主题："].join("");
+        "内完成该项操作。\n\n请点击左下侧键盘图标后输入照片主题："].join("");
 
 	if (info.session.parent) {
 		info.wait("parent image input text");

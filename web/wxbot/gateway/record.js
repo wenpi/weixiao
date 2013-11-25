@@ -10,7 +10,7 @@ var conf = require('../../conf');
 function add_image_start(info, next) {
 	var prompt;
 	if (info.session.parent) {
-        prompt = "发布文字记录请回复【1】\n发布照片记录请回复【2】";
+        prompt = "点击左下侧键盘图标后输入数字：\n\n回复【1】发布文字记录\n回复【2】发布照片记录";
 		info.wait("parent kid record select type");
 		return next(null, "" + prompt);
     } else if (info.session.teacher) {

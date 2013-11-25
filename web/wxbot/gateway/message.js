@@ -10,11 +10,11 @@ var MessageServices = require("../../services/MessageServices");
 
 function add_message_start(info, next) {
     if (info.session.parent) {
-        var prompt = "通过这里输入的文字将直接显示在班级留言板上，仅有您和老师可见，需在" + conf.timeout.desc + "内完成该项操作。\n\n请输入您想对老师说的话：";
+        var prompt = "通过这里输入的文字将直接显示在班级留言板上，仅有您和老师可见，需在" + conf.timeout.desc + "内完成该项操作。\n\n请点击左下侧键盘图标后输入你想对老师说的话：";
         info.wait("parent message input");
         return next(null, prompt);
     } else if (info.session.teacher) {
-        var prompt = "通过这里输入的文字将直接显示在班级留言墙上，您所在班级所有家长和老师可见，需在" + conf.timeout.desc + "内完成该项操作。\n\n请输入您想对家长们说的话：";
+        var prompt = "通过这里输入的文字将直接显示在班级留言墙上，您所在班级所有家长和老师可见，需在" + conf.timeout.desc + "内完成该项操作。\n\n请点击左下侧键盘图标后输入您想对家长们说的话：";
         info.wait("teacher message input");
         return next(null, prompt);
     } else {

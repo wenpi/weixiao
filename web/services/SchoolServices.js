@@ -152,22 +152,26 @@ function initMenu(schoolId) {
             }]
         }, {
             "name":"班级墙",
-            "sub_button":[{  
-                "type": "click",
-                "name": "发布留言",
-                "key": "MESSAGE_ADD"
-            }, {
+            "sub_button":[{
                 "type": "click",
                 "name": "留言板",
                 "key":"MESSAGE_VIEW"
+            }, {
+                "type": "click",
+                "name": "班级相册",
+                "key": "IMAGE_VIEW"
+            }, {  
+                "type": "click",
+                "name": "发布留言",
+                "key": "MESSAGE_ADD"
             }, {
                 "type": "click",
                 "name": "发布照片",
                 "key":"IMAGE_ADD"
             }, {
                 "type": "click",
-                "name": "班级相册",
-                "key": "IMAGE_VIEW"
+                "name": "听儿歌",
+                "key": "CHILD_MUSIC"
             }]
         }, {
             "name":"个人中心",
@@ -211,7 +215,7 @@ exports.syncWeixinMenu = function(_id, configs) {
         if (err) {
             return deferred.reject(err);
         }
-        console.info(initMenu(_id).button[0]);
+        console.info(initMenu(_id).button[1]);
         api.createMenu(initMenu(_id), function(err, result) {
             if (err) {
                 return deferred.reject(err);
