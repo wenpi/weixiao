@@ -14,7 +14,7 @@ function course_view(info, next) {
             '<a href="<%- url%>">请点击这里查看课程安排</a>', 
             {
                 //name: info.session.parent.name,
-                url: conf.site_root + '/course?parentId=' + info.session.parent.id
+                url: conf.site_root + '/front/course?parentId=' + info.session.parent.id
             }
         )
     } else if (info.session.teacher) {
@@ -22,7 +22,7 @@ function course_view(info, next) {
             '<a href="<%- url%>">请点击这里查看课程安排</a>', 
             {
                 name: info.session.teacher.name,
-                url: conf.site_root + '/course?teacherId=' + info.session.teacher.id
+                url: conf.site_root + '/front/course?teacherId=' + info.session.teacher.id
             }
         )
     }
