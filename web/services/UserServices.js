@@ -68,8 +68,8 @@ exports.queryStudentsAsParent = function(opts){
     var userId = opts.userId || '-1';
     var schoolOpenId = opts.schoolOpenId || '-1';
     var sql = [
-        "SELECT id, name FROM wex_student ",
-            "WHERE id IN (SELECT student_id FROM wex_parent_student WHERE school_open_id = '" + schoolOpenId + "' AND parent_id ='" + userId + "');"
+        "SELECT id, NAME FROM wex_student  WHERE id IN (SELECT student_id FROM wex_parent_student ",
+            "WHERE school_open_id = '" + schoolOpenId + "' AND parent_id = (SELECT id FROM wex_parent WHERE userid = '" + userId + "' ));"
     ];
     return MysqlServices.query(sql.join(" "));
 };

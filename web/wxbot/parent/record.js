@@ -31,6 +31,9 @@ module.exports = function(webot) {
             userId: user.id,
             schoolOpenId: info.sp
         }).then(function(students) {
+            if (students.length === 0) {
+                return next(null, "抱歉，该家长的孩子信息尚未录入。");
+            }
             info.session.students = students;
             switch(text) {
             case "1":
