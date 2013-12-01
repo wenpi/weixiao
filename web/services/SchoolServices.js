@@ -168,11 +168,11 @@ function initMenu(schoolId) {
                 "type": "click",
                 "name": "发布照片",
                 "key":"IMAGE_ADD"
-            }, {
+            }/*, {
                 "type": "click",
                 "name": "听儿歌",
                 "key": "CHILD_MUSIC"
-            }]
+            }*/]
         }, {
             "name":"个人中心",
             "sub_button":[{  

@@ -1,6 +1,7 @@
 var Q = require("q");
 var conf = require("../conf");
 var MysqlServices = require("./MysqlServices");
+var request = require('request');
 
 /*
  * 查询数据
@@ -83,4 +84,36 @@ exports.queryStudentsAsTeacher = function(opts){
             "(SELECT class_id FROM wex_class_teacher WHERE teacher_id IN (SELECT id FROM wex_teacher WHERE userid = '" + userId+ "'));"
     ];
     return MysqlServices.query(sql.join(" "));
+};
+
+/*
+ * 更新profile image
+ */
+module.exports.updateProfileImage = function(user) {
+    var deferred = Q.defer(),
+        url = conf.site_root + '/user/mobileModifyPhoto';
+
+    var data = {
+        'userid': user.id,
+        'profileImage': user.profileImage 
+    };
+
+    console.info(url);
+    console.info(data);
+
+    request.post(
+        url,
+        {
+            form: data
+        },
+        function (error, response, body) {
+            if (error) {
+                //console.info(response.body)
+                deferred.reject(error);
+            }
+            deferred.resolve();
+        }
+    );
+
+    return deferred.promise;
 };
