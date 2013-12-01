@@ -11,9 +11,21 @@ var UserServices = require("../../services/UserServices");
 var RecordServices = require("../../services/RecordServices");
 
 module.exports = function(webot) {
+    function sendLink(info, next, student) {
+        delete info.session.viewrecord;
+        var text = ejs.render(
+            '<a href="<%- url%>">请点击这里查看成长记录</a>', 
+            {
+                //name: '小明',
+                url: conf.site_root + '/studentPath/mobileView?student_id=' + student.id
+            }
+        )
+        next(null, text);
+    }
     // 输入孩子关键字
     webot.waitRule('teacher kid record name prompt', function(info, next) {
         if (info.is("event")) {
+            delete info.session.viewrecord;
             return next();
         }
 
@@ -41,9 +53,13 @@ module.exports = function(webot) {
             }
 
             if (students.length == 1) {
-                info.session.students = students;
-                info.wait("teacher kid record select type");
-                return next(null, "为孩子：" + students[0].name + "\n\n发布文字记录请回复【1】\n发布照片记录请回复【2】");
+                if (info.session.viewrecord === "teacher") {
+                    return sendLink(info, next, students[0]);
+                } else {
+                    info.session.students = students;
+                    info.wait("teacher kid record select type");
+                    return next(null, "为孩子：" + students[0].name + "\n\n发布文字记录请回复【1】\n发布照片记录请回复【2】");
+                }
             }
             if (students.length > 5) {
                 info.rewait("teacher kid record name prompt");
@@ -62,6 +78,7 @@ module.exports = function(webot) {
     // 输入孩子关键字
     webot.waitRule('teacher kid select', function(info, next) {
         if (info.is("event")) {
+            delete info.session.viewrecord;
             return next();
         }
         if (!info.is("text")) {
@@ -88,8 +105,13 @@ module.exports = function(webot) {
         var student = students[idx - 1];
         info.session.students = [];
         info.session.students.push(student);
-        info.wait("teacher kid record select type");
-        return next(null, "为孩子：" + student.name + "\n\n发布文字记录请回复【1】\n发布照片记录请回复【2】");
+
+        if (info.session.viewrecord === "teacher") {
+            return sendLink(info, next, students[0]);
+        } else {
+            info.wait("teacher kid record select type");
+            return next(null, "为孩子：" + student.name + "\n\n发布文字记录请回复【1】\n发布照片记录请回复【2】");
+        }
     });
 
 	// 等待主题输入

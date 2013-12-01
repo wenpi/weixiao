@@ -49,17 +49,18 @@ module.exports = function(webot) {
             var user = info.session.parent || info.session.teacher;
             var mobile = user.mobile || 'unknown';
             var filename = mobile + '_profile_' + (new Date()).getTime();// + extra;
-            utils.download_image(info.param.picUrl, filename);
-            UserServices.updateProfileImage({id: user.id, profileImage: filename}).then(function() {
-                var text = ejs.render(
-                    '更新头像成功！\n<a href="<%- url%>">点击这里查看个人资料</a>', 
-                    {
-                        url: conf.site_root + '/user/mobileMoreinfo'
-                    }
-                );
-                return next(null, text);
-            }, function() {
-                next(null, "抱歉，后台异常，无法更新头像。");
+            utils.download_image(info.param.picUrl, filename, function() {
+                UserServices.updateProfileImage({id: user.id, profileImage: filename}).then(function() {
+                    var text = ejs.render(
+                        '更新头像成功！\n<a href="<%- url%>">点击这里查看个人资料</a>', 
+                        {
+                            url: conf.site_root + '/user/mobileMoreinfo'
+                        }
+                    );
+                    return next(null, text);
+                }, function() {
+                    next(null, "抱歉，后台异常，无法更新头像。");
+                });
             });
         }
     });

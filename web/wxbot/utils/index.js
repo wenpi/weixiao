@@ -31,7 +31,7 @@ function ensure_school_is_bind (info, next) {
 
 function mobile_input_prompt(info, next) {
     info.ended = true;
-    next("抱歉，本功能仅供本园家长及教师使用。\n如需认证，请回复文字您的【手机号】，如：13812345678");
+    next("抱歉，本功能仅供本园家长及教师使用。\n如需认证，请点击左下角键盘图标后，直接回复您的【手机号】，例如13812345678");
 }
 function ensure_user_is_register (info, next) {
     if (info.session.parent || info.session.teacher) { return next(); }
@@ -81,12 +81,15 @@ function operation_is_failed(info, next) {
     }
 }
 
-function download_image(picUrl, localFile) {
+function download_image(picUrl, localFile, callback) {
     request.head(picUrl, function(err, res, body){
         //console.log('content-type:', res.headers['content-type']);
         //console.log('content-length:', res.headers['content-length']);
 
-        request(picUrl).pipe(fs.createWriteStream(conf.upload_root + '/' + localFile));
+        var r = request(picUrl).pipe(fs.createWriteStream(conf.upload_root + '/' + localFile));
+        r.on('finish', function () {
+            if (callback) { callback(); }
+        });
     });
 }
 

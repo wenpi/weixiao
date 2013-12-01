@@ -23,17 +23,23 @@ function add_image_start(info, next) {
 }
 
 function view_image(info, next) {
-    var text = "抱歉，您不是认证用户，不能查看成长记录！";
-    if (info.session.parent || info.session.teacher) {
-        text = ejs.render(
+    if (info.session.parent) {
+        var text = ejs.render(
             '<a href="<%- url%>">请点击这里查看成长记录</a>', 
             {
                 //name: '小明',
                 url: conf.site_root + '/studentPath/mobileView'
             }
         )
+        return next(null, text);
+    }  else if (info.session.teacher) {
+        var prompt = '请输入孩子名字，可全名，姓氏，名等。如输入"小明"的"明"。';
+        info.session.viewrecord = "teacher";
+        info.wait("teacher kid record name prompt");
+        return next(null, "" + prompt);
+    } else {
+        return next(null, "抱歉，您不是认证用户，不能查看成长记录！");
     }
-    return next(null, text);
 }
 
 module.exports = function(webot) {

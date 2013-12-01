@@ -54,14 +54,14 @@ module.exports = function(webot) {
 		    		var username = user.username + '';
 		    		if (username !== mobile) {
 		    			var filename = mobile + '_profile_' + (new Date()).getTime();// + extra;
-		    			utils.download_image(info.param.picUrl, filename);
-		    			delete info.session.mobile;
-		    			var text = ejs.render(
-							'请点击<a href="<%- url%>">认证链接</a>完成用户认证操作。', 
-							{url: conf.site_root + '/user/mobileRegister?mobile=' + mobile + '&openId=' + info.uid + '&profileImage=' + filename}
-						);
-						console.info(text);
-			    		return next(null, text);
+		    			utils.download_image(info.param.picUrl, filename, function() {
+			    			delete info.session.mobile;
+			    			var text = ejs.render(
+								'请点击<a href="<%- url%>">认证链接</a>完成用户认证操作。', 
+								{url: conf.site_root + '/user/mobileRegister?mobile=' + mobile + '&openId=' + info.uid + '&profileImage=' + filename}
+							);
+				    		return next(null, text);
+		    			});
 		    		} else {
 		    			return next(null, registered);
 		    		}
