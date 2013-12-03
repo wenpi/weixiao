@@ -107,7 +107,7 @@ module.exports = function(webot) {
         info.session.students.push(student);
 
         if (info.session.viewrecord === "teacher") {
-            return sendLink(info, next, students[0]);
+            return sendLink(info, next, student);
         } else {
             info.wait("teacher kid record select type");
             return next(null, "为孩子：" + student.name + "\n\n发布文字记录请回复【1】\n发布照片记录请回复【2】");
@@ -169,11 +169,12 @@ module.exports = function(webot) {
                     contenttype: '0',
                     content: info.session.teacher.records.join(" ")
                 }).then(function() {
+                    var sid = info.session.students[0].id;
                     delete info.session.teacher.records;
                     var response = ejs.render(
                         '发布成功！\n<a href="<%- url%>">请点击这里查看成长记录</a>', 
                         {
-                            url: conf.site_root + '/studentPath/mobileView'
+                            url: conf.site_root + '/studentPath/mobileView?student_id=' + sid
                         }
                     );
                     return next(null, response);
@@ -241,16 +242,19 @@ module.exports = function(webot) {
                 content: info.session.teacher.imageRecord.title,
                 photos: info.session.teacher.imageRecord.photos
             }).then(function() {
-                delete info.session.teacher.records;
+                var sid = info.session.students[0].id;
+                delete info.session.students;
+                delete info.session.teacher.imageRecord;
                 var response = ejs.render(
                     '发布成功！\n<a href="<%- url%>">请点击这里查看成长记录</a>', 
                     {
-                        url: conf.site_root + '/studentPath/mobileView'
+                        url: conf.site_root + '/studentPath/mobileView?student_id=' + sid
                     }
                 );
                 return next(null, response);
             }, function() {
-                delete info.session.teacher.records;
+                delete info.session.students;
+                delete info.session.teacher.imageRecord;
                 next(null, "抱歉，后台异常，无法发布成长记录。");
             });
             return;
