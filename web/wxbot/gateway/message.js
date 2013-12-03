@@ -29,7 +29,7 @@ function view_message(info, next) {
 
     MessageServices.query(info.session.parent || info.session.teacher).then(function(count) {
         var text =  ejs.render(
-            '<% if (count !== 0) { %>您有条<%= count%>未读消息。\n<%}%><a href="<%- url%>">请点击这里查看消息</a>', 
+            '<% if (count !== 0) { %>您有<%= count%>条未读消息。\n<%}%><a href="<%- url%>">请点击这里查看消息</a>', 
             {
                 count: count,
                 url: conf.site_root + '/front/message'
