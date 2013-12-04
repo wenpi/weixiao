@@ -15,7 +15,7 @@ function profile_edit(info, next) {
         text = ejs.render(
             '<a href="<%- url%>">请点击这里修改个人资料</a>\n修改头像请回复图片：', 
             {
-                url: conf.site_root + '/user/mobileMoreinfo'
+                url: conf.site_root + '/user/mobileMoreinfo?type=m'
             }
         )
     }
@@ -54,7 +54,7 @@ module.exports = function(webot) {
                     var text = ejs.render(
                         '更新头像成功！\n<a href="<%- url%>">点击这里查看个人资料</a>', 
                         {
-                            url: conf.site_root + '/user/mobileMoreinfo'
+                            url: conf.site_root + '/user/mobileMoreinfo?type=m'
                         }
                     );
                     return next(null, text);
