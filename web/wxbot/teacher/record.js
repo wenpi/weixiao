@@ -7,6 +7,7 @@
 var ejs = require('ejs');
 var conf = require('../../conf');
 var utils = require("../utils");
+var wxconst = require("../const");
 var UserServices = require("../../services/UserServices");
 var RecordServices = require("../../services/RecordServices");
 
@@ -157,7 +158,7 @@ module.exports = function(webot) {
         }
         if (info.session.teacher) {
             // 接受提交指令
-            if (info.text === '好') {
+            if (info.text === wxconst.YES) {
                 if (!info.session.teacher.records || info.session.teacher.records.length == 0) {
                 	utils.operation_is_failed(info, next);
                     info.rewait("teacher kid record input text");
@@ -185,7 +186,7 @@ module.exports = function(webot) {
                 return;
             }
             // 接受取消指令
-            if (info.text === '不') {
+            if (info.text === wxconst.NO) {
                 delete info.session.teacher.records;
                 return next(null, "操作已取消，如需再次发布请再次点击【发布成长记录】。");
             }
@@ -195,7 +196,7 @@ module.exports = function(webot) {
             }
             info.session.teacher.records.push(info.text);
             info.wait("teacher kid record input text");
-            return next(null, "已存成草稿，您可继续输入文字。\n\n发送【好】提交文字记录\n发送【不】取消");
+            return next(null, "已存成草稿，您可继续输入文字。\n\n发送【" + wxconst.YES + "】提交文字记录\n发送【" + wxconst.NO + "】取消");
         }
     });
 
@@ -224,7 +225,7 @@ module.exports = function(webot) {
             return next();
         }
 		// 接受提交指令
-		if (info.is("text") && info.text === '好') {
+		if (info.is("text") && info.text === wxconst.YES) {
 			if (info.session.teacher.imageRecord.photos.length == 0) {
 				info.rewait("teacher kid record image upload");
 				return next(null, "您还没上传图片，请上传：");
@@ -260,7 +261,7 @@ module.exports = function(webot) {
             return;
 		}
 		// 接受取消指令
-		if (info.is("text") && info.text === '不') {
+		if (info.is("text") && info.text === wxconst.NO) {
 			delete info.session.teacher.imageRecord;
 			return next(null, "操作已取消，如需发布请再次点击【添加成长记录】。");
 		}
@@ -276,7 +277,7 @@ module.exports = function(webot) {
 			}
 			info.wait("teacher kid record image upload");
 			var len = info.session.teacher.imageRecord.photos.length;
-			return next(null, "已存草稿图片" + len + "张，您可继续上传图片。\n\n发送【好】发布图片记录\n发送【不】取消");
+			return next(null, "已存草稿图片" + len + "张，您可继续上传图片。\n\n发送【" + wxconst.YES + "】发布图片记录\n发送【" + wxconst.NO + "】取消");
 		}
 	});
 }

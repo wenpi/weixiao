@@ -7,6 +7,7 @@
 var ejs = require('ejs');
 var conf = require('../../conf');
 var utils = require("../utils");
+var wxconst = require("../const");
 var MessageServices = require("../../services/MessageServices");
 
 module.exports = function(webot) {
@@ -23,7 +24,7 @@ module.exports = function(webot) {
         }
         if (info.session.parent) {
             // 接受提交指令
-            if (info.text === '好') {
+            if (info.text === wxconst.YES) {
                 if (!info.session.parent.messages || info.session.parent.messages.length == 0) {
                     utils.operation_is_failed(info, next);
                     info.rewait("parent message input");
@@ -50,7 +51,7 @@ module.exports = function(webot) {
                 return;
             }
             // 接受取消指令
-            if (info.text === '不') {
+            if (info.text === wxconst.NO) {
                 delete info.session.parent.messages;
                 return next(null, "留言已取消，如需留言请再次点击【发布留言】。");
             }
@@ -60,7 +61,7 @@ module.exports = function(webot) {
             }
             info.session.parent.messages.push(info.text);
             info.rewait("parent message input");
-            return next(null, "已存成草稿，您可继续输入文字。\n\n发送【好】提交留言\n发送【不】取消");
+            return next(null, "已存成草稿，您可继续输入文字。\n\n发送【" + wxconst.YES + "】提交留言\n发送【" + wxconst.NO + "】取消");
         } else {
             return next(null, "抱歉，您不是认证家长，无法使用该功能。");
         }
