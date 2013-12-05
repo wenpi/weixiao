@@ -7,6 +7,8 @@
 var ejs = require('ejs');
 var conf = require('../../conf');
 
+var selectkid = '请先选择你所在班级的一名孩子，点击左下侧键盘图标后，输入孩子姓名，可全名，也可以是姓名中的某个字。如输入“小明”的“明”。';
+
 function add_image_start(info, next) {
 	var prompt;
 	if (info.session.parent) {
@@ -14,7 +16,7 @@ function add_image_start(info, next) {
 		info.wait("parent kid record select type");
 		return next(null, "" + prompt);
     } else if (info.session.teacher) {
-        prompt = '请输入孩子名字，可全名，姓氏，名等。如输入"小明"的"明"。';
+        prompt = selectkid;
 		info.wait("teacher kid record name prompt");
 		return next(null, "" +prompt);
     } else {
@@ -33,7 +35,7 @@ function view_image(info, next) {
         )
         return next(null, text);
     }  else if (info.session.teacher) {
-        var prompt = '请输入孩子名字，可全名，姓氏，名等。如输入"小明"的"明"。';
+        var prompt = selectkid;
         info.session.viewrecord = "teacher";
         info.wait("teacher kid record name prompt");
         return next(null, "" + prompt);

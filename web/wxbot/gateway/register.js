@@ -23,17 +23,25 @@ module.exports = function(webot) {
 				return next(null, registered);
 			}
 
-	        // 用手机号去用户表查询,如果获得结果就返回相应激活页面链接
+	        // 用手机号去用户表查询,如果获得结果,再用openId查询是否认证
 		    UserServices.queryByMobile(mobile).then(function(user) {
 		    	if (user) {
-		    		var username = user.username + '';
-		    		if (username !== mobile) {
+		    		var usertype = user.type + '';
+		    		var prompt = "请上传孩子照片作为头像图片：";
+		    		if (usertype === '1') {
+		    			prompt = '请上传一张您的个人照片作为头像：';
+		    		}
+		    		// 如果查到相关信息,则是已经认证,否则需要继续认证流程
+		    		UserServices.queryByOpenId({
+		    			userOpenId: info.uid,
+		    			schoolOpenId: info.sp
+		    		}).then(function(user) {
+		    			return next(null, registered);
+		    		}, function(err) {
 		    			info.session.mobile = mobile;
 			    		info.wait("user register profile image");
-			    		return next(null, "请上传孩子照片作为头像图片：");
-		    		} else {
-		    			return next(null, registered);
-		    		}
+			    		return next(null, prompt);
+		    		});
 		    	} else {
 		    		return next(null, failed);
 		    	}
@@ -51,8 +59,13 @@ module.exports = function(webot) {
 			var mobile = info.session.mobile;
 		    UserServices.queryByMobile(mobile).then(function(user) {
 		    	if (user) {
-		    		var username = user.username + '';
-		    		if (username !== mobile) {
+		    		// 如果查到相关信息,则是已经认证,否则需要保存头像并返回激活链接
+		    		UserServices.queryByOpenId({
+		    			userOpenId: info.uid,
+		    			schoolOpenId: info.sp
+		    		}).then(function(user) {
+		    			return next(null, registered);
+		    		}, function(err) {
 		    			var filename = mobile + '_profile_' + (new Date()).getTime();// + extra;
 		    			utils.download_image(info.param.picUrl, filename, function() {
 			    			delete info.session.mobile;
@@ -62,9 +75,7 @@ module.exports = function(webot) {
 							);
 				    		return next(null, text);
 		    			});
-		    		} else {
-		    			return next(null, registered);
-		    		}
+		    		});
 		    	} else {
 		    		return next(null, failed);
 		    	}

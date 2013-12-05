@@ -29,7 +29,7 @@ exports.queryByOpenId = function(opts) {
         if (users && users.length === 1) {
             deferred.resolve(users[0]);
         } else {
-            deferred.reject({status: 500, message: "该微信账号未绑定幼儿园。"});
+            deferred.reject({status: 500, message: "该微信账号未认证。"});
         }
     }, function(err) {
         deferred.reject(err);
