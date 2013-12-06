@@ -7,6 +7,7 @@
 var ejs = require('ejs');
 var conf = require('../../conf');
 var utils = require("../utils");
+var wxconst = require("../const");
 var MessageServices = require("../../services/MessageServices");
 
 module.exports = function(webot) {
@@ -23,7 +24,7 @@ module.exports = function(webot) {
         }
         if (info.session.teacher) {
             // 接受提交指令
-            if (info.text === '好') {
+            if (info.text === wxconst.YES) {
                 if (!info.session.teacher.messages || info.session.teacher.messages.length == 0) {
                     utils.operation_is_failed(info, next);
                     info.rewait("teacher message input");
@@ -33,7 +34,7 @@ module.exports = function(webot) {
                 return next(null, "您是否需要置顶这条消息，使家长们每天可见？\n回复【1】代表是\n回复【2】代表否");
             }
             // 接受取消指令
-            if (info.text === '不') {
+            if (info.text === wxconst.NO) {
                 delete info.session.teacher.messages;
                 return next(null, "留言已取消，如需留言请再次点击【发布留言】。");
             }
@@ -43,7 +44,7 @@ module.exports = function(webot) {
             }
             info.session.teacher.messages.push(info.text);
             info.wait("teacher message input");
-            return next(null, "已存成草稿，您可继续输入文字。\n发送【好】完成文字输入，发送【不】取消发布");
+            return next(null, "已存成草稿，您可继续输入文字。\n发送【" + wxconst.YES + "】完成文字输入，发送【" + wxconst.NO + "】取消发布");
         } else {
             return next(null, "后台异常，请重新发起操作。");
         }

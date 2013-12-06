@@ -7,6 +7,7 @@
 var ejs = require('ejs');
 var conf = require('../../conf');
 var utils = require("../utils");
+var wxconst = require("../const");
 var ImageServices = require("../../services/ImageServices");
 
 module.exports = function(webot) {
@@ -33,7 +34,7 @@ module.exports = function(webot) {
             return next();
         }
 		// 接受提交指令
-		if (info.is("text") && info.text === '好') {
+		if (info.is("text") && info.text === wxconst.YES) {
 			if (info.session.teacher.publishImage.photos.length == 0) {
 				utils.operation_is_failed(info, next);
 				info.rewait("teacher image input image");
@@ -61,7 +62,7 @@ module.exports = function(webot) {
             return;
 		}
 		// 接受取消指令
-		if (info.is("text") && info.text === '不') {
+		if (info.is("text") && info.text === wxconst.NO) {
 			delete info.session.teacher.publishImage;
 			return next(null, "发布操作已取消，如需发布请再次点击【发布照片】。");
 		}
@@ -77,7 +78,7 @@ module.exports = function(webot) {
 			}
 			info.wait("teacher image input image");
 			var len = info.session.teacher.publishImage.photos.length;
-			return next(null, "已存草稿图片" + len + "张，您可继续上传图片。\n发送【好】发布图片\n发送【不】取消");
+			return next(null, "已存草稿图片" + len + "张，您可继续上传图片。\n发送【" + wxconst.YES + "】发布图片\n发送【" + wxconst.NO + "】取消");
 		}
 	});
 }
