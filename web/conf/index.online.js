@@ -12,12 +12,12 @@ module.exports = {
   },
   mysql: {
     //host: '127.0.0.1',
-    host: '42.96.191.235',
+    host: 'localhost',
     port: '3306',
-    user: 'panwei',
-    password: 'pw@2013',
+    user: 'weexiao',
+    password: 'weexiaoPassw0rd',
     //database: 'weexiao'
-    database: 'kindergarten'
+    database: 'weexiao'
   },
   users: {
     admin: {
