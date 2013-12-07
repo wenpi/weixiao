@@ -86,7 +86,7 @@ function createFolder(path) {
     for (var i=0; i<paths.length-1; i++) {
         folder += '/' + paths[i];
         if (!fs.existsSync(folder)) {
-            fs.mkdirSync(folder);
+            fs.mkdirSync(folder, 0777);
         }
     }
 }
