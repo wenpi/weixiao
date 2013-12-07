@@ -87,6 +87,7 @@ function createFolder(path) {
         folder += '/' + paths[i];
         if (!fs.existsSync(folder)) {
             fs.mkdirSync(folder, 0777);
+            fs.chmodSync(folder, 0777);
         }
     }
 }

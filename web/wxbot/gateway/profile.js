@@ -54,7 +54,7 @@ module.exports = function(webot) {
                     var text = ejs.render(
                         '更新头像成功！\n<a href="<%- url%>">点击这里查看个人资料</a>', 
                         {
-                            url: conf.site_root + '/user/mobileMoreinfo?type=m'
+                            url: conf.site_root + '/user/mobileMoreinfo?type=m&mobile=' + user.mobile
                         }
                     );
                     return next(null, text);
