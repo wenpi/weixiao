@@ -11,7 +11,7 @@ var utils = require("../utils");
 
 module.exports = function(webot) {
 	var failed = '认证失败，如未录入您的手机号，请联系幼儿园IT管理员。';
-	var registered = '您已经是本园认证用户，无需再次认证。';
+	var registered = '您已经是本园认证用户, 手机号为: <%- mobile%>，无需再次认证。';
 
     // 认证用户
 	webot.set('user register start by text', {
@@ -20,7 +20,14 @@ module.exports = function(webot) {
 			var mobile = info.text;
 
 			if (info.session.parent || info.session.teacher) {
-				return next(null, registered);
+				var mobile;
+				if (info.session.parent) { mobile = info.session.parent.mobile; }
+				if (info.session.teacher) { mobile = info.session.teacher.mobile; }
+				var text = ejs.render(
+					registered,
+					{mobile: mobile}
+				);
+				return next(null, text);
 			}
 
 	        // 用手机号去用户表查询,如果获得结果,再用openId查询是否认证
@@ -36,7 +43,11 @@ module.exports = function(webot) {
 		    			userOpenId: info.uid,
 		    			schoolOpenId: info.sp
 		    		}).then(function(user) {
-		    			return next(null, registered);
+		    			var text = ejs.render(
+							registered,
+							{mobile: user.mobile}
+						);
+		    			return next(null, text);
 		    		}, function(err) {
 		    			info.session.mobile = mobile;
 			    		info.wait("user register profile image");
@@ -64,7 +75,11 @@ module.exports = function(webot) {
 		    			userOpenId: info.uid,
 		    			schoolOpenId: info.sp
 		    		}).then(function(user) {
-		    			return next(null, registered);
+		    			var text = ejs.render(
+							registered,
+							{mobile: user.mobile}
+						);
+		    			return next(null, text);
 		    		}, function(err) {
 		    			var filename = 'user/' + mobile + '/profile/' + (new Date()).getTime();
 		    			utils.download_image(info.param.picUrl, filename, function() {
