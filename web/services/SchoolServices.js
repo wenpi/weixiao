@@ -108,7 +108,7 @@ exports.bind = function(_id, openId) {
         }
     })
     .then(function(school) {
-        if (school && (school.enabled + '') === '1') {
+        if (school && school.openId) {
             throw new Error("该幼儿园已经绑定微信账号。");
         } else {
             school.id = _id;
