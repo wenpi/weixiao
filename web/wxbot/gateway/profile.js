@@ -48,7 +48,7 @@ module.exports = function(webot) {
         }else {
             var user = info.session.parent || info.session.teacher;
             var mobile = user.mobile || 'unknown';
-            var filename = mobile + '_profile_' + (new Date()).getTime();// + extra;
+            var filename = 'user/' + mobile + '/profile/' + (new Date()).getTime();
             utils.download_image(info.param.picUrl, filename, function() {
                 UserServices.updateProfileImage({id: user.id, profileImage: filename}).then(function() {
                     var text = ejs.render(

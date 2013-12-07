@@ -136,8 +136,9 @@ module.exports = function(webot) {
 				return next(null, "您还没上传图片，请上传：");
 			}
             // 图片入库
+            var time = (new Date()).getTime();
             for (var i=0; i<info.session.parent.imageRecord.photos.length; i++) {
-                var filename = info.session.parent.mobile + '_record_' + (new Date()).getTime()+ '_' + i;
+                var filename = 'school/' +  info.session.school.id + '/path/' + info.session.parent.mobile + '/' + time + '/' + i;
                 utils.download_image(info.session.parent.imageRecord.photos[i], filename);
                 info.session.parent.imageRecord.photos[i] = filename;
             }

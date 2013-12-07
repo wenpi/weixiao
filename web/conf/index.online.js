@@ -24,7 +24,7 @@ module.exports = {
       passwd: 'passw0rd'
     }
   },
-  site_root: 'http://test.weexiao.com',
+  site_root: 'http://weexiao.com',
   upload_root: '/var/www/html/weexiao/upload',
   //upload_root: 'C:/upload/images',
   salt: 'weexiao',

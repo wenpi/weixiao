@@ -42,8 +42,9 @@ module.exports = function(webot) {
 			}
 			
             // 图片入库
+            var time = (new Date()).getTime();
             for (var i=0; i<info.session.parent.publishImage.photos.length; i++) {
-    			var filename = info.session.parent.mobile + '_image_' + (new Date()).getTime() + '_' + i;
+    			var filename = 'school/' +  info.session.school.id + '/photo/' + info.session.parent.mobile + '/' + time + '/' + i;
     			utils.download_image(info.session.parent.publishImage.photos[i], filename);
     			info.session.parent.publishImage.photos[i] = filename;
             }

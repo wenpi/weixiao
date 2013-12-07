@@ -41,8 +41,9 @@ module.exports = function(webot) {
 				return next(null, "您还没上传图片，请上传：");
 			}
 			// 上传图片
+			var time = (new Date()).getTime();
             for (var i=0; i<info.session.teacher.publishImage.photos.length; i++) {
-    			var filename = info.session.teacher.mobile + '_image_' + (new Date()).getTime() + '_' + i;
+                var filename = 'school/' +  info.session.school.id + '/photo/' + info.session.teacher.mobile + '/' + time + '/' + i;
     			utils.download_image(info.session.teacher.publishImage.photos[i], filename);
     			info.session.teacher.publishImage.photos[i] = filename;
             }

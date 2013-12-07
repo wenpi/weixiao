@@ -66,7 +66,7 @@ module.exports = function(webot) {
 		    		}).then(function(user) {
 		    			return next(null, registered);
 		    		}, function(err) {
-		    			var filename = mobile + '_profile_' + (new Date()).getTime();// + extra;
+		    			var filename = 'user/' + mobile + '/profile/' + (new Date()).getTime();
 		    			utils.download_image(info.param.picUrl, filename, function() {
 			    			delete info.session.mobile;
 			    			var text = ejs.render(

@@ -9,19 +9,10 @@ var conf = require('../../conf');
 
 function password_edit(info, next) {
     var text = "抱歉，您不是认证用户，不能修改密码！";
-    if (info.session.parent) {
+    if (info.session.parent || info.session.teacher) {
         text = ejs.render(
             '<a href="<%- url%>">请点击这里修改密码</a>', 
             {
-                //name: '大明',
-                url: conf.site_root + '/user/mobilePassword'
-            }
-        )
-    } else if (info.session.teacher) {
-        text = ejs.render(
-            '<a href="<%- url%>">请点击这里修改密码</a>', 
-            {
-                //name: '陈老师',
                 url: conf.site_root + '/user/mobilePassword'
             }
         )

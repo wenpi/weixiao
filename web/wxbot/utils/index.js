@@ -81,11 +81,18 @@ function operation_is_failed(info, next) {
     }
 }
 
+function createFolder(path) {
+    var paths = path.split("/"), folder = conf.upload_root;
+    for (var i=0; i<paths.length-1; i++) {
+        folder += '/' + paths[i];
+        if (!fs.existsSync(folder)) {
+            fs.mkdirSync(folder);
+        }
+    }
+}
 function download_image(picUrl, localFile, callback) {
+    createFolder(localFile);
     request.head(picUrl, function(err, res, body){
-        //console.log('content-type:', res.headers['content-type']);
-        //console.log('content-length:', res.headers['content-length']);
-
         var r = request(picUrl).pipe(fs.createWriteStream(conf.upload_root + '/' + localFile));
         r.on('finish', function () {
             if (callback) { callback(); }
