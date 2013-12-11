@@ -10,7 +10,7 @@ function send_help(info, next) {
     return next(null, [{
 	  title: '关于微信幼儿园',
 	  url: conf.site_root + '/webot/wap/help/about',
-	  picUrl: conf.site_root + '/webot/wap/images/wxbanner.png',
+	  picUrl: conf.site_root + '/webot/wap/images/banner.png',
 	  description: '关于微信幼儿园',
 	}, {
 	  title: '如何进行身份认证',
