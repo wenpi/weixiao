@@ -1,6 +1,6 @@
 /**
  * Usage:
- * - 课程安排功能
+ * - 课程计划功能
  * Author:
  * - hopesfish at 163.com
  */
@@ -8,10 +8,10 @@ var ejs = require('ejs');
 var conf = require('../../conf');
 
 function course_view(info, next) {
-    var text = "抱歉，您不是认证用户，不能查看课程安排！";
+    var text = "抱歉，您不是认证用户，不能查看课程计划！";
     if (info.session.parent) {
         text = ejs.render(
-            '<a href="<%- url%>">请点击这里查看课程安排</a>', 
+            '<a href="<%- url%>">请点击这里查看课程计划</a>', 
             {
                 //name: info.session.parent.name,
                 url: conf.site_root + '/front/course?parentId=' + info.session.parent.id
@@ -19,7 +19,7 @@ function course_view(info, next) {
         )
     } else if (info.session.teacher) {
         text = ejs.render(
-            '<a href="<%- url%>">请点击这里查看课程安排</a>', 
+            '<a href="<%- url%>">请点击这里查看课程计划</a>', 
             {
                 name: info.session.teacher.name,
                 url: conf.site_root + '/front/course?teacherId=' + info.session.teacher.id
@@ -33,7 +33,7 @@ module.exports = function(webot) {
 	// 修改个人资料提示语
 	webot.set('user course view start by text', {
 		domain: "gateway",
-		pattern: /^(课程安排|(view )?course)/i,
+		pattern: /^(课程计划|(view )?course)/i,
 		handler: course_view
 	});
 	webot.set('user course view start by event', {

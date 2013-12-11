@@ -143,11 +143,11 @@ function initMenu(schoolId) {
                 "url": conf.site_root +  "/front/dinner/" + schoolId
             }, {  
                 "type": "click",
-                "name": "课程安排",
+                "name": "课程计划",
                 "key": "COURSE_VIEW"
             }, {  
                 "type": "view",
-                "name": "重要通知",
+                "name": "全园播报",
                 "url": conf.site_root +  "/front/notice/" + schoolId
             }]
         }, {
