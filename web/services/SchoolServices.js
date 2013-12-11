@@ -191,6 +191,10 @@ function initMenu(schoolId) {
                 "type": "click",
                 "name": "修改密码",
                 "key": "PASSWORD_EDIT"
+            }, {
+                "type": "click",
+                "name": "使用帮助",
+                "key": "WEEXIAO_HELP"
             }]
         }]
     }
@@ -215,7 +219,6 @@ exports.syncWeixinMenu = function(_id, configs) {
         if (err) {
             return deferred.reject(err);
         }
-        console.info(initMenu(_id).button[1]);
         api.createMenu(initMenu(_id), function(err, result) {
             if (err) {
                 return deferred.reject(err);
