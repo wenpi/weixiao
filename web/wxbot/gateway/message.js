@@ -7,6 +7,7 @@
 var ejs = require('ejs');
 var conf = require('../../conf');
 var MessageServices = require("../../services/MessageServices");
+var TeacherServices = require("../../services/TeacherServices");
 
 function add_message_start(info, next) {
     if (info.session.parent) {
@@ -15,8 +16,30 @@ function add_message_start(info, next) {
         return next(null, prompt);
     } else if (info.session.teacher) {
         var prompt = "通过这里输入的文字将直接显示在班级留言墙上，您所在班级所有家长和老师可见，需在" + conf.timeout.desc + "内完成该项操作。\n\n请点击左下侧键盘图标后输入您想对家长们说的话：";
-        info.wait("teacher message input");
-        return next(null, prompt);
+        
+        function sendPrompt() {
+            info.wait("teacher message input");
+            next(null, '' + prompt);
+        }
+        function sendStop() {
+            next(null, '抱歉，管理员无法使用该功能。');
+        }
+        if (info.session.teacher.isAdmin === 0) {
+            return sendPrompt();
+        } else if (info.session.teacher.isAdmin === 1){
+            return sendStop();
+        } else {
+            TeacherServices.queryByUserId({userId: info.session.teacher.id}).then(function(teacher) {
+                info.session.teacher.isAdmin = teacher.is_admin;
+                if (info.session.teacher.isAdmin === 0) {
+                    return sendPrompt();
+                } else if (info.session.teacher.isAdmin === 1){
+                    return sendStop();
+                }
+            }, function(err) {
+                return next(null, err);
+            });
+        }
     } else {
         return next(null, "抱歉，您不是认证用户，不能发布消息！");
     }
@@ -27,24 +50,63 @@ function view_message(info, next) {
         return next(null, "抱歉，您不是认证用户，不能查看消息！");
     }
 
-    MessageServices.query(info.session.parent || info.session.teacher).then(function(count) {
+    var user = info.session.parent;
+    if (info.session.teacher) {
+        if (info.session.teacher.isAdmin === 0) {
+            user = info.session.teacher;
+        } else if (info.session.teacher.isAdmin === 1) {
+            return sendLinks();
+        } else {
+            user = null;
+        }
+    }
+
+    function sendLink() {
+       MessageServices.query(user).then(function(count) {
+            var text =  ejs.render(
+                '<% if (count !== 0) { %>您有<%= count%>条未读消息。\n<%}%><a href="<%- url%>">请点击这里查看消息</a>', 
+                {
+                    count: count,
+                    url: conf.site_root + '/front/message'
+                }
+            )
+            next(null, text);
+        }, function(err) {
+            var text =  ejs.render(
+                '后台异常，无法查询未读消息条目。\n<a href="<%- url%>">请点击这里查看消息</a>', 
+                {
+                    url: conf.site_root + '/front/message'
+                }
+            )
+            next(null, text);
+        });
+    }
+    function sendLinks() {
         var text =  ejs.render(
-            '<% if (count !== 0) { %>您有<%= count%>条未读消息。\n<%}%><a href="<%- url%>">请点击这里查看消息</a>', 
+            '<a href="<%- url%>">园长查看消息</a>', 
             {
-                count: count,
                 url: conf.site_root + '/front/message'
             }
         )
         next(null, text);
-    }, function(err) {
-        var text =  ejs.render(
-            '后台异常，无法查询未读消息条目。\n<a href="<%- url%>">请点击这里查看消息</a>', 
-            {
-                url: conf.site_root + '/front/message'
+    }
+
+    if (user) {
+       return sendLink();
+   } else if (info.session.teacher) {
+        TeacherServices.queryByUserId({userId: info.session.teacher.id}).then(function(teacher) {
+            info.session.teacher.isAdmin = teacher.is_admin;
+            user = info.session.teacher;
+            if (info.session.teacher.isAdmin === 0) {
+                return sendLink();
+            } else if (info.session.teacher.isAdmin === 1){
+                return sendLinks();
             }
-        )
-        next(null, text);
-    });
+        }, function(err) {
+            return next(null, err);
+        });
+   }
+
 }
 
 module.exports = function(webot) {

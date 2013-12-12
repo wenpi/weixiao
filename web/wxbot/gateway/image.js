@@ -6,6 +6,7 @@
  */
 var ejs = require('ejs');
 var conf = require('../../conf');
+var TeacherServices = require("../../services/TeacherServices");
 
 function add_image_start(info, next) {
 	var prompt = [
@@ -15,12 +16,34 @@ function add_image_start(info, next) {
         conf.timeout.desc,
         "内完成该项操作。\n\n请点击左下侧键盘图标后输入照片主题："].join("");
 
+    function sendPrompt() {
+        info.wait("teacher image input text");
+        next(null, '' + prompt);
+    }
+    function sendStop() {
+        next(null, '抱歉，管理员无法使用该功能。');
+    }
+
 	if (info.session.parent) {
 		info.wait("parent image input text");
 		return next(null, '' + prompt);
     } else if (info.session.teacher) {
-		info.wait("teacher image input text");
-		return next(null, '' + prompt);
+        if (info.session.teacher.isAdmin === 0) {
+            return sendPrompt();
+        } else if (info.session.teacher.isAdmin === 1){
+            return sendStop();
+        } else {
+            TeacherServices.queryByUserId({userId: info.session.teacher.id}).then(function(teacher) {
+                info.session.teacher.isAdmin = teacher.is_admin;
+                if (info.session.teacher.isAdmin === 0) {
+                    return sendPrompt();
+                } else if (info.session.teacher.isAdmin === 1){
+                    return sendStop();
+                }
+            }, function(err) {
+                return next(null, err);
+            });
+        }
     } else {
         return next(null, "抱歉，您不是认证用户，不能发布图片！");
     }
@@ -28,7 +51,8 @@ function add_image_start(info, next) {
 
 function view_image(info, next) {
     var text = "抱歉，您不是认证用户，不能查看图片！";
-    if (info.session.parent || info.session.teacher) {
+
+    function sendLink() {
         text = ejs.render(
             '<a href="<%- url%>">请点击这里查看相册</a>', 
             {
@@ -36,8 +60,41 @@ function view_image(info, next) {
                 url: conf.site_root + '/classPhoto/mobileview'
             }
         )
+        next(null, text);
+    };
+    function sendLinks() {
+        text = ejs.render(
+            '<a href="<%- url%>">园长查看相册</a>', 
+            {
+                //name: '小一班',
+                url: conf.site_root + '/classPhoto/mobileview'
+            }
+        )
+        next(null, text);
+    };
+
+    if (info.session.parent) {
+        return sendLink();
+    } else if (info.session.teacher) {
+        if (info.session.teacher.isAdmin === 0) {
+            return sendLink();
+        } else if (info.session.teacher.isAdmin === 1){
+            return sendLinks();
+        } else {
+            TeacherServices.queryByUserId({userId: info.session.teacher.id}).then(function(teacher) {
+                info.session.teacher.isAdmin = teacher.is_admin;
+                if (info.session.teacher.isAdmin === 0) {
+                    return sendLink();
+                } else if (info.session.teacher.isAdmin === 1){
+                    return sendLinks();
+                }
+            }, function(err) {
+                return next(null, err);
+            });
+        }
+    } else {
+        return next(null, text);
     }
-    return next(null, text);
 }
 
 module.exports = function(webot) {
