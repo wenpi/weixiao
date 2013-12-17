@@ -168,6 +168,10 @@ function initMenu(schoolId) {
                 "type": "click",
                 "name": "发布照片",
                 "key":"IMAGE_ADD"
+            }, {
+                "type": "click",
+                "name": "添加家长",
+                "key": "PARENT_ADD"
             }/*, {
                 "type": "click",
                 "name": "听儿歌",
@@ -191,10 +195,6 @@ function initMenu(schoolId) {
                 "type": "click",
                 "name": "修改密码",
                 "key": "PASSWORD_EDIT"
-            }, {
-                "type": "click",
-                "name": "添加家长",
-                "key": "PARENT_ADD"
             }, {
                 "type": "click",
                 "name": "使用帮助",

@@ -21,12 +21,12 @@ function add_parent_start(info, next) {
             if (parents.length >= 2) {
                 prompt = '抱歉！已达上限，无法再添加认证家长。';
             } else {
-                prompt = '请输入另一名认证家长的手机号：';
+                prompt = '请点击右下角键盘后输入其他家长的手机号：';
                 info.wait("add parent mobile input");
             }
             var text = [
-                "您的家庭现有认证家长 " + parents.length + " 名:\n",
-                contacts.join("\n"),
+                "现有认证家长 " + parents.length + " 名:\n",
+                contacts.join("\n") + '\n',
                 prompt
             ];
             return next(null, text.join("\n"));

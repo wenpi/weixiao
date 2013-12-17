@@ -113,7 +113,7 @@ function download_image(picUrl, localFile, callback) {
     request.head(picUrl, function(err, res, body){
         var r = request(picUrl).pipe(fs.createWriteStream(conf.upload_root + '/' + localFile));
         r.on('finish', function () {
-            fs.mkdirSync(conf.upload_root + '/' + localFile, 0777);
+            fs.chmodSync(conf.upload_root + '/' + localFile, 0777);
             if (callback) { callback(); }
         });
     });

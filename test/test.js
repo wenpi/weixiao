@@ -15,6 +15,7 @@ d28eefe9-db3b-4db5-a469-424ac5d187d8
 
 forever start -o out.log -e err.log app.js
 
+weixiaohuodong
 localhost:3000/api/school/d28eefe9-db3b-4db5-a469-424ac5d187d8/syncmenu?appId=wx7e623947327e472e&appSecret=2964baf9c94a1417a54719294f241e0a
 */
 require("./wxbot")();
