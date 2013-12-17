@@ -193,6 +193,10 @@ function initMenu(schoolId) {
                 "key": "PASSWORD_EDIT"
             }, {
                 "type": "click",
+                "name": "添加家长",
+                "key": "PARENT_ADD"
+            }, {
+                "type": "click",
                 "name": "使用帮助",
                 "key": "WEEXIAO_HELP"
             }]
