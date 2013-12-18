@@ -12,7 +12,7 @@ var UserServices = require("../../services/UserServices");
 
 function add_leave_start(info, next) {
     if (info.session.parent) {
-        var text = ["请回复数字选择【开始日期】或者直接回复【开始日期】，如6月1日则回复0601："];
+        var text = ["请回复数字选择【开始日期】或者直接回复【开始日期】，如6月1日则回复四位数字0601："];
         var date = Date.today();
         info.session.parent.addleave = {dates: []};
         while (text.length < 6) {
