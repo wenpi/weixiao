@@ -6,7 +6,6 @@
  */
 var ejs = require('ejs');
 var conf = require('../../conf');
-var MessageServices = require("../../services/MessageServices");
 var UserServices = require("../../services/UserServices");
 
 function add_parent_start(info, next) {
