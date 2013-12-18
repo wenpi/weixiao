@@ -1,3 +1,4 @@
+require('date-utils');
 var Q = require("q");
 var fs = require('fs');
 var request = require('request');
@@ -147,5 +148,49 @@ module.exports.ensure_teacher_is_register = function (info, next) {
 module.exports.operation_is_failed = operation_is_failed;
 
 module.exports.download_image = download_image;
+
+module.exports.is_holiday = function(date) {
+    var holidays = {
+        '2013-01-01': true,
+        '2013-01-26': false,
+        '2013-01-31': true,
+        '2013-02-01': true,
+        '2013-02-02': true,
+        '2013-02-03': true,
+        '2013-02-04': true,
+        '2013-02-05': true,
+        '2013-02-06': true,
+        '2013-02-08': false,
+        '2013-04-05': true,
+        '2013-04-06': true,
+        '2013-04-07': true,
+        '2013-05-01': true,
+        '2013-05-02': true,
+        '2013-05-03': true,
+        '2013-05-04': false,
+        '2013-05-31': true,
+        '2013-06-01': true,
+        '2013-06-02': true,
+        '2013-09-06': true,
+        '2013-09-07': true,
+        '2013-09-08': true,
+        '2013-09-28': false,
+        '2013-10-01': true,
+        '2013-10-02': true,
+        '2013-10-03': true,
+        '2013-10-04': true,
+        '2013-10-05': true,
+        '2013-10-06': true,
+        '2013-10-07': true,
+        '2013-10-11': false
+    }
+    if (holidays[date.toYMD()]) {
+        return holidays[date.toYMD()];
+    }
+    if (date.getDay() === 0 || date.getDay() === 6) {
+        return true;
+    }
+    return false;
+}
 
 

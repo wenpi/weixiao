@@ -149,6 +149,10 @@ function initMenu(schoolId) {
                 "type": "view",
                 "name": "全园播报",
                 "url": conf.site_root +  "/front/notice/" + schoolId
+            }, {  
+                "type": "click",
+                "name": "我要请假",
+                "key": "LEAVE_ADD"
             }]
         }, {
             "name":"班级墙",
