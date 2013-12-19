@@ -10,6 +10,7 @@ var utils = require("../utils");
 var wxconst = require("../const");
 var MessageServices = require("../../services/MessageServices");
 var UserServices = require("../../services/UserServices");
+var ParentServices = require("../../services/ParentServices");
 
 module.exports = function(webot) {
     // 等待手机号码输入
@@ -95,6 +96,7 @@ module.exports = function(webot) {
     });
     // 确认提交
     webot.waitRule('add parent confirm', function(info, next) {
+        var nostudent = '抱歉！查询您孩子信息时异常。请联系管理！';
         if (info.is("event")) {
             delete info.session.parent.addparent;
             return next();
@@ -108,8 +110,23 @@ module.exports = function(webot) {
         if (info.session.parent) {
             // 接受提交指令
             if (info.text === wxconst.YES) {
-                console.info(info.session.parent.addparent);
-                return next(null, JSON.stringify(info.session.parent.addparent));
+                UserServices.queryStudentsAsParent({userId: info.session.parent.id, schoolOpenId: info.sp}).then(function(students) {
+                    if (students.length === 0) {
+                        return next(null, nostudent);
+                    }
+                    info.session.parent.addparent.schoolId = info.session.school.id;
+                    info.session.parent.addparent.studentId = students[0].id;
+                    info.session.parent.addparent.photo = info.session.parent.photo;
+                    ParentServices.createParentByParent(info.session.parent.addparent)
+                    .then(function() {
+                        return next(null, "添加成功！您现在可以用手机号【" + info.session.parent.addparent.mobile + "】激活另一个微信账号。");
+                    }, function(err) {
+                        console.info(err);
+                        return next(null, "抱歉！创建失败。");
+                    })
+                }, function(err) {
+                    return next(null, nostudent);
+                })
             } else  if (info.text === wxconst.NO) {
                 delete info.session.parent.addparent;
             } else {

@@ -3,9 +3,6 @@ var wechat = require('wechat');
 var conf = require("../conf");
 var MysqlServices = require("./MysqlServices");
 var BaseServices = require("./BaseServices");
-var collection = BaseServices.getCollection('wex_school');
-
-
 
 /*
  * 查询菜单数据
@@ -29,15 +26,7 @@ function query(conditions){
     //return BaseServices.query(collection, conditions || null, addtions || {sort:[['createdTime', -1]]});
 };
 exports.query = query;
-/*
- * 插入菜单
- */
-function create(obj){
-    obj.createdTime = (new Date()).getTime();
-    obj.enabled = false;
-    return BaseServices.create(collection, obj);
-};
-exports.create = create;
+
 /*
  * 获得记录
  */
@@ -61,13 +50,7 @@ function update(obj) {
     return MysqlServices.query("update wex_school set open_id = '" + obj.openId + "', enabled = 1 where id = '" + obj.id + "'");
 };
 exports.update = update;
-/*
- * 更新数据
- */
-function remove(_id) {
-    return BaseServices.remove(collection, {_id: _id});
-};
-exports.remove = remove;
+
 /*
  * 返回绑定的场所
  */
