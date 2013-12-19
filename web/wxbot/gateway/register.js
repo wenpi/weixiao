@@ -64,6 +64,7 @@ module.exports = function(webot) {
 
 	webot.waitRule('user register profile image', function(info, next) {
 		if (!info.is("image")) {
+			utils.operation_is_failed(info, next);
 			info.rewait("user register profile image");
 			return next(null, "抱歉，只能上传图片。");
 		}else {
