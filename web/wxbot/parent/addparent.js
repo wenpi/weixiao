@@ -89,7 +89,13 @@ module.exports = function(webot) {
         if (info.session.parent) {
             info.session.parent.addparent.name = info.text;
             info.wait("add parent confirm");
-            return next(null, "发送【" + wxconst.YES + "】确认\n发送【" + wxconst.NO + "】取消");
+            var pompt = [
+                "请确认新家长的信息：\n",
+                "手机号码：" + info.session.parent.addparent.mobile,
+                "家长姓名：" + info.session.parent.addparent.name,
+                "\n发送【" + wxconst.YES + "】确认\n发送【" + wxconst.NO + "】取消"
+            ];
+            return next(null, pompt.join("\n"));
         } else {
             return next(null, "抱歉，您不是认证家长，无法使用该功能。");
         }
@@ -114,14 +120,16 @@ module.exports = function(webot) {
                     if (students.length === 0) {
                         return next(null, nostudent);
                     }
+
                     info.session.parent.addparent.schoolId = info.session.school.id;
                     info.session.parent.addparent.studentId = students[0].id;
                     info.session.parent.addparent.photo = info.session.parent.photo;
+                    info.session.parent.addparent.createdBy = info.session.parent.id;
+
                     ParentServices.createParentByParent(info.session.parent.addparent)
                     .then(function() {
-                        return next(null, "添加成功！您现在可以用手机号【" + info.session.parent.addparent.mobile + "】激活另一个微信账号。");
+                        return next(null, "添加成功！您现在可以用\n\n手机号码：" + info.session.parent.addparent.mobile + "\n\n激活另一个微信账号。");
                     }, function(err) {
-                        console.info(err);
                         return next(null, "抱歉！创建失败。");
                     })
                 }, function(err) {

@@ -42,14 +42,15 @@ var options = {
     	studentId: "2b275c44-50fa-11e3-83f9-00163e0426cb",
     	name: "test" + mobile,
     	mobile: mobile,
-    	photo: "photo"+mobile,
+    	photo: "/upload/user/13811111111/profile/1387290854537_new",
+        createdBy: "b43b7c56-5e45-11e3-83f9-00163e0426cb"
     }
 };
 
 console.info(options);
 
 function callback(error, response, body) {
-    if (!error && response.statusCode == 200) {
+    if (!error && response.statusCode == 201) {
     	console.info("done");
         console.log(body);
     } else {

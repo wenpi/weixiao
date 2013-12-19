@@ -33,10 +33,8 @@ exports.createParentByParent = function(data) {
 	    form: data
 	};
 
-	console.info(options);
-
 	function callback(error, response, body) {
-	    if (!error && response.statusCode == 200) {
+	    if (!error && response.statusCode == 201) {
 	        deferred.resolve();
 	    } else {
 	    	deferred.reject();
