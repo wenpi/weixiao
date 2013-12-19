@@ -53,12 +53,12 @@ module.exports = function(webot) {
         }
         if (!info.is("text")) {
             utils.operation_is_failed(info, next);
-            info.rewait("add parent mobile input");
+            info.rewait("add parent mobile confirm");
             return next(null, "抱歉，只能输入文字。");
         }
         if (!/^1(3|4|5|8)\d{9}$/i.test(info.text)) {
             utils.operation_is_failed(info, next);
-            info.rewait("add parent mobile input");
+            info.rewait("add parent mobile confirm");
             return next(null, "抱歉，只能输入手机号码。");
         }
 
@@ -82,7 +82,7 @@ module.exports = function(webot) {
         }
         if (!info.is("text")) {
             utils.operation_is_failed(info, next);
-            info.rewait("add parent mobile input");
+            info.rewait("add parent name input");
             return next(null, "抱歉，只能输入文字。");
         }
 
