@@ -14,7 +14,7 @@ function send_update(info, next) {
 	  description: '留言板'
 	}, {
 	  title: '班级相册',
-	  url: conf.site_root + '/classPhoto/mobileviewr',
+	  url: conf.site_root + '/classPhoto/mobileview',
 	  picUrl: conf.site_root + '/webot/wap/images/photo.png',
 	  description: '班级相册'
 	}, {
