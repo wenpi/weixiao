@@ -9,24 +9,24 @@ var conf = require('../../conf');
 function send_update(info, next) {
     return next(null, [{
 	  title: '留言板',
-	  url: conf.site_root + '/front/message'
+	  url: conf.site_root + '/front/message',
 	  picUrl: conf.site_root + '/webot/wap/images/message.png',
-	  description: '留言板',
+	  description: '留言板'
 	}, {
 	  title: '班级相册',
 	  url: conf.site_root + '/classPhoto/mobileviewr',
 	  picUrl: conf.site_root + '/webot/wap/images/photo.png',
-	  description: '班级相册',
+	  description: '班级相册'
 	}, {
 	  title: '成长记录',
 	  url: conf.site_root + '/webot/wap/help/message',
 	  picUrl: conf.site_root + '/webot/wap/images/record.png',
-	  description: '成长记录',
+	  description: '成长记录'
 	}, {
 	  title: '课程计划',
 	  url: conf.site_root + '/webot/wap/help/message',
 	  picUrl: conf.site_root + '/webot/wap/images/course.png',
-	  description: '课程计划',
+	  description: '课程计划'
 	}]);
 }
 
