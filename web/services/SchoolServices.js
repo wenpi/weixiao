@@ -115,31 +115,31 @@ exports.bind = function(_id, openId) {
 function initMenu(schoolId) {
     return {
         "button":[{
-            "name":"本园动态",
+            "name":"本园生活",
             "sub_button":[{  
                 "type": "view",
-                "name": "幼儿园向导",
+                "name": "关于本园",
                 "url": conf.site_root + "/front/" + schoolId
             }, {  
                 "type": "view",
                 "name": "每周食谱",
                 "url": conf.site_root +  "/front/dinner/" + schoolId
-            }, {  
+            }/*, {  
                 "type": "click",
                 "name": "课程计划",
                 "key": "COURSE_VIEW"
-            }, {  
+            }*/, {  
                 "type": "view",
                 "name": "全园播报",
                 "url": conf.site_root +  "/front/notice/" + schoolId
-            }/*, {  
-                "type": "click",
-                "name": "我要请假",
-                "key": "LEAVE_ADD"
-            }*/]
+            }]
         }, {
-            "name":"班级墙",
+            "name":"班级互动",
             "sub_button":[{
+                "type": "click",
+                "name": "班级动态",
+                "key":"CLASS_UPDATE"
+            },/* {
                 "type": "click",
                 "name": "留言板",
                 "key":"MESSAGE_VIEW"
@@ -147,7 +147,7 @@ function initMenu(schoolId) {
                 "type": "click",
                 "name": "班级相册",
                 "key": "IMAGE_VIEW"
-            }, {  
+            }, */{  
                 "type": "click",
                 "name": "发布留言",
                 "key": "MESSAGE_ADD"
@@ -155,10 +155,14 @@ function initMenu(schoolId) {
                 "type": "click",
                 "name": "发布照片",
                 "key":"IMAGE_ADD"
-            }, {
+            }, {  
                 "type": "click",
-                "name": "添加家长",
-                "key": "PARENT_ADD"
+                "name": "添加成长记录",
+                "key": "KID_RECORD_ADD"
+            }, {  
+                "type": "click",
+                "name": "我要请假",
+                "key": "LEAVE_ADD"
             }/*, {
                 "type": "click",
                 "name": "听儿歌",
@@ -166,15 +170,7 @@ function initMenu(schoolId) {
             }*/]
         }, {
             "name":"个人中心",
-            "sub_button":[{  
-                "type": "click",
-                "name": "儿童成长记录",
-                "key": "KID_RECORD_VIEW"
-            }, {  
-                "type": "click",
-                "name": "添加成长记录",
-                "key": "KID_RECORD_ADD"
-            }, {  
+            "sub_button":[ {  
                 "type": "click",
                 "name": "修改个人资料",
                 "key": "PROFILE_EDIT"
@@ -182,6 +178,10 @@ function initMenu(schoolId) {
                 "type": "click",
                 "name": "修改密码",
                 "key": "PASSWORD_EDIT"
+            }, {
+                "type": "click",
+                "name": "添加家长",
+                "key": "PARENT_ADD"
             }, {
                 "type": "click",
                 "name": "使用帮助",
