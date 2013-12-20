@@ -19,12 +19,12 @@ function send_update(info, next) {
 	  description: '班级相册'
 	}, {
 	  title: '成长记录',
-	  url: conf.site_root + '/webot/wap/help/message',
+	  url: conf.site_root + '/studentPath/mobileView',
 	  picUrl: conf.site_root + '/webot/wap/images/record.png',
 	  description: '成长记录'
 	}, {
 	  title: '课程计划',
-	  url: conf.site_root + '/webot/wap/help/message',
+	  url: conf.site_root + '/front/course',
 	  picUrl: conf.site_root + '/webot/wap/images/course.png',
 	  description: '课程计划'
 	}]);
