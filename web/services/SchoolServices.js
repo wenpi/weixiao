@@ -118,20 +118,20 @@ function initMenu(schoolId) {
             "name":"本园生活",
             "sub_button":[{  
                 "type": "view",
-                "name": "关于本园",
-                "url": conf.site_root + "/front/" + schoolId
+                "name": "全园播报",
+                "url": conf.site_root +  "/front/notice/" + schoolId
             }, {  
                 "type": "view",
                 "name": "每周食谱",
                 "url": conf.site_root +  "/front/dinner/" + schoolId
-            }/*, {  
+            }, /*, {  
                 "type": "click",
                 "name": "课程计划",
                 "key": "COURSE_VIEW"
-            }*/, {  
+            }*/{  
                 "type": "view",
-                "name": "全园播报",
-                "url": conf.site_root +  "/front/notice/" + schoolId
+                "name": "关于本园",
+                "url": conf.site_root + "/front/" + schoolId
             }]
         }, {
             "name":"班级互动",
