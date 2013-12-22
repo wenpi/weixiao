@@ -102,7 +102,7 @@ module.exports = function(webot) {
     });
     // 确认提交
     webot.waitRule('add parent confirm', function(info, next) {
-        var nostudent = '抱歉！查询您孩子信息时异常。请联系管理！';
+        var nostudent = '抱歉！查询您孩子信息时异常。请联系IT管理员！';
         if (info.is("event")) {
             delete info.session.parent.addparent;
             return next();
