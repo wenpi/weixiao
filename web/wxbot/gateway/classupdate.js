@@ -32,10 +32,12 @@ function send_update(info, next) {
 
 module.exports = function(webot) {
 	webot.set('weexiao help by text', {
+		domain: "gateway",
 		pattern: /^(班级动态)/i,
 		handler: send_update
 	});
 	webot.set('weexiao help by event', {
+		domain: "gateway",
 		pattern: function(info) {
 			return info.param.eventKey === 'CLASS_UPDATE';
 		},
