@@ -9,9 +9,10 @@ var ejs = require('ejs');
 var conf = require('../../conf');
 var utils = require("../utils");
 var wxconst = require("../const");
-var UserServices = require("../../services/UserServices");
+var UserServices =    require("../../services/UserServices");
 var TeacherServices = require("../../services/TeacherServices");
-var LeaveServices = require("../../services/LeaveServices");
+var LeaveServices =   require("../../services/LeaveServices");
+var SmsServices =     require("../../services/SmsServices");
 
 module.exports = function(webot) {
     // 等待日期输入
@@ -93,14 +94,44 @@ module.exports = function(webot) {
             info.session.parent.addleave.days = days;
             info.session.parent.addleave.startDate = info.session.parent.addleave.startDate.toYMD();
             info.session.parent.addleave.endDate = info.session.parent.addleave.endDate.toYMD();
-            
-            var prompt = [
-                "请回复请假事由：",
-                "【1】 事假",
-                "【2】 病假",
-            ];
-            info.wait("add leave parent type input");
-            return next(null, prompt.join("\n"));
+
+            LeaveServices.queryLeavesByStudentId({
+                schoolId: info.session.school.id,
+                studentId: info.session.parent.addleave.studentId
+            }).then(function(leaves){
+                var len = leaves.length, added = false;
+                for (var i=0; i<len; i++) {
+                    var leave = leaves[i];
+                    if (leave.end_date < info.session.parent.addleave.startDate ||
+                        info.session.parent.addleave.endDate < leave.start_date) {
+                        // do nothing
+                    } else {
+                        added = true;
+                    }
+                }
+                if (!added) {
+                    var prompt = [
+                        "请回复请假事由：",
+                        "【1】 事假",
+                        "【2】 病假",
+                    ];
+                    info.wait("add leave parent type input");
+                    return next(null, prompt.join("\n"));
+                } else {
+                    var prompt = [
+                        '抱歉，',
+                        info.session.parent.addleave.startDate,
+                        days > 1 ? ' 至 ' : '',
+                        days > 1 ? info.session.parent.addleave.endDate : '',
+                        days > 1 ? ' 之间' : '',
+                        '已经有请假记录，请点击菜单重新发起请假流程。'
+                    ]
+                    return next(null, prompt.join(""));
+                }
+            }, function(err) {
+                delete info.session.parent.addleave;
+                return next(null, "抱歉，获取孩子请假历史异常，请联系IT管理员。");
+            });
         } else {
             return next(null, "抱歉，您不是认证家长，无法使用该功能。");
         }
@@ -154,7 +185,7 @@ module.exports = function(webot) {
         if (info.session.parent) {
             info.session.parent.addleave.reason = info.text;
             
-            var descLabel = info.session.parent.addleave.type === 1 ? '备注信息' : '病情信息';
+            var descLabel = info.session.parent.addleave.type === 1 ? '理由事由' : '病情信息';
             var prompt = [
                 "请您确认请假信息：\n",
                 "开始日期：" + info.session.parent.addleave.startDate,
@@ -195,33 +226,47 @@ module.exports = function(webot) {
         if (info.session.parent) {
             var nostudent = '抱歉！查询您孩子信息时异常。请联系IT管理员！';
             var prompt = [
-                select === 1 ? '请假已成功提交，老师会收到短信提醒。' : '已取消。'
+                select === 1 ? '请假信息已成功提交，本班老师将收到手机短信提醒。' : '已取消。'
             ];
             if (select) {
-                UserServices.queryStudentsAsParent({userId: info.session.parent.id, schoolOpenId: info.sp}).then(function(students) {
-                    if (students.length === 0) {
-                        return next(null, nostudent);
+                info.session.parent.addleave.schoolId = info.session.school.id;
+                info.session.parent.addleave.type = info.session.parent.addleave.type === 1 ? 1 : 0; // 0 
+                info.session.parent.addleave.createdBy = info.session.parent.id;
+
+                var days = info.session.parent.addleave.days;
+                var smsContent = [
+                    info.session.parent.addleave.studentName,
+                    '将在',
+                    info.session.parent.addleave.startDate,
+                    days > 1 ? ' 至 ' : '',
+                    days > 1 ? info.session.parent.addleave.endDate : '',
+                    days > 1 ? ' 之间' : '',
+                    '休' + info.session.parent.addleave.type === 0 ? '病假' : '事假',
+                    ', 由家长' + info.session.parent.name + '提交，联系电话：',
+                    info.session.parent.mobile
+                ];
+    
+                // 发送SMS
+                TeacherServices.queryByStudentId({
+                    schoolId: info.session.school.id,
+                    studentId: info.session.parent.addleave.studentId
+                }).then(function(teachers) {
+                    for (var i=0; i<len; i++) {
+
                     }
-
-                    info.session.parent.addleave.schoolId = info.session.school.id;
-                    info.session.parent.addleave.studentId = students[0].id;
-                    info.session.parent.addleave.type = info.session.parent.addleave.type === 1 ? 1 : 0; // 0 
-                    info.session.parent.addleave.createdBy = info.session.parent.id;
-
-                    LeaveServices.addLeave(info.session.parent.addleave)
-                    .then(function() {
-                        TeacherServices.queryByStudentId({schoolId: info.session.school.id, studentId: students[0].id})
-                        .then(function(teachers) {
-                            console.info(teachers);
-                        }, function(err) {
-                            console.error(err);
-                        });
-                        return next(null, prompt.join("\n"));
-                    }, function(err) {
-                        return next(null, "抱歉！创建请假信息失败。");
-                    })
+                    SmsServices.sendSMS({
+                        mobile: '13811749917',
+                        content: smsContent.join("")
+                    });
                 }, function(err) {
-                    return next(null, nostudent);
+                    console.error(err);
+                });
+                // 添加请假信息
+                LeaveServices.addLeave(info.session.parent.addleave)
+                .then(function() {
+                    return next(null, prompt.join("\n"));
+                }, function(err) {
+                    return next(null, "抱歉！创建请假信息失败。");
                 })
             } else {
                 delete info.session.parent.addleave;

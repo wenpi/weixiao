@@ -6,6 +6,33 @@ var BaseServices = require("./BaseServices");
 /*
  * 创建第N个家长
  */
+exports.queryLeavesByStudentId = function(data) {
+	var deferred = Q.defer(),
+		url = conf.site_root + '/api/school/' + data.schoolId + '/student/' + data.studentId + '/leave';
+
+	var options = {
+	    url: url,
+	    method: 'GET',
+	    headers: BaseServices.getAuthoriedHeader()
+	};
+
+	function callback(error, response, body) {
+	    if (!error && response.statusCode == 200) {
+	    	var leaves = JSON.parse(body);
+	        deferred.resolve(leaves);
+	    } else {
+	    	deferred.reject();
+	    }
+	}
+
+	request(options, callback);
+
+	return deferred.promise;
+}
+
+/*
+ * 创建请假请求
+ */
 exports.addLeave = function(data) {
 	var deferred = Q.defer(),
 		url = conf.site_root + '/api/school/' + data.schoolId + '/student/' + data.studentId + '/leave';

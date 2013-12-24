@@ -38,11 +38,10 @@ exports.queryByUserId = function(opts) {
 /*
  * 返回某个学生的老师数据
  */
-exports.queryByStudentId = function(opts) {
+exports.queryByStudentId = function(data) {
     var deferred = Q.defer(),
         url = conf.site_root + '/api/school/' + data.schoolId + '/student/' + data.studentId + '/teacher';
 
-    console.info(url);
     var options = {
         url: url,
         method: 'GET',
