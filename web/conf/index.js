@@ -19,6 +19,7 @@ module.exports = {
     //database: 'weexiao'
     database: 'kindergarten'
   },
+  sms: false,
   users: {
     admin: {
       passwd: 'passw0rd'

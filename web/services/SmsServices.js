@@ -21,7 +21,6 @@ exports.sendSMS = function(data) {
 	};
 
 	function callback(error, response, body) {
-		console.info(body);
 	    if (!error && response.statusCode == 201) {
 	        deferred.resolve();
 	    } else {
