@@ -12,19 +12,34 @@ var UserServices = require("../../services/UserServices");
 
 function add_leave_start(info, next) {
     if (info.session.parent) {
-        var text = ["请回复数字选择【开始日期】或者直接回复【开始日期】，如6月1日则回复四位数字0601："];
-        var date = Date.today();
+        var nostudent = '抱歉！获取您孩子信息时异常。请联系IT管理员！';
         info.session.parent.addleave = {dates: []};
-        while (text.length < 6) {
-            if (!utils.is_holiday(date)) {
-                text.push('【' + text.length + '】 ' + date.toYMD());
-                info.session.parent.addleave.dates.push(date.toYMD());
+
+        UserServices.queryStudentsAsParent({userId: info.session.parent.id, schoolOpenId: info.sp}).then(function(students) {
+            if (students.length === 0) {
+                return next(null, nostudent);
             }
-            date = date.clone();
-            date.addDays(1);
-        }
-        info.wait("add leave parent date input");
-        next(null, text.join("\n"));
+
+            info.session.parent.addleave.studentName = students[0].name;
+            info.session.parent.addleave.studentId = students[0].id;
+
+            var text = ["请回复数字选择【开始日期】或者直接回复【开始日期】，如6月1日则回复四位数字0601："];
+            var date = Date.today();
+            
+            while (text.length < 6) {
+                if (!utils.is_holiday(date)) {
+                    text.push('【' + text.length + '】 ' + date.toYMD());
+                    info.session.parent.addleave.dates.push(date.toYMD());
+                }
+                date = date.clone();
+                date.addDays(1);
+            }
+            info.wait("add leave parent date input");
+            next(null, text.join("\n"));
+            
+        }, function(err) {
+            return next(null, nostudent);
+        });
     } else if (info.session.teacher) {
         next(null, '抱歉！该功能尚未为教师开放。');
     } else {
