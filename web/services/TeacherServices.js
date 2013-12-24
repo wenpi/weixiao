@@ -1,7 +1,8 @@
 var Q = require("q");
 var conf = require("../conf");
-var MysqlServices = require("./MysqlServices");
 var request = require('request');
+var MysqlServices = require("./MysqlServices");
+var BaseServices = require("./BaseServices");
 
 /*
  * 查询数据
@@ -30,6 +31,34 @@ exports.queryByUserId = function(opts) {
     }, function(err) {
         deferred.reject(err);
     });
+
+    return deferred.promise;
+}
+
+/*
+ * 返回某个学生的老师数据
+ */
+exports.queryByStudentId = function(opts) {
+    var deferred = Q.defer(),
+        url = conf.site_root + '/api/school/' + data.schoolId + '/student/' + data.studentId + '/teacher';
+
+    console.info(url);
+    var options = {
+        url: url,
+        method: 'GET',
+        headers: BaseServices.getAuthoriedHeader()
+    };
+
+    function callback(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var teachers = JSON.parse(body);
+            deferred.resolve(teachers);
+        } else {
+            deferred.reject();
+        }
+    }
+
+    request(options, callback);
 
     return deferred.promise;
 }

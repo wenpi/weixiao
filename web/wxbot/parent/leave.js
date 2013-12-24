@@ -10,6 +10,7 @@ var conf = require('../../conf');
 var utils = require("../utils");
 var wxconst = require("../const");
 var UserServices = require("../../services/UserServices");
+var TeacherServices = require("../../services/TeacherServices");
 var LeaveServices = require("../../services/LeaveServices");
 
 module.exports = function(webot) {
@@ -129,7 +130,7 @@ module.exports = function(webot) {
             info.session.parent.addleave.type = select;
             
             var prompt = [
-                info.session.parent.addleave.type === 1 ? '请您输入备注信息：' : '请您输入病情信息：'
+                info.session.parent.addleave.type === 1 ? '请简单说明事由：' : '请您输入病情信息：'
             ];
             info.wait("add leave parent reason input");
             return next(null, prompt.join("\n"));
@@ -194,10 +195,9 @@ module.exports = function(webot) {
         if (info.session.parent) {
             var nostudent = '抱歉！查询您孩子信息时异常。请联系IT管理员！';
             var prompt = [
-                select === 1 ? '请假已成功提交' : '已取消请假'
+                select === 1 ? '请假已成功提交，老师会收到短信提醒。' : '已取消。'
             ];
             if (select) {
-                
                 UserServices.queryStudentsAsParent({userId: info.session.parent.id, schoolOpenId: info.sp}).then(function(students) {
                     if (students.length === 0) {
                         return next(null, nostudent);
@@ -210,6 +210,12 @@ module.exports = function(webot) {
 
                     LeaveServices.addLeave(info.session.parent.addleave)
                     .then(function() {
+                        TeacherServices.queryByStudentId({schoolId: info.session.school.id, studentId: students[0].id})
+                        .then(function(teachers) {
+                            console.info(teachers);
+                        }, function(err) {
+                            console.error(err);
+                        });
                         return next(null, prompt.join("\n"));
                     }, function(err) {
                         return next(null, "抱歉！创建请假信息失败。");
@@ -218,6 +224,7 @@ module.exports = function(webot) {
                     return next(null, nostudent);
                 })
             } else {
+                delete info.session.parent.addleave;
                 return next(null, prompt.join("\n"));
             }
         } else {

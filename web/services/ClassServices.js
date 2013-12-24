@@ -14,22 +14,3 @@ function queryBySchoolId(opts){
     return MysqlServices.query(sql.join(" "));
     //return BaseServices.query(collection, conditions || null, addtions || {sort:[['createdTime', -1]]});
 };
-
-/*
- * 返回含有schoolId的数据
- */
-exports.queryBySchoolId = function(opts) {
-    var deferred = Q.defer();
-
-    queryBySchoolId(opts).then(function(classes) {
-        if (classes && classes.length >= 0) {
-            deferred.resolve(classes);
-        } else {
-            deferred.reject({status: 500, message: "无法获取班级信息"});
-        }
-    }, function(err) {
-        deferred.reject(err);
-    });
-
-    return deferred.promise;
-}
