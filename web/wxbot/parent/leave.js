@@ -30,7 +30,7 @@ module.exports = function(webot) {
             var startDate = Date.today();
             startDate.setTime(Date.parse(info.session.parent.addleave.dates[parseInt(info.text) - 1]));
             info.session.parent.addleave.startDate = startDate;
-        } else if (/^\d\d\d\d$/i.test(info.text)) {
+        } else if (/^(?!0000)[0-9]{4}-((0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-8])|(0[13-9]|1[0-2])-(29|30)|(0[13578]|1[02])-31)$/i.test(info.text)) {
             var startDate = Date.today();
             startDate.setTime(Date.parse(startDate.toFormat("YYYY") + '-' + info.text.substring(0, 2) + '-' + info.text.substring(2)));
             info.session.parent.addleave.startDate = startDate;
@@ -51,6 +51,7 @@ module.exports = function(webot) {
             info.wait("add leave parent days input");
             return next(null, "请输入请假天数\n（1-31之间的数字）：");
         } else {
+            delete info.session.parent.addleave;
             return next(null, "抱歉，您不是认证家长，无法使用该功能。");
         }
     });
