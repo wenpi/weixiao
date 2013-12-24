@@ -253,8 +253,8 @@ module.exports = function(webot) {
                     schoolId: info.session.school.id,
                     studentId: info.session.parent.addleave.studentId
                 }).then(function(teachers) {
-                    if (!conf.sms) {
-                        teachers = [{mobile: '18618309560'}];
+                    if (!conf.online) {
+                        teachers = [{mobile: '186'+'1830'+'9560'}];
                     }
                     var len = teachers.length;
                     for (var i=0; i<len; i++) {

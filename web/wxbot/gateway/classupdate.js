@@ -7,25 +7,26 @@
 var conf = require('../../conf');
 
 function send_update(info, next) {
+	var t = conf.online ? '' : (new Date()).getTime();
     return next(null, [{
 	  title: '留言板',
 	  url: conf.site_root + '/front/message',
-	  picUrl: conf.site_root + '/webot/wap/images/message.png?t=' + (new Date()).getTime(),
+	  picUrl: conf.site_root + '/webot/wap/images/message.png?t=' + t,
 	  description: '留言板'
 	}, {
 	  title: '班级相册',
 	  url: conf.site_root + '/classPhoto/mobileview',
-	  picUrl: conf.site_root + '/webot/wap/images/photo.png?t=' + (new Date()).getTime(),
+	  picUrl: conf.site_root + '/webot/wap/images/photo.png?t=' + t,
 	  description: '班级相册'
 	}, {
 	  title: '成长记录',
 	  url: conf.site_root + '/studentPath/mobileView',
-	  picUrl: conf.site_root + '/webot/wap/images/record.png?t=' + (new Date()).getTime(),
+	  picUrl: conf.site_root + '/webot/wap/images/record.png?t=' + t,
 	  description: '成长记录'
 	}, {
 	  title: '课程计划',
 	  url: conf.site_root + '/front/course',
-	  picUrl: conf.site_root + '/webot/wap/images/course.png?t=' + (new Date()).getTime(),
+	  picUrl: conf.site_root + '/webot/wap/images/course.png?t=' + t,
 	  description: '课程计划'
 	}]);
 }

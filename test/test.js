@@ -16,7 +16,9 @@ d28eefe9-db3b-4db5-a469-424ac5d187d8
 forever start -o out.log -e err.log app.js
 
 weixiaohuodong
-localhost:3000/api/school/d28eefe9-db3b-4db5-a469-424ac5d187d8/syncmenu?appId=wx7e623947327e472e&appSecret=2964baf9c94a1417a54719294f241e0a
+http://localhost:3000/api/school/d28eefe9-db3b-4db5-a469-424ac5d187d8/syncmenu?appId=wx7e623947327e472e&appSecret=2964baf9c94a1417a54719294f241e0a
+wuyi
+http://weexiao.com/webot/api/school/d28eefe9-db3b-4db5-a469-424ac5d187d8/syncmenu?appId=wxcf0e6547118dcf85&appSecret=94e7ff8e33e2c8b773e59c451042c542
 */
 //require("./wxbot")();
 

@@ -1,4 +1,5 @@
 module.exports = {
+  online: false,
   port: 3000,
   hostname: '127.0.0.1',
   timeout: {
@@ -19,7 +20,6 @@ module.exports = {
     //database: 'weexiao'
     database: 'kindergarten'
   },
-  sms: false,
   users: {
     admin: {
       passwd: 'passw0rd'
