@@ -14,3 +14,4 @@ function queryBySchoolId(opts){
     return MysqlServices.query(sql.join(" "));
     //return BaseServices.query(collection, conditions || null, addtions || {sort:[['createdTime', -1]]});
 };
+exports.queryBySchoolId = queryBySchoolId;
