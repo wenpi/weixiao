@@ -245,7 +245,8 @@ module.exports = function(webot) {
                     '休',
                     info.session.parent.addleave.type === 0 ? '病假' : '事假',
                     '，家长联系电话：',
-                    info.session.parent.mobile
+                    info.session.parent.mobile,
+                    '【来自微信幼儿园】'
                 ];
                 
                 // 发送SMS
