@@ -19,9 +19,23 @@ function add_image_start(info, next) {
         info.wait("teacher image input text");
         next(null, '' + prompt);
     }
-    function sendStop() {
-        next(null, '抱歉！园长，管理员无法使用该功能。');
-    }
+    function sendLinks() {
+        var text = '请点击下列链接查看指定班级的相册：\n', links = [];
+        for (var i=0; i<info.session.teacher.wxclasses.length; i++) {
+            var wxclass = info.session.teacher.wxclasses[i];
+            links.push(ejs.render(
+                '<a href="<%- url%>">' + wxclass.name + '</a>   ', 
+                {
+                    url: conf.site_root + '/classPhoto/mobileview?classId=' + wxclass.id
+                }
+            ));
+            if (i % 2 == 0 && i !== 0) {
+                links.push("\n\n");
+            }
+        }
+        text += links.join("");
+        next(null, text);
+    };
 
 	if (info.session.parent) {
 		info.wait("parent image input text");
@@ -30,7 +44,7 @@ function add_image_start(info, next) {
         if (info.session.teacher.isAdmin === 0) {
             return sendPrompt();
         } else if (info.session.teacher.isAdmin === 1){
-            return sendStop();
+            return sendLinks();
         }
     } else {
         return next(null, "抱歉，您不是认证用户，不能发布图片！");

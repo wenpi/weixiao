@@ -20,13 +20,27 @@ function add_message_start(info, next) {
             info.wait("teacher message input");
             next(null, '' + prompt);
         }
-        function sendStop() {
-            next(null, '抱歉！园长，管理员无法使用该功能。');
+        function sendLinks() {
+            var text = '请点击下列链接查看指定班级的留言板：\n', links = [];
+            for (var i=0; i<info.session.teacher.wxclasses.length; i++) {
+                var wxclass = info.session.teacher.wxclasses[i];
+                links.push(ejs.render(
+                    '<a href="<%- url%>">' + wxclass.name + '</a>   ', 
+                    {
+                        url: conf.site_root + '/front/message?classid=' + wxclass.id
+                    }
+                ));
+                if (i % 2 == 0 && i !== 0) {
+                    links.push("\n\n");
+                }
+            }
+            text += links.join("");
+            next(null, text);
         }
         if (info.session.teacher.isAdmin === 0) {
             return sendPrompt();
         } else if (info.session.teacher.isAdmin === 1){
-            return sendStop();
+            return sendLinks();
         }
 
     } else {

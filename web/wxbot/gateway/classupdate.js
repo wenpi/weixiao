@@ -8,6 +8,11 @@ var conf = require('../../conf');
 
 function send_update(info, next) {
 	var t = conf.online ? '' : (new Date()).getTime();
+    if (info.session.teacher) {
+        if (info.session.teacher.isAdmin === 1) {
+            return next(null, "抱歉！园长，管理员暂时需通过PC端使用！");
+        }
+    }
     return next(null, [{
 	  title: '留言板',
 	  url: conf.site_root + '/front/message',

@@ -24,7 +24,7 @@ function add_image_start(info, next) {
         }
         // 园长 管理员
         function stopSelect() {
-            next(null, "抱歉！园长，管理员无法使用该功能。！");
+            next(null, "抱歉！孩子记录过多，不便在微信客户端浏览。请您在PC端上查看！");
         }
         // 判断是否是管理员
         if (info.session.teacher.isAdmin === 0) {
