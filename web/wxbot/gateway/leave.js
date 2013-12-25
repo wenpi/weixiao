@@ -23,7 +23,7 @@ function add_leave_start(info, next) {
             info.session.parent.addleave.studentName = students[0].name;
             info.session.parent.addleave.studentId = students[0].id;
 
-            var text = ["请回复数字选择【开始日期】或者直接回复【开始日期】，如6月1日则回复四位数字0601："];
+            var text = ["请回复数字选择【开始日期】或者直接回复【开始日期】，如6月1日则回复四位数字0601（备注：四位数字所表示的日期为当年日期）："];
             var date = Date.today();
             
             while (text.length < 6) {
