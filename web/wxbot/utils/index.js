@@ -115,7 +115,7 @@ function download_image(picUrl, localFile, callback) {
         var r = request(picUrl).pipe(fs.createWriteStream(conf.upload_root + '/' + localFile));
         r.on('finish', function () {
             fs.chmodSync(conf.upload_root + '/' + localFile, 0755);
-            fs.chownSync(conf.upload_root + '/' + localFile, 'apache', 'apache')
+            fs.chownSync(conf.upload_root + '/' + localFile, 48, 48)
             if (callback) { callback(); }
         });
     });
