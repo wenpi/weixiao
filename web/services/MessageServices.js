@@ -20,7 +20,6 @@ module.exports.create = function(user, message) {
     	url = conf.site_root + '/index.php/message/add/' + md5(user.id);
 
     console.info(url);
-    console.info(message);
 
 	request.post(
 	    url,
