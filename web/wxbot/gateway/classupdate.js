@@ -35,10 +35,10 @@ function send_update(info, next) {
 	} else if (info.session.teacher) {
 		if (info.session.teacher.isAdmin === 0) {
 			links.push({
-				title: '学生成长记录',
+				title: '成长记录',
 				url: conf.site_root + '/webot/wap/school/' + info.session.school.id + "/class/" + info.session.teacher.wxclasses[0].id + "/record/entry",
 				picUrl: conf.site_root + '/webot/wap/images/record.png?t=' + t,
-				description: '学生成长记录'
+				description: '成长记录'
 			});
 		}
 	}
@@ -48,7 +48,7 @@ function send_update(info, next) {
 		url: conf.site_root + '/front/course',
 		picUrl: conf.site_root + '/webot/wap/images/course.png?t=' + t,
 		description: '课程计划'
-	}];
+	});
 
     return next(null, links);
 }

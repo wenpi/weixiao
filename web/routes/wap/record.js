@@ -11,11 +11,15 @@ exports.entry = function(req, res){
 		schoolId: schoolId,
 		classId: classId
 	}).then(function(students) {
+		students.sort(function(a, b) {
+			return a.name[0] >= b.name[0] ? 1 : -1;
+		});
 		res.render('wap/record/entry', {
 			link: conf.site_root + '/studentPath/mobileView',
 			students: students
  		});
-	}, function() {
+	}, function(err) {
+		console.info(err);
 		res.render('wap/record/entry', {
 			link: conf.site_root + '/studentPath/mobileView',
 			students: []

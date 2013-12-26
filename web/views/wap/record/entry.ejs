@@ -4,10 +4,25 @@
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<style>
+		a {
+			display: block;
+			float: left;
+			width: 30%;
+			height: 2.5em;
+			line-height: 2.5em;
+			margin: 5px 1%;
+			text-decoration: none;
+			border: 1px solid #ccc;
+			text-align: center;
+		}
+	</style>
 </head>
 <body>
-
-Entry
-
+ <% if (students.length) { %>
+    <% students.forEach(function(student){ %>
+      <a href="<%- link %>?student_id=<%- student.id %>"><%= student.name %></a>
+    <% }) %>
+<% } %>
 </body>
 </html>
