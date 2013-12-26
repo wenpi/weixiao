@@ -1,5 +1,6 @@
 var Q = require("q");
 var wechat = require('wechat');
+var request = require('request');
 var conf = require("../conf");
 var MysqlServices = require("./MysqlServices");
 var BaseServices = require("./BaseServices");
@@ -51,24 +52,6 @@ function update(obj) {
 };
 exports.update = update;
 
-/*
- * 返回绑定的场所
- */
-exports.queryByOpenId = function(openId) {
-    var deferred = Q.defer();
-
-    query({openId: openId}).then(function(schools) {
-        if (schools && schools.length === 1) {
-            deferred.resolve(schools[0]);
-        } else {
-            deferred.reject({status: 500, message: "该微信账号未绑定幼儿园。"});
-        }
-    }, function(err) {
-        deferred.reject(err);
-    });
-
-    return deferred.promise;
-}
 /**
  * 和微信账号绑定
  */
@@ -217,6 +200,38 @@ exports.syncWeixinMenu = function(_id, configs) {
             deferred.resolve(result);
         });
     });
+
+    return deferred.promise;
+}
+
+
+/*
+ * 返回绑定的场所
+ */
+exports.queryByOpenId = function(openId) {
+    var deferred = Q.defer(),
+        url = conf.site_root + '/api/school?openId=' + openId;
+
+    var options = {
+        url: url,
+        method: 'GET',
+        headers: BaseServices.getAuthoriedHeader()
+    };
+
+    function callback(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var jsondata = JSON.parse(body);
+            if (jsondata.result.length === 1) {
+                deferred.resolve(jsondata.result[0]);
+            } else {
+                deferred.reject({status: 500, message: "该微信账号未绑定幼儿园。"});
+            }
+        } else {
+            deferred.reject();
+        }
+    }
+
+    request(options, callback);
 
     return deferred.promise;
 }
