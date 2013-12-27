@@ -104,8 +104,9 @@ function createFolder(path) {
     for (var i=0; i<paths.length-1; i++) {
         folder += '/' + paths[i];
         if (!fs.existsSync(folder)) {
-            fs.mkdirSync(folder, 0777);
-            fs.chmodSync(folder, 0777);
+            fs.mkdirSync(folder, 0755);
+            fs.chmodSync(folder, 0755);
+            fs.chownSync(folder, 48, 48);
         }
     }
 }
