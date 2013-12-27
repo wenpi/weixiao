@@ -128,7 +128,7 @@ module.exports = function(webot) {
 
                     ParentServices.createParentByParent(info.session.parent.addparent)
                     .then(function() {
-                        return next(null, "添加成功！您现在可以用\n\n手机号码：" + info.session.parent.addparent.mobile + "\n\n激活另一个微信账号。");
+                        return next(null, "添加成功！您现在可以用\n\n手机号码：" + info.session.parent.addparent.mobile + "\n\n激活另一个微信账号，初始密码为该手机后四位。");
                     }, function(err) {
                         return next(null, "抱歉！创建失败。");
                     })
