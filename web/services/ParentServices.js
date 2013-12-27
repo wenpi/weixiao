@@ -27,7 +27,7 @@ exports.createParentByParent = function(data) {
 	var deferred = Q.defer();
 
 	var options = {
-	    url: conf.site_root + '/api/parent',
+	    url: conf.site_root + '/api/school/' + data.schoolId + '/student/' + data.studentId + '/parent',
 	    method: 'POST',
 	    headers: BaseServices.getAuthoriedHeader(),
 	    form: data
