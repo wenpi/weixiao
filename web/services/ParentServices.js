@@ -4,23 +4,6 @@ var conf = require("../conf");
 var BaseServices = require("./BaseServices");
 
 /*
- * 返回绑定的场所
- */
-exports.queryByOpenId = function(openId) {
-	var deferred = Q.defer();
-
-	setTimeout(function() {
-		if (openId == 'panwei') {
-			deferred.resolve({name: 'panwei'});
-		} else {
-			deferred.reject(null);
-		}
-	}, 1000);
-
-	return deferred.promise;
-}
-
-/*
  * 创建第N个家长
  */
 exports.createParentByParent = function(data) {
