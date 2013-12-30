@@ -7,6 +7,7 @@ var SchoolServices = require("../../services/SchoolServices");
 var UserServices = require("../../services/UserServices");
 var TeacherServices = require("../../services/TeacherServices");
 var ClassServices = require("../../services/ClassServices");
+var StudentServices = require("../../services/StudentServices");
 
 function ensure_school_is_bind (info, next) {
     if (info.session.failedCount === 5) {
@@ -44,7 +45,15 @@ function ensure_user_is_register (info, next) {
         switch(user.type + '') {
         case '0':
             info.session.parent = user;
-            return next();
+            StudentServices.queryByParentId({
+                schoolId: info.session.school.id,
+                parentId: info.session.parent.id
+            }).then(function(students) {
+                info.session.parent.students = students;
+                return next();
+            }, function(err) {
+                return next(null, err);
+            });
         break;
         case '1':
             info.session.teacher = user;

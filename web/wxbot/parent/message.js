@@ -31,11 +31,11 @@ module.exports = function(webot) {
                     return next(null, "您还没输入文字，请留言：");
                 }
                 // 消息入库
-                MessageServices.create(info.session.parent, {
+                MessageServices.create(info.session.school.id, info.session.parent, {
                     title: '',
                     content: info.session.parent.messages.join(" "),
-                    type: '0',
-                    top: '0'
+                    top: '0',
+                    studentId: info.session.parent.students[0].id
                 }).then(function() {
                     var text = ejs.render(
                         '留言已提交！\n<a href="<%- url%>">请点击这里查看留言</a>', 

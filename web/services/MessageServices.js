@@ -2,6 +2,7 @@ var Q = require("q");
 var BaseServices = require("./BaseServices");
 var conf = require("../conf");
 var request = require('request');
+var BaseServices = require("./BaseServices");
 //var collection = BaseServices.getCollection('wex_message');
 
 /*
@@ -9,39 +10,39 @@ var request = require('request');
  */
 
 /*
- * 插入消息
+ * 插入消息 默认为老师提交,如果message含有studentId,则是家长提交
  */
-function md5(str){
-    var hash = require('crypto').createHash('md5');
-    return hash.update(str+"").digest('hex');
-}
-module.exports.create = function(user, message) {
+module.exports.create = function(schoolId, user, message) {
     var deferred = Q.defer(),
-    	url = conf.site_root + '/index.php/message/add/' + md5(user.id);
+    	url = conf.site_root + '/api/school/' + schoolId + '/teacher/' + user.id + '/message',
+    	data = {
+    		'Message[title]': message.title || '',
+    		'Message[content]:': message.content || '',
+    		'Message[type]:': message.type || '0',
+    		'Message[top]:': message.top || '0',
+    		'userid': user.id
+    	};
 
-    console.info(url);
+    if (message.studentId) {
+    	url = conf.site_root + '/api/school/' + schoolId + '/student/' + message.studentId + '/message';
+    }
 
-	request.post(
-	    url,
-	    {
-	    	form: {
-	    		'Message[title]': message.title || '',
-	    		'Message[content]:': message.content || '',
-	    		'Message[type]:': message.type || '0',
-	    		'Message[top]:': message.top || '0',
-	    		'userid': user.id,
-	    		'usertype': user.type
-	    	}
-	    },
-	    function (error, response, body) {
-	    	console.info(response.body)
-	        if (error) {
-	        	console.info(response.body)
-	        	deferred.reject(error);
-	        }
+	var options = {
+	    url: url,
+	    method: 'POST',
+	    headers: BaseServices.getAuthoriedHeader(),
+	    form: data
+	};
+
+	function callback(error, response, body) {
+	    if (!error && response.statusCode == 201) {
 	        deferred.resolve();
+	    } else {
+	    	deferred.reject();
 	    }
-	);
+	}
+
+	request(options, callback);
 
 	return deferred.promise;
 }

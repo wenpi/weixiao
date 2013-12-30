@@ -74,10 +74,9 @@ module.exports = function(webot) {
             // TODO 消息入库
             console.info(info.session.teacher.messages);
             // 消息入库
-            MessageServices.create(info.session.teacher, {
+            MessageServices.create(info.session.school.id, info.session.teacher, {
                 title: '',
                 content: info.session.teacher.messages.join(" "),
-                type: '1',
                 top: top
             }).then(function() {
                 var text = ejs.render(
