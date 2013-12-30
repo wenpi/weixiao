@@ -54,6 +54,7 @@ function ensure_user_is_register (info, next) {
                 TeacherServices.queryByUserId({userId: info.session.teacher.id}).then(function(teacher) {
                     info.session.teacher.isAdmin = teacher.is_admin;
                     ClassServices.queryBySchoolId({schoolId: info.session.school.id}).then(function(wxclasses) {
+                        console.info(wxclasses);
                         info.session.teacher.wxclasses = wxclasses;
                         return next();
                     }, function(err) {
