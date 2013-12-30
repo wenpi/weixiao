@@ -8,10 +8,26 @@ var request = require('request');
  */
 function queryBySchoolId(opts){
     var schoolId = opts.schoolId || '-1';
-    var sql = [
-        "SELECT * FROM wex_class WHERE school_id = '" + schoolId + "' order by code asc"
-    ];
-    return MysqlServices.query(sql.join(" "));
-    //return BaseServices.query(collection, conditions || null, addtions || {sort:[['createdTime', -1]]});
+    var deferred = Q.defer(),
+        url = conf.site_root + '/api/school/' + schoolId + '/class';
+
+    var options = {
+        url: url,
+        method: 'GET',
+        headers: BaseServices.getAuthoriedHeader()
+    };
+
+    function callback(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var classes = JSON.parse(body);
+            deferred.resolve(classes);
+        } else {
+            deferred.reject();
+        }
+    }
+
+    request(options, callback);
+
+    return deferred.promise;
 };
 exports.queryBySchoolId = queryBySchoolId;
