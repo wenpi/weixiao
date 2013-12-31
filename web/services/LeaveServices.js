@@ -4,7 +4,7 @@ var conf = require("../conf");
 var BaseServices = require("./BaseServices");
 
 /*
- * 创建第N个家长
+ * 查询某个学生的请假记录
  */
 exports.queryLeavesByStudentId = function(data) {
 	var deferred = Q.defer(),

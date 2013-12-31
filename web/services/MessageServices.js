@@ -18,7 +18,6 @@ module.exports.create = function(schoolId, user, message) {
     	data = {
     		'Message[title]': message.title || '',
     		'Message[content]:': message.content || '',
-    		'Message[type]:': message.type || '0',
     		'Message[top]:': message.top || '0',
     		'userid': user.id
     	};
