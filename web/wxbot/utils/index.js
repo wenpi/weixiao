@@ -75,7 +75,7 @@ function ensure_user_is_register (info, next) {
                     } else {
                         ClassServices.queryByTeacher({
                             schoolId: info.session.school.id,
-                            teacherId: info.session.teacher.id
+                            teacherId: teacher.id
                         }).then(function(wxclasses) {
                             if (wxclasses.length == 0) {
                                 info.ended = true;
@@ -84,7 +84,8 @@ function ensure_user_is_register (info, next) {
                             info.session.teacher.wxclasses = wxclasses;
                             return next();
                         }, function(err) {
-                            return next(null, err);
+                            info.ended = true;
+                            return next(null, "抱歉，您还没有班级可以管理");
                         });
                     }
                 }, function(err) {

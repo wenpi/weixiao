@@ -33,7 +33,9 @@ function send_update(info, next) {
 			description: '成长记录'
 		});
 	} else if (info.session.teacher) {
-		if (info.session.teacher.isAdmin === 0) {
+		if (info.session.teacher.isAdmin === 0 &&
+			info.session.teacher.wxclasses &&
+			info.session.teacher.wxclasses.length == 1) {
 			links.push({
 				title: '成长记录',
 				url: conf.site_root + '/webot/wap/school/' + info.session.school.id + "/class/" + info.session.teacher.wxclasses[0].id + "/record/entry",

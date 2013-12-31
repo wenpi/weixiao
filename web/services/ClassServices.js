@@ -1,7 +1,7 @@
 var Q = require("q");
 var conf = require("../conf");
-var MysqlServices = require("./MysqlServices");
 var request = require('request');
+var BaseServices = require("./BaseServices");
 
 /*
  * 查询数据
