@@ -65,7 +65,7 @@ function ensure_user_is_register (info, next) {
                 }).then(function(teacher) {
                     info.session.teacher.isAdmin = teacher.is_admin;
                     if (info.session.teacher.isAdmin) {
-                        ClassServices.queryBySchoolId({schoolId: info.session.school.id})
+                        ClassServices.queryBySchool({schoolId: info.session.school.id})
                         .then(function(wxclasses) {
                             info.session.teacher.wxclasses = wxclasses;
                             return next();
@@ -73,7 +73,7 @@ function ensure_user_is_register (info, next) {
                             return next(null, err);
                         });
                     } else {
-                        ClassServices.queryByTeacherId({
+                        ClassServices.queryByTeacher({
                             schoolId: info.session.school.id,
                             teacherId: info.session.teacher.id
                         }).then(function(wxclasses) {

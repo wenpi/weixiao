@@ -6,7 +6,7 @@ var request = require('request');
 /*
  * 查询数据
  */
-function queryBySchoolId(opts){
+function queryBySchool(opts){
     var schoolId = opts.schoolId || '-1';
     var deferred = Q.defer(),
         url = conf.site_root + '/api/school/' + schoolId + '/class';
@@ -30,7 +30,7 @@ function queryBySchoolId(opts){
 
     return deferred.promise;
 };
-exports.queryBySchoolId = queryBySchoolId;
+exports.queryBySchool = queryBySchool;
 
 /*
  * 查询数据
