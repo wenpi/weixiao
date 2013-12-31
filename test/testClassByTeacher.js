@@ -8,7 +8,7 @@ shasum.update(key + 'rest' + 'kinderg' + '1qw23er4' + '20131231');
 var token = shasum.digest('hex');
 
 var options = {
-    url: 'http://test.weexiao.com/api/school/d28eefe9-db3b-4db5-a469-424ac5d187d8/class',
+    url: 'http://test.weexiao.com/api/school/d28eefe9-db3b-4db5-a469-424ac5d187d8/teacher/29bc307a-41ff-4aac-8151-1b8d8e5748df/class',
     method: 'GET',
     headers: {
         'wexkey': key,

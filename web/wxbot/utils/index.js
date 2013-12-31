@@ -60,14 +60,33 @@ function ensure_user_is_register (info, next) {
             if (info.session.teacher.isAdmin !== undefined) {
                 return next();
             } else {
-                TeacherServices.queryByUserId({userId: info.session.teacher.id}).then(function(teacher) {
+                TeacherServices.queryByUserId({
+                    userId: info.session.teacher.id
+                }).then(function(teacher) {
                     info.session.teacher.isAdmin = teacher.is_admin;
-                    ClassServices.queryBySchoolId({schoolId: info.session.school.id}).then(function(wxclasses) {
-                        info.session.teacher.wxclasses = wxclasses;
-                        return next();
-                    }, function(err) {
-                        return next(null, err);
-                    });
+                    if (info.session.teacher.isAdmin) {
+                        ClassServices.queryBySchoolId({schoolId: info.session.school.id})
+                        .then(function(wxclasses) {
+                            info.session.teacher.wxclasses = wxclasses;
+                            return next();
+                        }, function(err) {
+                            return next(null, err);
+                        });
+                    } else {
+                        ClassServices.queryByTeacherId({
+                            schoolId: info.session.school.id,
+                            teacherId: info.session.teacher.id
+                        }).then(function(wxclasses) {
+                            if (wxclasses.length == 0) {
+                                info.ended = true;
+                                return next(null, "抱歉，您还没有班级可以管理");
+                            }
+                            info.session.teacher.wxclasses = wxclasses;
+                            return next();
+                        }, function(err) {
+                            return next(null, err);
+                        });
+                    }
                 }, function(err) {
                     return next(null, err);
                 });
