@@ -14,7 +14,7 @@ var BaseServices = require("./BaseServices");
  */
 module.exports.create = function(schoolId, user, message) {
     var deferred = Q.defer(),
-    	url = conf.site_root + '/api/school/' + schoolId + '/teacher/' + user.id + '/message',
+    	url = conf.site_root + '/api/school/' + schoolId + '/teacher/' + user.teacherId + '/message',
     	data = {
     		'Message[title]': message.title || '',
     		'Message[content]:': message.content || '',
