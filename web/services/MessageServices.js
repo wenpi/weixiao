@@ -19,7 +19,8 @@ module.exports.create = function(schoolId, user, message) {
     		'Message[title]': message.title || '',
     		'Message[content]:': message.content || '',
     		'Message[top]:': message.top || '0',
-    		'userid': user.id
+    		'userid': user.id,
+    		'sendsms': message.sms || '0'
     	};
 
     if (message.studentId) {
