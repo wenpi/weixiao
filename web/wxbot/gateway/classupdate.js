@@ -26,16 +26,18 @@ function send_update(info, next) {
 	}];
 
 	if (info.session.parent) {
-		links.push({
-			title: '成长记录',
-			url: conf.site_root + '/studentPath/mobileView',
-			picUrl: conf.site_root + '/webot/wap/images/record.png?t=' + t,
-			description: '成长记录'
-		});
+		if (info.session.parent.students && info.session.parent.students.length > 0) {
+			links.push({
+				title: '成长记录',
+				url: conf.site_root + '/studentPath/mobileView?student_id=' + info.session.parent.students[0].id,
+				picUrl: conf.site_root + '/webot/wap/images/record.png?t=' + t,
+				description: '成长记录'
+			});
+		}
 	} else if (info.session.teacher) {
 		if (info.session.teacher.isAdmin === 0 &&
 			info.session.teacher.wxclasses &&
-			info.session.teacher.wxclasses.length == 1) {
+			info.session.teacher.wxclasses.length > 0) {
 			links.push({
 				title: '成长记录',
 				url: conf.site_root + '/webot/wap/school/' + info.session.school.id + "/class/" + info.session.teacher.wxclasses[0].id + "/record/entry",

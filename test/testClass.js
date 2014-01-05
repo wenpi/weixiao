@@ -4,11 +4,11 @@ var crypto = require('crypto');
 var shasum = crypto.createHash('md5');
 
 var key = '1387432923256';
-shasum.update(key + 'rest' + 'kinderg' + '1qw23er4' + '20131231');
+shasum.update(key + 'rest' + 'kinderg' + '1qw23er4' + '20140105');
 var token = shasum.digest('hex');
 
 var options = {
-    url: 'http://test.weexiao.com/api/school/d28eefe9-db3b-4db5-a469-424ac5d187d8/class',
+    url: 'http://weexiao.com/api/school/d28eefe9-db3b-4db5-a469-424ac5d187d8/class',
     method: 'GET',
     headers: {
         'wexkey': key,
