@@ -64,8 +64,8 @@ function ensure_user_is_register (info, next) {
                     userId: info.session.teacher.id
                 }).then(function(teacher) {
                     info.session.teacher.teacherId = teacher.id;
-                    info.session.teacher.isAdmin = teacher.is_admin + '';
-                    if (info.session.teacher.isAdmin == '1') {
+                    info.session.teacher.isAdmin = parseInt(teacher.is_admin, 10);
+                    if (info.session.teacher.isAdmin) {
                         ClassServices.queryBySchool({schoolId: info.session.school.id})
                         .then(function(wxclasses) {
                             info.session.teacher.wxclasses = wxclasses;
