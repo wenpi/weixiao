@@ -42,7 +42,7 @@ function send_update(info, next) {
 				title: '成长记录',
 				url: conf.site_root + '/webot/wap/school/' + info.session.school.id + "/class/" + info.session.teacher.wxclasses[0].id + "/record/entry",
 				picUrl: conf.site_root + '/webot/wap/images/record.png?t=' + t,
-				description: '成长记录'
+				description: '查看学生们的成长记录'
 			});
 		}
 	}
