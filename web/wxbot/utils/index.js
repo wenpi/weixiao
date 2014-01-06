@@ -65,6 +65,24 @@ function ensure_user_is_register (info, next) {
                 }).then(function(teacher) {
                     info.session.teacher.teacherId = teacher.id;
                     info.session.teacher.isAdmin = parseInt(teacher.is_admin, 10);
+                    console.info('----is admin:' + info.session.teacher.isAdmin);
+                    console.info('----is admin type:' + typeof info.session.teacher.isAdmin);
+                    console.info('----get teacher id:' + teacher.id);
+                    ClassServices.queryByTeacher({
+                        schoolId: info.session.school.id,
+                        teacherId: teacher.id
+                    }).then(function(wxclasses) {
+                        if (wxclasses.length == 0) {
+                            info.ended = true;
+                            return next(null, "抱歉，您还没有班级可以管理");
+                        }
+                        info.session.teacher.wxclasses = wxclasses;
+                        return next();
+                    }, function(err) {
+                        info.ended = true;
+                        return next(null, "抱歉，您还没有班级可以管理");
+                    });
+                    /*
                     if (info.session.teacher.isAdmin) {
                         ClassServices.queryBySchool({schoolId: info.session.school.id})
                         .then(function(wxclasses) {
@@ -88,7 +106,7 @@ function ensure_user_is_register (info, next) {
                             info.ended = true;
                             return next(null, "抱歉，您还没有班级可以管理");
                         });
-                    }
+                    }*/
                 }, function(err) {
                     return next(null, err);
                 });
