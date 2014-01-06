@@ -66,6 +66,10 @@ function ensure_user_is_register (info, next) {
                     info.session.teacher.teacherId = teacher.id;
                     info.session.teacher.isAdmin = parseInt(teacher.is_admin, 10);
 
+                    console.info('----is admin:' + info.session.teacher.isAdmin);
+                    console.info('----is admin type:' + typeof info.session.teacher.isAdmin);
+                    console.info('----get teacher id:' + teacher.id);
+                    
                     if (info.session.teacher.isAdmin === 1) {
                         ClassServices.queryBySchool({schoolId: info.session.school.id})
                         .then(function(wxclasses) {
