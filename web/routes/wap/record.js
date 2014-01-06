@@ -19,7 +19,6 @@ exports.entry = function(req, res){
 			students: students
  		});
 	}, function(err) {
-		console.info(err);
 		res.render('wap/record/entry', {
 			link: conf.site_root + '/studentPath/mobileView',
 			students: []
