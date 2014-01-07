@@ -60,13 +60,13 @@ exports.queryByOpenId = function(openId) {
 /*
  * 更新数据 主要用于激活学校
  */
-function update(schoolId, data) {
+function bind(schoolId, data) {
     var deferred = Q.defer(),
         url = conf.site_root + '/api/school/' + schoolId;
 
     var options = {
         url: url,
-        method: 'PUT',
+        method: 'POST',
         headers: BaseServices.getAuthoriedHeader(),
         form: {
             openId: data.openId
@@ -74,6 +74,7 @@ function update(schoolId, data) {
     };
 
     function callback(error, response, body) {
+        console.info(body);
         if (!error && response.statusCode == 200) {
             deferred.resolve();
         } else {
@@ -85,7 +86,7 @@ function update(schoolId, data) {
 
     return deferred.promise;
 };
-exports.update = update;
+exports.bind = bind;
 
 /**
  * 和微信账号绑定
@@ -109,7 +110,10 @@ exports.bind = function(schoolId, openId) {
         }
     })
     .then(function(schools) {
-        if (schools.length !== 0) {
+        if (schools.length === 0) {
+            throw new Error("该标识幼儿园不存在。");
+        }
+        if (schools.length > 1) {
             throw new Error("幼儿园标识不唯一。");
         }
         var school = schools[0];
@@ -117,7 +121,7 @@ exports.bind = function(schoolId, openId) {
             throw new Error("该幼儿园已经绑定微信账号。");
         } else {
             gbSchool = school;
-            return update(schoolId, {
+            return bind(schoolId, {
                 openId: openId
             });
         }
