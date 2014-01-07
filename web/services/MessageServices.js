@@ -51,8 +51,6 @@ module.exports.query = function(user) {
     var deferred = Q.defer(),
     	url = conf.site_root + '/index.php/message/unreadcount/' + md5(user.id);
 
-    console.info(url);
-
 	request.post(
 	    url,
 	    {

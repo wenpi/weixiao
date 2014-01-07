@@ -24,10 +24,6 @@ module.exports.create = function(user, message) {
 		data['photos[' + i + ']'] = message.photos[i];
 	}
 
-    console.info(url);
-    console.info(message);
-	console.info(data);
-
 	request.post(
 	    url,
 	    {
