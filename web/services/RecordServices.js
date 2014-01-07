@@ -28,16 +28,12 @@ module.exports.create = function(user, record) {
 		}
 	}
 
-    console.info(url);
-	console.info(data);
-
 	request.post(
 	    url,
 	    {
 	    	form: data
 	    },
 	    function (error, response, body) {
-	    	console.info(response.body)
 	        if (error) {
 	        	//console.info(response.body)
 	        	deferred.reject(error);

@@ -28,27 +28,22 @@ module.exports = function(webot) {
             return next(null, "抱歉，只能输入数字1或者2。");
         }
         var user = info.session.parent;
-        UserServices.queryStudentsAsParent({
-            userId: user.id,
-            schoolOpenId: info.sp
-        }).then(function(students) {
-            if (students.length === 0) {
-                return next(null, "抱歉，该家长的孩子信息尚未录入。");
-            }
-            info.session.students = students;
-            switch(text) {
-            case "1":
-                info.wait("parent kid record input text");
-                return next(null, "通过这里输入的文字记录将直接显示在记录时间轴上，仅有您和本班老师可见。\n\n请输入文字：");
-            break;
-            case "2":
-                info.wait("parent kid record image text");
-                return next(null, "通过这里上传的图片记录将直接显示在记录时间轴上，仅您和本班老师可见。\n\n上传照片前，请先输入主题文字，简单描述一下您要发布的照片内容。例如“和孩子一起读书” “集体户外游戏小青蛙跳荷叶”等。\n\n请输入主题：");
-            default:
-                info.rewait("parent kid record select type");
-                return next(null, "抱歉，只能输入数字1或者2。");
-            }
-        });
+    	var students = info.session.parent.students;
+        if (students.length === 0) {
+            return next(null, "抱歉，该家长的孩子信息尚未录入。");
+        }
+        switch(text) {
+        case "1":
+            info.wait("parent kid record input text");
+            return next(null, "通过这里输入的文字记录将直接显示在记录时间轴上，仅有您和本班老师可见。\n\n请输入文字：");
+        break;
+        case "2":
+            info.wait("parent kid record image text");
+            return next(null, "通过这里上传的图片记录将直接显示在记录时间轴上，仅您和本班老师可见。\n\n上传照片前，请先输入主题文字，简单描述一下您要发布的照片内容。例如“和孩子一起读书” “集体户外游戏小青蛙跳荷叶”等。\n\n请输入主题：");
+        default:
+            info.rewait("parent kid record select type");
+            return next(null, "抱歉，只能输入数字1或者2。");
+        }
 	});
 
     // 等待文字记录输入
@@ -63,7 +58,7 @@ module.exports = function(webot) {
         }
         // 接受提交指令
         if (info.text === wxconst.YES) {
-            if (info.session.students && info.session.students.length === 0) {
+            if (info.session.parent.students && info.session.parent.students.length === 0) {
                 return next(null, "抱歉，获取孩子信息异常，无法提交成长记录。");
             }
             if (!info.session.parent.records || info.session.parent.records.length == 0) {
@@ -72,7 +67,7 @@ module.exports = function(webot) {
             }
             // 记录入库
             RecordServices.create(info.session.parent, {
-                studentId: info.session.students[0].id,
+                studentId: info.session.parent.students[0].id,
                 contenttype: '0',
                 content: info.session.parent.records.join(" ")
             }).then(function() {
@@ -80,7 +75,7 @@ module.exports = function(webot) {
                 var response = ejs.render(
                     '发布成功！\n<a href="<%- url%>">请点击这里查看成长记录</a>', 
                     {
-                        url: conf.site_root + '/studentPath/mobileView'
+                        url: conf.site_root + '/studentPath/mobileView?student_id=' + info.session.parent.students[0].id
                     }
                 );
                 return next(null, response);
@@ -144,7 +139,7 @@ module.exports = function(webot) {
             }
             // 记录入库
             RecordServices.create(info.session.parent, {
-                studentId: info.session.students[0].id,
+                studentId: info.session.parent.students[0].id,
                 contenttype: '1',
                 content: info.session.parent.imageRecord.title,
                 photos: info.session.parent.imageRecord.photos
@@ -153,7 +148,7 @@ module.exports = function(webot) {
                 var response = ejs.render(
                     '发布成功！\n<a href="<%- url%>">请点击这里查看成长记录</a>', 
                     {
-                        url: conf.site_root + '/studentPath/mobileView'
+                        url: conf.site_root + '/studentPath/mobileView?student_id=' + info.session.parent.students[0].id
                     }
                 );
                 return next(null, response);

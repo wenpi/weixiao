@@ -1,28 +1,46 @@
 var Q = require("q");
 var conf = require("../conf");
 var request = require('request');
-var MysqlServices = require("./MysqlServices");
 var BaseServices = require("./BaseServices");
 
 /*
- * 查询数据
+ * 查询教师数据
  */
-function queryByUserId(opts){
-    var userId = opts.userId || '-1';
-    var sql = [
-        "SELECT * FROM wex_teacher WHERE userid = '" + userId + "'"
-    ];
-    return MysqlServices.query(sql.join(" "));
-    //return BaseServices.query(collection, conditions || null, addtions || {sort:[['createdTime', -1]]});
-};
+function query(schoolId, conditions){
+    var extra = '?_t=1';
+    for (var prop in conditions) {
+        extra += '&' + prop + '=' + conditions[prop];
+    }
+    var deferred = Q.defer(),
+        url = conf.site_root + '/api/school/' + schoolId + '/teacher' + extra;
 
+    var options = {
+        url: url,
+        method: 'GET',
+        headers: BaseServices.getAuthoriedHeader()
+    };
+
+    function callback(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var teachers = JSON.parse(body);
+            deferred.resolve(teachers);
+        } else {
+            deferred.reject();
+        }
+    }
+
+    request(options, callback);
+
+    return deferred.promise;
+};
+exports.query = query;
 /*
  * 返回含有userId的数据
  */
-exports.queryByUserId = function(opts) {
+exports.queryByUserId = function(data) {
     var deferred = Q.defer();
 
-    queryByUserId(opts).then(function(teachers) {
+    query(data.schoolId, {userid: data.userId}).then(function(teachers) {
         if (teachers && teachers.length === 1) {
             deferred.resolve(teachers[0]);
         } else {

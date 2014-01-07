@@ -116,24 +116,22 @@ module.exports = function(webot) {
         if (info.session.parent) {
             // 接受提交指令
             if (info.text === wxconst.YES) {
-                UserServices.queryStudentsAsParent({userId: info.session.parent.id, schoolOpenId: info.sp}).then(function(students) {
-                    if (students.length === 0) {
-                        return next(null, nostudent);
-                    }
+                var students = info.session.parent.students;
 
-                    info.session.parent.addparent.schoolId = info.session.school.id;
-                    info.session.parent.addparent.studentId = students[0].id;
-                    info.session.parent.addparent.photo = info.session.parent.photo;
-                    info.session.parent.addparent.createdBy = info.session.parent.id;
-
-                    ParentServices.createParentByParent(info.session.parent.addparent)
-                    .then(function() {
-                        return next(null, "添加成功！您现在可以用\n\n手机号码：" + info.session.parent.addparent.mobile + "\n\n激活另一个微信账号，初始密码为该手机号码后四位。");
-                    }, function(err) {
-                        return next(null, "抱歉！创建失败。");
-                    })
-                }, function(err) {
+                if (students.length === 0) {
                     return next(null, nostudent);
+                }
+
+                info.session.parent.addparent.schoolId = info.session.school.id;
+                info.session.parent.addparent.studentId = students[0].id;
+                info.session.parent.addparent.photo = info.session.parent.photo;
+                info.session.parent.addparent.createdBy = info.session.parent.id;
+
+                ParentServices.createParentByParent(info.session.parent.addparent)
+                .then(function() {
+                    return next(null, "添加成功！您现在可以用\n\n手机号码：" + info.session.parent.addparent.mobile + "\n\n激活另一个微信账号，初始密码为该手机号码后四位。");
+                }, function(err) {
+                    return next(null, "抱歉！创建失败。");
                 })
             } else  if (info.text === wxconst.NO) {
                 delete info.session.parent.addparent;

@@ -8,7 +8,7 @@ var ejs = require('ejs');
 var conf = require('../../conf');
 var utils = require("../utils");
 var wxconst = require("../const");
-var UserServices = require("../../services/UserServices");
+var StudentServices = require("../../services/StudentServices");
 var RecordServices = require("../../services/RecordServices");
 
 module.exports = function(webot) {
@@ -38,8 +38,9 @@ module.exports = function(webot) {
 
         delete info.session.students;
         info.session.students = [];
-        UserServices.queryStudentsAsTeacher({
-            userId: info.session.teacher.id
+        StudentServices.queryByClassId({
+            schoolId: info.session.school.id,
+            classId: info.session.teacher.wxclasses[0].id
         }).then(function(results) {
             var students = [];
             for (var i=0; i<results.length; i++) {

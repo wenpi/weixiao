@@ -61,6 +61,7 @@ function ensure_user_is_register (info, next) {
                 return next();
             } else {
                 TeacherServices.queryByUserId({
+                	schoolId: info.session.school.id,
                     userId: info.session.teacher.id
                 }).then(function(teacher) {
                     info.session.teacher.teacherId = teacher.id;
