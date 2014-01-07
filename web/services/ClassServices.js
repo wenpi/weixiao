@@ -41,7 +41,6 @@ function queryByTeacher(opts){
     var deferred = Q.defer(),
         url = conf.site_root + '/api/school/' + schoolId + '/teacher/' + teacherId + '/class';
 
-    console.info(url);
     var options = {
         url: url,
         method: 'GET',
