@@ -9,3 +9,6 @@ p {
 	font-size: 2em;
 	line-height: 2.1em;
 }
+p img {
+	width: 100%;
+}

@@ -18,30 +18,20 @@ function send_help(info, next) {
 	  picUrl: conf.site_root + '/webot/wap/images/index_1.jpg',
 	  description: '如何进行身份认证',
 	}, {
-	  title: '如何发布留言到留言板',
-	  url: conf.site_root + '/webot/wap/help/message',
+	  title: '如何查看各种信息',
+	  url: conf.site_root + '/webot/wap/help/read',
 	  picUrl: conf.site_root + '/webot/wap/images/index_2.jpg',
-	  description: '如何发布留言到留言板',
+	  description: '如何查看各种信息',
 	}, {
-	  title: '如何发布照片到班级相册',
-	  url: conf.site_root + '/webot/wap/help/photo',
+	  title: '如何发布各种信息',
+	  url: conf.site_root + '/webot/wap/help/publish',
 	  picUrl: conf.site_root + '/webot/wap/images/index_3.jpg',
-	  description: '如何发布照片到班级相册',
+	  description: '如何发布各种信息',
 	}, {
-	  title: '如何添加成长记录',
-	  url: conf.site_root + '/webot/wap/help/record',
-	  picUrl: conf.site_root + '/webot/wap/images/index_1.jpg',
-	  description: '如何添加成长记录',
-	}, {
-	  title: '如何修改和管理个人信息',
+	  title: '如何修改资料并添加家长',
 	  url: conf.site_root + '/webot/wap/help/profile',
-	  picUrl: conf.site_root + '/webot/wap/images/index_2.jpg',
-	  description: '如何修改和管理个人信息',
-	}, {
-	  title: '如何查看各种相关信息',
-	  url: conf.site_root + '/webot/wap/help/other',
-	  picUrl: conf.site_root + '/webot/wap/images/index_3.jpg',
-	  description: '如何查看各种相关信息',
+	  picUrl: conf.site_root + '/webot/wap/images/index_1.jpg',
+	  description: '如何修改资料并添加家长',
 	}]);
 }
 
