@@ -40,8 +40,8 @@ module.exports = function(webot) {
 		    		}
 		    		// 如果查到相关信息,则是已经认证,否则需要继续认证流程
 		    		UserServices.queryByOpenId({
-		    			userOpenId: info.uid,
-		    			schoolOpenId: info.sp
+		    			schoolId: info.session.school.id,
+		    			openId: info.uid
 		    		}).then(function(user) {
 		    			var text = ejs.render(
 							registered,
@@ -73,8 +73,8 @@ module.exports = function(webot) {
 		    	if (user) {
 		    		// 如果查到相关信息,则是已经认证,否则需要保存头像并返回激活链接
 		    		UserServices.queryByOpenId({
-		    			userOpenId: info.uid,
-		    			schoolOpenId: info.sp
+		    			schoolId: info.session.school.id,
+		    			openId: info.uid
 		    		}).then(function(user) {
 		    			var text = ejs.render(
 							registered,

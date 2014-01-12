@@ -1,35 +1,58 @@
 var Q = require("q");
 var conf = require("../conf");
-var MysqlServices = require("./MysqlServices");
 var request = require('request');
+var BaseServices = require("./BaseServices");
 
 /*
- * 查询数据
+ * 查询菜单数据
  */
-function queryByOpenId(opts){
-    var userOpenId = opts.userOpenId || '-1';
-    var schoolOpenId = opts.schoolOpenId || '-1';
-    var sql = [
-        "SELECT * FROM wex_user WHERE id IN (SELECT userid FROM wex_teacher WHERE open_id = '" + userOpenId +"')",
-        "UNION",
-        "SELECT * FROM wex_user WHERE wex_user.id IN (",
-        "SELECT userid FROM wex_parent WHERE wex_parent.id IN (SELECT parent_id FROM wex_parent_student wps WHERE wps.school_open_id = '" + schoolOpenId + "' and wps.parent_open_id = '" + userOpenId + "'));"
-    ];
-    return MysqlServices.query(sql.join(" "));
-    //return BaseServices.query(collection, conditions || null, addtions || {sort:[['createdTime', -1]]});
+function query(conditions){
+    var extra = '?_t=1';
+    for (var prop in conditions) {
+        extra += '&' + prop + '=' + conditions[prop];
+    }
+    var deferred = Q.defer(),
+        url = conf.site_root + '/api/user' + extra;
+
+    var options = {
+        url: url,
+        method: 'GET',
+        headers: BaseServices.getAuthoriedHeader()
+    };
+
+    console.info(url);
+    function callback(error, response, body) {
+        console.info(body);
+        if (!error && response.statusCode == 200) {
+            var jsondata = JSON.parse(body);
+            console.info(jsondata);
+            if (jsondata.result) {
+                deferred.resolve(jsondata.result);
+            } else {
+                deferred.resolve([]);
+            }
+        } else {
+            deferred.reject();
+        }
+    }
+
+    request(options, callback);
+
+    return deferred.promise;
 };
+exports.query = query;
 
 /*
- * 返回含有openId的数据
+ * 返回含有mobile的数据
  */
-exports.queryByOpenId = function(opts) {
+exports.queryByMobile = function(mobile) {
     var deferred = Q.defer();
 
-    queryByOpenId(opts).then(function(users) {
+    query({mobile: mobile}).then(function(users) {
         if (users && users.length === 1) {
             deferred.resolve(users[0]);
         } else {
-            deferred.reject({status: 500, message: "该微信账号未认证。"});
+            deferred.reject({status: 500, message: "没有这个认证用户。"});
         }
     }, function(err) {
         deferred.reject(err);
@@ -38,21 +61,19 @@ exports.queryByOpenId = function(opts) {
     return deferred.promise;
 }
 
-function queryByMobile(mobile){
-    return MysqlServices.query("select * from wex_user where 1=1 and mobile ='" + mobile + "'");
-};
-
 /*
  * 返回含有openId的数据
  */
-exports.queryByMobile = function(mobile) {
+exports.queryByOpenId = function(opts) {
     var deferred = Q.defer();
 
-    queryByMobile(mobile).then(function(users) {
+    query({schoolId: opts.schoolId, openId: opts.openId})
+    .then(function(users) {
+        console.info(users);
         if (users && users.length === 1) {
             deferred.resolve(users[0]);
         } else {
-            deferred.reject({status: 500, message: "没有这个认证用户。"});
+            deferred.reject({status: 500, message: "该微信账号未认证。"});
         }
     }, function(err) {
         deferred.reject(err);

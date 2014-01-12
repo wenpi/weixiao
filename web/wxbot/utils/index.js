@@ -41,7 +41,10 @@ function mobile_input_prompt(info, next) {
 function ensure_user_is_register (info, next) {
     if (info.session.parent || info.session.teacher) { return next(); }
 
-    UserServices.queryByOpenId({schoolOpenId: info.sp, userOpenId: info.uid}).then(function(user) {
+    UserServices.queryByOpenId({
+    	schoolId: info.session.school.id,
+		openId: info.uid
+    }).then(function(user) {
     	if ((user.archived + '') === '0') {
     		info.ended = true;
     		return next(null, "抱歉！您已经离园，无法继续使用本园功能。");
