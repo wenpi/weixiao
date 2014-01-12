@@ -6,12 +6,15 @@
  */
 var ejs = require('ejs');
 var conf = require('../../conf');
-var UserServices = require("../../services/UserServices");
+var ParentServices = require("../../services/ParentServices");
 
 function add_parent_start(info, next) {
+    var nostudent = "没有孩子数据，无法继续。";
     if (info.session.parent) {
-        //info.wait("parent message input");
-        UserServices.queryParentsAsParent({schoolOpenId: info.sp, userId: info.session.parent.id})
+        if (!info.session.parent.students) { return next(nostudent); }
+        if (info.session.parent.students && info.session.parent.students.length == 0) { return next(nostudent); }
+
+        ParentServices.queryParentsByStudent({schoolId: info.session.school.id, studentId: info.session.parent.students[0].id})
         .then(function(parents) {
             var contacts = [], prompt;
             for (var i=0; i<parents.length; i++) {

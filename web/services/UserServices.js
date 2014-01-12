@@ -61,21 +61,6 @@ exports.queryByMobile = function(mobile) {
     return deferred.promise;
 }
 
-/**
- * 根据家长信息查出其他家长
- */
-exports.queryParentsAsParent = function(opts){
-    var userId = opts.userId || '-1';
-    var schoolOpenId = opts.schoolOpenId || '-1';
-    var sql = [
-     "SELECT mobile, name from wex_parent_user where id in ",
-      "(select parent_id FROM wex_parent_student where student_id ",
-          "in (select student_id FROM wex_parent_student where school_open_id = '" + schoolOpenId + "' and ",
-               "parent_id = (SELECT id FROM wex_parent WHERE userid = '" + userId + "' )));"
-    ];
-    return MysqlServices.query(sql.join(" "));
-};
-
 /*
  * 更新profile image
  */
