@@ -20,12 +20,9 @@ function query(conditions){
         headers: BaseServices.getAuthoriedHeader()
     };
 
-    console.info(url);
     function callback(error, response, body) {
-        console.info(body);
         if (!error && response.statusCode == 200) {
             var jsondata = JSON.parse(body);
-            console.info(jsondata);
             if (jsondata.result) {
                 deferred.resolve(jsondata.result);
             } else {
@@ -69,7 +66,6 @@ exports.queryByOpenId = function(opts) {
 
     query({schoolId: opts.schoolId, openId: opts.openId})
     .then(function(users) {
-        console.info(users);
         if (users && users.length === 1) {
             deferred.resolve(users[0]);
         } else {
