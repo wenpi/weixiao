@@ -11,15 +11,6 @@ module.exports = {
     port: '27017',
     dbname: 'weexiaodb',
   },
-  mysql: {
-    //host: '127.0.0.1',
-    host: '42.96.191.235',
-    port: '3306',
-    user: 'panwei',
-    password: 'pw@2013',
-    //database: 'weexiao'
-    database: 'kindergarten'
-  },
   users: {
     admin: {
       passwd: 'passw0rd'
