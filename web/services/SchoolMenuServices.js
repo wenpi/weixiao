@@ -2,10 +2,8 @@ var Q = require("q");
 var wechat = require('wechat');
 var conf = require("../conf");
 
-/**
- * init the id
- */
-function initMenu(schoolId) {
+
+function initMenuBak(schoolId) {
     return {
         "button":[{
             "name":"本园生活",
@@ -17,11 +15,7 @@ function initMenu(schoolId) {
                 "type": "view",
                 "name": "每周食谱",
                 "url": conf.site_root +  "/front/dinner/" + schoolId
-            }, /*, {  
-                "type": "click",
-                "name": "课程计划",
-                "key": "COURSE_VIEW"
-            }*/{  
+            }, {  
                 "type": "view",
                 "name": "关于本园",
                 "url": conf.site_root + "/front/" + schoolId
@@ -79,6 +73,58 @@ function initMenu(schoolId) {
                 "type": "click",
                 "name": "使用帮助",
                 "key": "WEEXIAO_HELP"
+            }]
+        }]
+    }
+}
+
+function initMenu() {
+    return {
+        "button":[{
+            "name":"本园生活",
+            "sub_button":[{
+                "type": "click",
+                "name": "全园播报",
+                "key": "NOTICE"
+            }, {
+                "type": "click",
+                "name": "每周食谱",
+                "key": "DINNER"
+            }, {
+                "type": "click",
+                "name": "关于本园",
+                "key": "ABOUT"
+            }, {
+                "type": "click",
+                "name": "使用帮助",
+                "key": "HELP"
+            }]
+        }, {
+            "type": "click",
+            "name": "班级动态",
+            "key":"CLASS_UPDATE"
+        }, {
+            "name":"个人中心",
+            "sub_button":[{  
+                "type": "click",
+                "name": "发布留言",
+                "key": "MESSAGE_ADD"
+            }, {
+                "type": "click",
+                "name": "发布照片",
+                "key":"IMAGE_ADD"
+            }, {  
+                "type": "click",
+                "name": "添加成长记录",
+                "key": "KID_RECORD_ADD"
+            }, {  
+                "type": "click",
+                "name": "我要请假",
+                "key": "LEAVE_ADD"
+            }, {
+                "type": "click",
+                "name": "个人资料",
+                "key": "PROFILE_GATEWAY"
             }]
         }]
     }

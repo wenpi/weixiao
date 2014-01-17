@@ -42,7 +42,7 @@ module.exports = function(webot) {
 	});
 	webot.set('weexiao help by event', {
 		pattern: function(info) {
-			return info.param.eventKey === 'WEEXIAO_HELP';
+			return info.param.eventKey === 'HELP';
 		},
 		handler: send_help
 	});
