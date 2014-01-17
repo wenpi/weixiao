@@ -17,7 +17,7 @@ module.exports = {
     }
   },
   site_root: 'http://test.weexiao.com',
-  upload_root: '/var/www/html/kindergarten/upload',
+  upload_root: '/var/www/html/weexiao/upload',
   //upload_root: 'C:/upload/images',
   salt: 'weexiao',
   weixin: 'weexiao'
