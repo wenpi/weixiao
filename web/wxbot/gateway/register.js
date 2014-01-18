@@ -67,7 +67,7 @@ module.exports = function(webot) {
 			utils.operation_is_failed(info, next);
 			info.rewait("user register profile image");
 			return next(null, "抱歉，只能上传图片。");
-		}else {
+		} else {
 			var mobile = info.session.mobile;
 		    UserServices.queryByMobile(mobile).then(function(user) {
 		    	if (user) {

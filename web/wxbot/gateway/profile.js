@@ -24,6 +24,52 @@ function profile_edit(info, next) {
 }
 
 module.exports = function(webot) {
+    // 个人资料的网关
+    webot.set('user profile gateway', {
+        domain: "gateway",
+        pattern: function(info) {
+            return info.param.eventKey === 'PROFILE_GATEWAY';
+        },
+        handler: function(info, next) {
+            info.wait("user profile action");
+            return next(null, [
+                    "请回复数字选择您要进行的操作：",
+                    "【1】修改个人资料",
+                    "【2】修改密码",
+                    "【3】添加家长",
+                    ""
+                ].join("\n"));
+        }
+    });
+    // 个人资料的选择
+    webot.waitRule("user profile action", function(info, next) {
+        if (info.is("event")) {
+            return next();
+        }
+        if (!info.is("text")) {
+            utils.operation_is_failed(info, next);
+            info.rewait("user profile action");
+            return next(null, "抱歉，只能输入文字。");
+        }
+        if (!/^(1|2|3)$/i.test(info.text)) {
+            utils.operation_is_failed(info, next);
+            info.rewait("user profile action");
+            return next(null, "抱歉，没有这个选项，请重新输入：");
+        }
+        var action = info.text + '';
+        switch(action) {
+        case '1':
+            info.param.eventKey = 'PROFILE_EDIT';
+        break;
+        case '2':
+            info.param.eventKey = 'PASSWORD_EDIT';
+        break;
+        case '3':
+            info.param.eventKey = 'PARENT_ADD';
+        break;
+        }
+        return next();
+    });
 	// 修改个人资料提示语
 	webot.set('user profile edit start by text', {
 		domain: "gateway",
