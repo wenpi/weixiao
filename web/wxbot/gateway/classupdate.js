@@ -16,12 +16,12 @@ function send_update(info, next) {
     var links = [{
 		title: '留言板',
 		url: conf.site_root + '/front/message',
-		picUrl: conf.site_root + '/webot/wap/images/message.png?t=' + t,
+		picUrl: conf.site_root + '/webot/wap/images/webot/message.png?t=' + t,
 		description: '留言板'
 	}, {
 		title: '班级相册',
 		url: conf.site_root + '/classPhoto/mobileview',
-		picUrl: conf.site_root + '/webot/wap/images/photo.png?t=' + t,
+		picUrl: conf.site_root + '/webot/wap/images/webot/photo.png?t=' + t,
 		description: '班级相册'
 	}];
 
@@ -30,7 +30,7 @@ function send_update(info, next) {
 			links.push({
 				title: '成长记录',
 				url: conf.site_root + '/studentPath/mobileView?student_id=' + info.session.parent.students[0].id,
-				picUrl: conf.site_root + '/webot/wap/images/record.png?t=' + t,
+				picUrl: conf.site_root + '/webot/wap/images/webot/record.png?t=' + t,
 				description: '成长记录'
 			});
 		}
@@ -41,7 +41,7 @@ function send_update(info, next) {
 			links.push({
 				title: '成长记录',
 				url: conf.site_root + '/webot/wap/school/' + info.session.school.id + "/class/" + info.session.teacher.wxclasses[0].id + "/record/entry",
-				picUrl: conf.site_root + '/webot/wap/images/record.png?t=' + t,
+				picUrl: conf.site_root + '/webot/wap/images/webot/record.png?t=' + t,
 				description: '查看学生们的成长记录'
 			});
 		}
@@ -50,7 +50,7 @@ function send_update(info, next) {
 	links.push({
 		title: '课程计划',
 		url: conf.site_root + '/front/course',
-		picUrl: conf.site_root + '/webot/wap/images/course.png?t=' + t,
+		picUrl: conf.site_root + '/webot/wap/images/webot/course.png?t=' + t,
 		description: '课程计划'
 	});
 

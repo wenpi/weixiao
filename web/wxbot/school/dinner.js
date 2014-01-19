@@ -17,7 +17,7 @@ module.exports = function(webot) {
 			return next(null, [{
 			  title: '每周食谱',
 			  url: conf.site_root + "/front/dinner/" + info.session.school.id,
-			  picUrl: conf.site_root + '/webot/wap/images/webanner.png',
+			  picUrl: conf.site_root + '/webot/wap/images/webot/webanner.png',
 			  description: '每周食谱',
 			}]);
 		}

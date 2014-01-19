@@ -17,7 +17,7 @@ module.exports = function(webot) {
 			return next(null, [{
 			  title: '关于本园',
 			  url: conf.site_root + "/front/" + info.session.school.id,
-			  picUrl: conf.site_root + '/webot/wap/images/webanner.png',
+			  picUrl: conf.site_root + '/webot/wap/images/webot/webanner.png',
 			  description: '幼儿园介绍',
 			}]);
 		}

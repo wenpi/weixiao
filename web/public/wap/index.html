@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Weexiao Mobile</title>
+    <title>微笑幼儿园</title>
     <meta name="description" content="微笑幼儿园">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
@@ -15,76 +15,68 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Weexiao Mobile">
     <meta name="Author" contect="weexiao.com"/>
-    
-    <link rel="stylesheet" type="text/css" href="css/ratchet.css" />
-    <link rel="stylesheet" type="text/css" href="css/icons.css" />
-    <style>
-    .directiveBox{top:0;bottom:0;left:0;right:0;z-index:101;transition-duration:400ms;-moz-transition-duration:400ms;-webkit-transition-duration:400ms;-o-transition-duration:400ms;background:#fff;position:fixed}
-    #wx-menu {
-        visibility: visible;
-        -webkit-transform: translate3d(-100%, 0, 0);
-        transform: translate3d(-100%, 0, 0);
-    }
-	
-	#wx-menu.open {
-	    visibility: visible;
-	    -webkit-transform: translate3d(0, 0, 0);
-	    transform: translate3d(0, 0, 0);
-	    z-index:1;
-	}
-    </style>
+
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/weexiao.css">
 </head>
 <body>
-    <div id="weexiao">
-        <div id="wx-menu" class="directiveBox">
-        <header class="bar-title">
-            <a class="button" href="javascript:void(0)">隐藏</a>
-            <h1 class="title">菜单</h1>
-        </header>
-        <ul class="list">
-          <li>
-            <a href="#">
-              List item 1
-              <span class="chevron"></span>
-              <span class="count">4</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              List item 2
-              <span class="chevron"></span>
-              <span class="count">1</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              List item 3
-              <span class="chevron"></span>
-              <span class="count">5</span>
-            </a>
-          </li>
-        </ul>
+<div id="weexiao">
+    <div class="wx-page">
+        <div class="header">
+            <a href="javascript:void(0)" class="button button-left"><i class="fa fa-align-justify"></i></a>
+            <span class="title">班级留言</span>
+            <a href="javascript:void(0)" class="button button-right"><i class="fa fa-edit"></i></a>
         </div>
-        <div id="wx-main">
-        <header class="bar-title">
-            <a class="button menuBtn" href="javascript:void(0)">菜单</a>
-            <h1 class="title">标题</h1>
-        </header>
+        <table class="pure-table pure-table-horizontal">
+            <tbody>
+                <tr>
+                    <td width="48px" valign="top"><img class="profile" src="images/profile.jpg"></td>
+                    <td class="wx-message-content" valign="top">
+                        <div><a href="javascript:void(0)"><strong>小明的爸爸说：</strong></a></div>
+                        <div>故事剧团都有什么招收条件啊？苏泽宇特别喜欢角色扮演的故事，天天在家当小导演呢。</div>
+                        <div>
+                            <span class="time">3分钟前<span>
+                            <a class="reply" href="javascript:void(0)"><i class="fa fa-flickr"></i>回复</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="48px" valign="top"><img class="profile" src="images/profile.jpg"></td>
+                    <td class="wx-message-content" valign="top">
+                        <div><a href="javascript:void(0)"><strong>小明的爸爸说：</strong></a></div>
+                        <div>故事剧团都有什么招收条件啊？苏泽宇特别喜欢角色扮演的故事，天天在家当小导演呢。</div>
+                        <div>
+                            <span class="time">3分钟前<span>
+                        </div>
+                        <div class="reply">
+                            <a href="javascript:void(0)"><strong>蔷薇老师回复：</strong></a>
+                            <span>会唱歌，不怯场，家长有兴趣可和我报名。</span>
+                            <span class="time">3分钟前<span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="header">
+            <a href="javascript:void(0)" class="button button-left"><i class="fa fa-align-justify"></i></a>
+            <span class="title">班级相册</span>
+            <a href="javascript:void(0)" class="button button-right"><i class="fa fa-edit"></i></a>
         </div>
+        <table class="pure-table pure-table-horizontal">
+            <tbody>
+                <tr>
+                    <td width="48px" valign="top"><img class="profile" src="images/profile.jpg"></td>
+                    <td valign="top">
+                        <div><a href="javascript:void(0)"><strong>小明的爸爸：</strong></a></div>
+                        <div>故事剧团都有什么招收条件啊？苏泽宇特别喜欢角色扮演的故事，天天在家当小导演呢。</div>
+                        <div>2014-01-01 12:00:00</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <script src="js/zepto.js"></script>
-    <script>
-    $(function() {
-        var show = false;
-        $(".menuBtn").click(function() {
-            if (show) {
-                $("#wx-menu").removeClass("open");
-            } else {
-                $("#wx-menu").addClass("open");
-            }
-            show = !show;
-        });
-    });
-    </script>
+</div>
 </body>
 </html>

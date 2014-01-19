@@ -10,27 +10,27 @@ function send_help(info, next) {
     return next(null, [{
 	  title: '关于微信幼儿园',
 	  url: conf.site_root + '/webot/wap/help/about',
-	  picUrl: conf.site_root + '/webot/wap/images/webanner.png',
+	  picUrl: conf.site_root + '/webot/wap/images/webot/webanner.png',
 	  description: '关于微信幼儿园',
 	}, {
 	  title: '如何进行身份认证',
 	  url: conf.site_root + '/webot/wap/help/register',
-	  picUrl: conf.site_root + '/webot/wap/images/index_1.jpg',
+	  picUrl: conf.site_root + '/webot/wap/images/webot/index_1.jpg',
 	  description: '如何进行身份认证',
 	}, {
 	  title: '如何查看各种信息',
 	  url: conf.site_root + '/webot/wap/help/read',
-	  picUrl: conf.site_root + '/webot/wap/images/index_2.jpg',
+	  picUrl: conf.site_root + '/webot/wap/images/webot/index_2.jpg',
 	  description: '如何查看各种信息',
 	}, {
 	  title: '如何发布各种信息',
 	  url: conf.site_root + '/webot/wap/help/publish',
-	  picUrl: conf.site_root + '/webot/wap/images/index_3.jpg',
+	  picUrl: conf.site_root + '/webot/wap/images/webot/index_3.jpg',
 	  description: '如何发布各种信息',
 	}, {
 	  title: '如何修改资料并添加家长',
 	  url: conf.site_root + '/webot/wap/help/profile',
-	  picUrl: conf.site_root + '/webot/wap/images/index_1.jpg',
+	  picUrl: conf.site_root + '/webot/wap/images/webot/index_1.jpg',
 	  description: '如何修改资料并添加家长',
 	}]);
 }

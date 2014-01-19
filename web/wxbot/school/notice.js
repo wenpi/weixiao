@@ -17,7 +17,7 @@ module.exports = function(webot) {
 			return next(null, [{
 			  title: '全园播报',
 			  url: conf.site_root + "/front/notice/" + info.session.school.id,
-			  picUrl: conf.site_root + '/webot/wap/images/webanner.png',
+			  picUrl: conf.site_root + '/webot/wap/images/webot/webanner.png',
 			  description: '最新学校动态',
 			}]);
 		}

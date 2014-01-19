@@ -4,6 +4,19 @@ var conf = require('../conf');
 module.exports = function(webot) {
 	webot.loads("weexiao", "gateway", "school", "parent", "teacher");
 
+    // 默认欢迎词
+    webot.set('houtai test', {
+        pattern: /^houtai/i,
+        handler: function(info, next) {
+            var prompt = [
+                '<a href="http://wvovo.com/mangular">NGCSS3</a>',
+                '<a href="http://purecss.io/forms/">PureCSS</a>',
+                '<a href="' + conf.site_root + '/webot/wap/index.html">后台测试</a>'
+            ];
+            next(null, prompt.join("\n\n"));
+        }
+    });
+
 	// 默认欢迎词
 	webot.set('greeting', {
 		pattern: function() {
@@ -26,19 +39,6 @@ module.exports = function(webot) {
 			}
 		}
 	});
-
-	   // 默认欢迎词
-    webot.set('houtai test', {
-        pattern: function(info) {
-            return info.text = "houtai";
-        },
-        handler: function(info, next) {
-            var prompt = [
-                '<a href="' + conf.site_root + '/webot/wap/index.html">后台测试</a>'
-            ];
-            next(prompt.join(""));
-        }
-    });
 
     // 定义school域, 检查幼儿园是否激活
     webot.beforeReply(utils.ensure_school_is_bind);
