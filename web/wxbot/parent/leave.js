@@ -30,7 +30,7 @@ module.exports = function(webot) {
             var startDate = Date.today();
             startDate.setTime(Date.parse(info.session.parent.addleave.dates[parseInt(info.text) - 1]));
             info.session.parent.addleave.startDate = startDate;
-        } else if (/^(?!0000)[0-9]{4}-((0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-8])|(0[13-9]|1[0-2])-(29|30)|(0[13578]|1[02])-31)$/i.test(info.text)) {
+        } else if (/^(0\d{1}|1[0-2])(0\d{1}|[12]\d{1}|3[01])$/i.test(info.text)) {
             var startDate = Date.today();
             startDate.setTime(Date.parse(startDate.toFormat("YYYY") + '-' + info.text.substring(0, 2) + '-' + info.text.substring(2)));
             info.session.parent.addleave.startDate = startDate;
