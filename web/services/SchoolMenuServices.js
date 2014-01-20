@@ -104,7 +104,7 @@ function initMenu() {
             "name": "班级动态",
             "key":"CLASS_UPDATE"
         }, {
-            "name":"个人中心",
+            "name":"家园互动",
             "sub_button":[{  
                 "type": "click",
                 "name": "发布留言",
