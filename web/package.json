@@ -9,8 +9,6 @@
     "express": "3.4.4",
     "debug": "*",
     "ejs": "*",
-    "mongodb": "*",
-    "monk": "*",
     "q": "*",
     "wechat": "*",
     "weixin-robot": "*",
