@@ -17,34 +17,35 @@ function send_update(info, next) {
     // 发送信息
     function sendLinks(unread) {
     	var messageUnread = '', photoUnread = '', pathUnread = '';
-    	if (unread.message !== undefined || unread.message > 0) {
+    	if (unread.message !== undefined && unread.message > 0) {
     		messageUnread = ' ' + unread.message + '条未读';
     	}
-    	if (unread.photo !== undefined || unread.photo > 0) {
-    		messageUnread = ' ' + unread.photo + '张新图片';
+    	if (unread.photo !== undefined && unread.photo > 0) {
+    		photoUnread = ' ' + unread.photo + '张新图片';
     	}
-    	if (unread.path !== undefined || unread.path > 0) {
-    		messageUnread = ' ' + unread.path + '条新纪录';
+    	if (unread.path !== undefined && unread.path > 0) {
+    		pathUnread = ' ' + unread.path + '条新纪录';
     	}
+
 	    var links = [{
 			title: '留言板' + messageUnread,
 			url: conf.site_root + '/front/message',
 			picUrl: conf.site_root + '/webot/wap/images/webot/message.png?t=' + t,
 			description: '留言板' + messageUnread
 		}, {
-			title: '班级相册' + unread.photo,
+			title: '班级相册' + photoUnread,
 			url: conf.site_root + '/classPhoto/mobileview',
 			picUrl: conf.site_root + '/webot/wap/images/webot/photo.png?t=' + t,
-			description: '班级相册' + unread.photo
+			description: '班级相册' + photoUnread
 		}];
 
 		if (info.session.parent) {
 			if (info.session.parent.students && info.session.parent.students.length > 0) {
 				links.push({
-					title: '成长记录' + unread.path,
+					title: '成长记录' + pathUnread,
 					url: conf.site_root + '/studentPath/mobileView?student_id=' + info.session.parent.students[0].id,
 					picUrl: conf.site_root + '/webot/wap/images/webot/record.png?t=' + t,
-					description: '成长记录' + unread.path
+					description: '成长记录' + pathUnread
 				});
 			}
 		} else if (info.session.teacher) {
@@ -52,10 +53,10 @@ function send_update(info, next) {
 				info.session.teacher.wxclasses &&
 				info.session.teacher.wxclasses.length > 0) {
 				links.push({
-					title: '成长记录' + unread.path,
+					title: '成长记录' + pathUnread,
 					url: conf.site_root + '/webot/wap/school/' + info.session.school.id + "/class/" + info.session.teacher.wxclasses[0].id + "/record/entry",
 					picUrl: conf.site_root + '/webot/wap/images/webot/record.png?t=' + t,
-					description: '查看学生们的成长记录' + unread.path
+					description: '查看学生们的成长记录' + pathUnread
 				});
 			}
 		}
@@ -66,17 +67,24 @@ function send_update(info, next) {
 			picUrl: conf.site_root + '/webot/wap/images/webot/course.png?t=' + t,
 			description: '课程计划'
 		});
+
+		return next(null, links);
     }
 
-    UserServices.queryUnread(function(unread) {
+    var userId = '';
+    if (info.session.teacher) {
+    	userId = info.session.teacher.id;
+    } else if (info.session.parent) {
+    	userId = info.session.parent.id;
+    } else {
+    	return next(null, "当前用户不是家长或者老师。");
+    }
+    UserServices.queryUnread({userId: userId}).then(function(unread) {
     	sendLinks(unread);
     }, function() {
     	console.info("failed to get unread info.");
     	sendLinks({});
     });
-
-
-    return next(null, links);
 }
 
 module.exports = function(webot) {
