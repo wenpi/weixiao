@@ -4,7 +4,7 @@ var crypto = require('crypto');
 var shasum = crypto.createHash('md5');
 
 var key = '1387432923256';
-shasum.update(key + 'rest' + 'kinderg' + '1qw23er4' + '20140107');
+shasum.update(key + 'rest' + 'kinderg' + '1qw23er4' + '20140122');
 var token = shasum.digest('hex');
 
 var options = {

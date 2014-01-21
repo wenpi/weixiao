@@ -18,7 +18,7 @@ forever start -o out.log -e err.log app.js
 weixiaohuodong
 http://localhost:3000/api/school/d28eefe9-db3b-4db5-a469-424ac5d187d8/syncmenu?appId=wx7e623947327e472e&appSecret=2964baf9c94a1417a54719294f241e0a
 wuyi
-http://weexiao.com/webot/api/school/d28eefe9-db3b-4db5-a469-424ac5d187d8/syncmenu?appId=wxcf0e6547118dcf85&appSecret=94e7ff8e33e2c8b773e59c451042c542
+http://localhost:3000/api/school/d28eefe9-db3b-4db5-a469-424ac5d187d8/syncmenu?appId=wxcf0e6547118dcf85&appSecret=94e7ff8e33e2c8b773e59c451042c542
 lantian
 http://localhost:3000/api/school/a106d68b-cbfd-294a-5324-8d0a5e329e2d/syncmenu?appId=wx104cf6959e8b0913&appSecret=91dd397bcabc742ced638ee11fe9405e
 */

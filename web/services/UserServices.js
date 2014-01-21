@@ -79,6 +79,33 @@ exports.queryByOpenId = function(opts) {
 }
 
 /*
+ * 查询某个用户的未读实体情况
+ */
+exports.queryUnread = function(data) {
+    var deferred = Q.defer(),
+        url = conf.site_root + '/api/user/' + data.userId + '/unread';
+
+    var options = {
+        url: url,
+        method: 'GET',
+        headers: BaseServices.getAuthoriedHeader()
+    };
+
+    function callback(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var unread = JSON.parse(body);
+            deferred.resolve(unread);
+        } else {
+            deferred.reject();
+        }
+    }
+
+    request(options, callback);
+
+    return deferred.promise;
+}
+
+/*
  * 更新profile image
  */
 module.exports.updateProfileImage = function(user) {

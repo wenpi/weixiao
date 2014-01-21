@@ -5,6 +5,7 @@
  * - hopesfish at 163.com
  */
 var conf = require('../../conf');
+var UserServices = require("../../services/UserServices");
 
 function send_update(info, next) {
 	var t = conf.online ? '' : (new Date()).getTime();
@@ -13,46 +14,67 @@ function send_update(info, next) {
             return next(null, "抱歉！园长，管理员暂时需通过PC端使用！");
         }
     }
-    var links = [{
-		title: '留言板',
-		url: conf.site_root + '/front/message',
-		picUrl: conf.site_root + '/webot/wap/images/webot/message.png?t=' + t,
-		description: '留言板'
-	}, {
-		title: '班级相册',
-		url: conf.site_root + '/classPhoto/mobileview',
-		picUrl: conf.site_root + '/webot/wap/images/webot/photo.png?t=' + t,
-		description: '班级相册'
-	}];
+    // 发送信息
+    function sendLinks(unread) {
+    	var messageUnread = '', photoUnread = '', pathUnread = '';
+    	if (unread.message !== undefined || unread.message > 0) {
+    		messageUnread = ' ' + unread.message + '条未读';
+    	}
+    	if (unread.photo !== undefined || unread.photo > 0) {
+    		messageUnread = ' ' + unread.photo + '张新图片';
+    	}
+    	if (unread.path !== undefined || unread.path > 0) {
+    		messageUnread = ' ' + unread.path + '条新纪录';
+    	}
+	    var links = [{
+			title: '留言板' + messageUnread,
+			url: conf.site_root + '/front/message',
+			picUrl: conf.site_root + '/webot/wap/images/webot/message.png?t=' + t,
+			description: '留言板' + messageUnread
+		}, {
+			title: '班级相册' + unread.photo,
+			url: conf.site_root + '/classPhoto/mobileview',
+			picUrl: conf.site_root + '/webot/wap/images/webot/photo.png?t=' + t,
+			description: '班级相册' + unread.photo
+		}];
 
-	if (info.session.parent) {
-		if (info.session.parent.students && info.session.parent.students.length > 0) {
-			links.push({
-				title: '成长记录',
-				url: conf.site_root + '/studentPath/mobileView?student_id=' + info.session.parent.students[0].id,
-				picUrl: conf.site_root + '/webot/wap/images/webot/record.png?t=' + t,
-				description: '成长记录'
-			});
+		if (info.session.parent) {
+			if (info.session.parent.students && info.session.parent.students.length > 0) {
+				links.push({
+					title: '成长记录' + unread.path,
+					url: conf.site_root + '/studentPath/mobileView?student_id=' + info.session.parent.students[0].id,
+					picUrl: conf.site_root + '/webot/wap/images/webot/record.png?t=' + t,
+					description: '成长记录' + unread.path
+				});
+			}
+		} else if (info.session.teacher) {
+			if (info.session.teacher.isAdmin === 0 &&
+				info.session.teacher.wxclasses &&
+				info.session.teacher.wxclasses.length > 0) {
+				links.push({
+					title: '成长记录' + unread.path,
+					url: conf.site_root + '/webot/wap/school/' + info.session.school.id + "/class/" + info.session.teacher.wxclasses[0].id + "/record/entry",
+					picUrl: conf.site_root + '/webot/wap/images/webot/record.png?t=' + t,
+					description: '查看学生们的成长记录' + unread.path
+				});
+			}
 		}
-	} else if (info.session.teacher) {
-		if (info.session.teacher.isAdmin === 0 &&
-			info.session.teacher.wxclasses &&
-			info.session.teacher.wxclasses.length > 0) {
-			links.push({
-				title: '成长记录',
-				url: conf.site_root + '/webot/wap/school/' + info.session.school.id + "/class/" + info.session.teacher.wxclasses[0].id + "/record/entry",
-				picUrl: conf.site_root + '/webot/wap/images/webot/record.png?t=' + t,
-				description: '查看学生们的成长记录'
-			});
-		}
-	}
 
-	links.push({
-		title: '课程计划',
-		url: conf.site_root + '/front/course',
-		picUrl: conf.site_root + '/webot/wap/images/webot/course.png?t=' + t,
-		description: '课程计划'
-	});
+		links.push({
+			title: '课程计划',
+			url: conf.site_root + '/front/course',
+			picUrl: conf.site_root + '/webot/wap/images/webot/course.png?t=' + t,
+			description: '课程计划'
+		});
+    }
+
+    UserServices.queryUnread(function(unread) {
+    	sendLinks(unread);
+    }, function() {
+    	console.info("failed to get unread info.");
+    	sendLinks({});
+    });
+
 
     return next(null, links);
 }
