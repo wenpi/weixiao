@@ -1,6 +1,5 @@
 var assert = require("assert")
 var async = require("async");
-var request = require('request');
 var base = require("./base");
 var SERVER = base.config().SERVER;
 
