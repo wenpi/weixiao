@@ -7,6 +7,8 @@
   },
   "dependencies": {
     "q": "*",
-    "request": "*"
+    "request": "*",
+    "date-utils": "*",
+    "async": "*"
   }
 }
