@@ -11,14 +11,14 @@ module.exports = function() {
             async.series({
                 query: function(callback){
                     base.queryPagingList(SERVER + "/api/school", {token: 'basic-none'})
-                    .then(function() {
-                        throw new Error("should not get data");
+                    .then(function(err) {
+                        callback(err);
                     }, function(err) {
                         done();
                     });
                 }
             }, function(err, results) {
-                throw err;
+                done(err);
             });
         });
 
@@ -28,14 +28,14 @@ module.exports = function() {
             async.series({
                 query: function(callback){
                     base.queryPagingList(SERVER + "/api/school", {token: 'basic-invalid'})
-                    .then(function() {
-                        throw new Error("should not get data");
+                    .then(function(err) {
+                        callback(err);
                     }, function(err) {
                         done();
                     });
                 }
             }, function(err, results) {
-                throw err;
+                done(err);
             });
         });
 
@@ -46,13 +46,13 @@ module.exports = function() {
                 query: function(callback){
                     base.queryPagingList(SERVER + "/api/school", {token: 'basic-expired'})
                     .then(function() {
-                        throw new Error("should not get data");
+                        callback(new Error("should not get data"));
                     }, function(err) {
                         done();
                     });
                 }
             }, function(err, results) {
-                throw err;
+                done(err);
             });
         });
 
@@ -66,11 +66,11 @@ module.exports = function() {
                         assert.equal(true, Array.isArray(schools));
                         done();
                     }, function(err) {
-                        throw err;
+                        callback(err);
                     });
                 }
             }, function(err, results) {
-                throw err;
+                done(err);
             });
         });
     });
