@@ -3,7 +3,8 @@ define(function (require, exports, module) {
     console.log('init app...' + (new Date().getTime()));
 
     //Step3: add 'angular-lazyload' to your main module's list of dependencies
-    var app = angular.module('app', ['angular-lazyload', 'ngRoute']);
+    var app = angular.module('app', ['angular-lazyload', 'ngRoute', 'ngSanitize']);
+    require('./modules/main/config.js')(app);
     require('./modules/message/config.js')(app);
     require('./modules/photo/config.js')(app);
     require('./modules/leave/config.js')(app);

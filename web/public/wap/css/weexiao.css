@@ -33,6 +33,9 @@ a { text-decoration: none; color: #006699; font-weight: bold !important; font-si
 .wx-message-content div.reply { background-color: #eee; padding: 8px; margin: 6px; border-radius: 5px;}
 .wx-message-content textarea { width: 100%; }
 
+.wx-help p { margin: 10px; line-height: 1.5em; text-indent: 2em; }
+.wx-help img { width: 90%; }
+
 
 
 
