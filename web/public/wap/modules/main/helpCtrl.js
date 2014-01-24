@@ -75,7 +75,7 @@ define(function (require, exports, module) {
                 contents.push('<img src="images/help/profile.jpeg">');
             break;
             case 'tips':
-                title = "生活工具";
+                title = "生活助手";
 
                 contents.push('回复【天气】查看天气预报');
                 contents.push('回复【交通】查看交通路况');
