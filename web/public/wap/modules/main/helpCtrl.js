@@ -78,7 +78,7 @@ define(function (require, exports, module) {
                 title = "生活工具";
 
                 contents.push('回复【天气】查看天气预报');
-                contents.push('回复【交通】查看路况信息');
+                contents.push('回复【交通】查看交通路况');
                 contents.push('回复【儿歌】在线听儿歌');
             break;
             }
