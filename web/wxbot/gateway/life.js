@@ -25,7 +25,7 @@ module.exports = function(webot) {
                 picUrl: conf.site_root + '/webot/wap/images/webot/weather.png',
                 description: '天气情况早知道，孩子健康最重要',
             });
-		}ßß
+		}
 	});
 
 	webot.set('traffic start by text', {
