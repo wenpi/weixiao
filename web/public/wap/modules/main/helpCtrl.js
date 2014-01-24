@@ -25,6 +25,13 @@ define(function (require, exports, module) {
                 contents.push("第三步：点击“认证链接”后，输入预设密码（预设密码由本园老师直接发放给家长）后，完善和确认孩子的个人资料，包括选择孩子生日，父母身份等，点击“完成”即可完成认证。");
                 contents.push('<img src="images/help/register.jpeg">');
             break;
+            case 'read':
+                title = "如何查看各种信息";
+                contents.push('第一步：点击你想查看的菜单“本园生活”，“班级动态”或是“家园互动”。如果公众号当前出现的是输入框，请点击左下角键盘图标进行切换。');
+                contents.push('第二步：点击菜单“班级动态”，可以分别查看留言板、班级相册儿童成长记录和本班课程计划。');
+                contents.push('<img src="images/help/read1.jpeg">');
+                contents.push('<img src="images/help/read2.jpeg">');
+            break;
             }
             contents.push('任何问题或建议，请发邮件到');
             contents.push('<a href="mailto:support@weexiao.com">support@weexiao.com</a>');
