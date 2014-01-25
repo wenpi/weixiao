@@ -16,5 +16,20 @@ define(function (require, exports, module) {
                 });
             }
         ]);
+        app.factory('LeaveService', function($rootScope, $http){
+            return {
+                getLeavesByClass: function(schoolId, wexclass) {
+                    return $http({
+                        method: 'GET',
+                        cache: false,
+                        url: WEXPATH + '/api/school/' + schoolId + '/class/' + wexclass.id + '/leave'
+                    }).then(function(res) {
+                        return res.data.result || [];
+                    }, function() {
+                        return null;
+                    });
+                }
+            }
+        });
     }
 });

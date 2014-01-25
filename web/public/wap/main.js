@@ -15,6 +15,5 @@ seajs.on('error', function(module){
 
 //Step2: bootstrap youself
 seajs.use(['app'], function(app){
-	$("#loading").hide();
     angular.bootstrap(document, ['app']);
 });

@@ -29,6 +29,7 @@ function getBasicToken(type) {
 	token = {"wexkey": key, "wextoken": shasum.digest('hex')}
 	break;
 	}
+	console.info(token);
 	return token;
 }
 
