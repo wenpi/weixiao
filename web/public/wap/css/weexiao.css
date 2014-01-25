@@ -1,4 +1,4 @@
-html, body { height: 100%;}
+html, body { height: 100%; min-width: 360px;}
 a { text-decoration: none; color: #006699; font-weight: bold !important; font-size: 1em;}
 .clear { clear: both; }
 
@@ -7,7 +7,8 @@ a { text-decoration: none; color: #006699; font-weight: bold !important; font-si
 #loading { width: 100%; padding: auto; padding-top: 8%; text-align: center; height: 100%; z-index: 101; background-color: #fff; position: fixed;}
 
 .wx-page { padding-top: 48px;}
-.wexprompt { width: 100%; padding-top: 10%; text-align: center;}
+.wx-page-detail { padding-left: 10px; padding: 10px;}
+.wx-prompt { width: 100%; padding-top: 10%; text-align: center;}
 
 .header{z-index: 100; position:fixed;top:0;width:100%;height:48px;background-color:#000;background-image:linear-gradient(tobottom,#1eb0e90,#109adc100%);border-bottom:1px solid #1eb0e9;-webkit-box-orient:horizontal;box-orient:horizontal}
 .header .title{top:0;left:0;display:block;width:100%;font-size:18px;font-weight:700;line-height:48px;color:#fff;text-align:center;text-shadow:0 -1px rgba(0,0,0,.5);white-space:nowrap}
@@ -33,6 +34,11 @@ a { text-decoration: none; color: #006699; font-weight: bold !important; font-si
 .wx-message-content .time { color: #ccc; }
 .wx-message-content div.reply { background-color: #eee; padding: 8px; margin: 6px; border-radius: 5px;}
 .wx-message-content textarea { width: 100%; }
+
+.wex-form input { width: 100%; }
+.wex-form textarea { width: 100%; }
+.wex-form input.date { width: 93%; display: inline-block; margin-right: 5px;}
+.wx-buttons button.full { width: 100%; margin: auto; }
 
 .wx-help p { margin: 10px; line-height: 1.5em; text-indent: 2em; }
 .wx-help img { width: 90%; position: relative; left: -1em;}

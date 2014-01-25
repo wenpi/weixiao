@@ -20,17 +20,14 @@ define(function (require, exports, module) {
 	        		UserService.getClassesByTeacher($scope.session.user)
 	        		.then(function(wexClasses) {
 	        			if (wexClasses && wexClasses.length > 0) {
-	        				$scope.leave.className = wexClasses[0].name;
+	        				$scope.leave.wexClassName = wexClasses[0].name;
 	        				LeaveService.getLeavesByClass($scope.session.user.school_id, wexClasses[0])
 	        				.then(function(records) {
-	        					$scope.leave.records = records;
-	        					console.info($scope.leave.records);
+	        					$scope.leave.records = records.sort(function(a, b) { return a.start_date > b.start_date ? -1 : 1;});
 	        				});
 	        			}
 	        		});
 	        	});
-
-
 	        }]
 	    );
     }

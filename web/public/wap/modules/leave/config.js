@@ -13,18 +13,34 @@ define(function (require, exports, module) {
                     controller: 'leaveCtrl',
                     controllerUrl: 'modules/leave/leaveCtrl.js',
                     templateUrl: 'modules/leave/leave.tpl.html'
+                })
+                .when('/leave/:id', {
+                    controller: 'leaveSaveCtrl',
+                    controllerUrl: 'modules/leave/leaveSaveCtrl.js',
+                    templateUrl: 'modules/leave/leave.save.tpl.html'
                 });
             }
         ]);
         app.factory('LeaveService', function($rootScope, $http){
             return {
+                get: function(id) {
+                    return $http({
+                        method: 'GET',
+                        cache: false,
+                        url: WEXPATH + '/api/leave/' + id
+                    }).then(function(res) {
+                        return res.data || [];
+                    }, function() {
+                        return null;
+                    });
+                },
                 getLeavesByClass: function(schoolId, wexclass) {
                     return $http({
                         method: 'GET',
                         cache: false,
                         url: WEXPATH + '/api/school/' + schoolId + '/class/' + wexclass.id + '/leave'
                     }).then(function(res) {
-                        return res.data.result || [];
+                        return res.data || [];
                     }, function() {
                         return null;
                     });

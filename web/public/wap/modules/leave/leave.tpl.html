@@ -5,15 +5,15 @@
         <!--a href="javascript:void(0)" class="button button-right"><i class="fa fa-edit"></i></a-->
     </div>
     
-    <div ng-show="leave.records == null" class="wexprompt">正在加载请假数据...</div>
-    <div ng-show="leave.records && leave.records.length == 0" class="wexprompt">没有请假记录。</div>
+    <div ng-show="leave.records == null" class="wx-prompt">正在加载请假数据...</div>
+    <div ng-show="leave.records && leave.records.length == 0" class="wx-prompt">没有请假记录。</div>
     
     <table ng-show="leave.records && leave.records.length > 0" class="pure-table pure-table-horizontal">
         <tbody>
             <tr ng-repeat="record in leave.records">
                 <td width="48px" valign="top"><img class="profile" src="images/profile.jpg"></td>
                 <td class="wx-message-content" valign="top">
-                    <div><a href="javascript:void(0)"><strong>小明：</strong></a></div>
+                    <div><a href="javascript:void(0)"><strong>{{record.student_name}}：</strong></a></div>
                     <div>
                         <span>因【{{record.reason}}】</span>
                         <span>请【{{record.days}}】天</span>
@@ -27,8 +27,8 @@
                     <div>
                     </div>
                     <div class="clear">
-                        <span class="time">3分钟前</span>
-                        <a href="javascript:void(0)"><i class="fa fa-pencil"></i>修改</a>
+                        <span class="time">{{record.created_time}}</span>
+                        <a ng-href="#/leave/{{record.id}}"><i class="fa fa-pencil"></i>修改</a>
                     </div>
                 </td>
             </tr>
