@@ -1,0 +1,41 @@
+<div id="wx-date-picker" class="wx-page">
+    <div class="header">
+    	<a href="javascript:void(0)" class="button button-left" ng-click="common.datePicker.hide()"><i class="fa fa-times"></i></a>
+        <span class="title">{{common.datePicker.title}}</span>
+        <a href="javascript:void(0)" class="button button-right" ng-show="common.datePicker.valid"
+           ng-click="common.datePicker.confirm()"><i class="fa fa-check"></i></a>
+    </div>
+    <div class="wx-page-detail">
+        <table style="width: 100%; marign:auto;margin-top:10%;">
+            <tr>
+                <td width="40%" align="center">
+                    <i class="fa fa-angle-up fa-3" ng-click="common.datePicker.ydate.addYears(1)"></i>
+                    <div>
+                        <input type="text" ng-readonly="true" ng-required="true"
+                               value="{{common.datePicker.ydate.toFormat('YYYY')}}" style="width:6em;">
+                     </div>
+                    <i class="fa fa-angle-down fa-3" ng-click="common.datePicker.ydate.addYears(-1)"></i>
+                </td>
+                <td width="35%" align="center">
+                    <i class="fa fa-angle-up fa-3" ng-click="common.datePicker.mdate.addMonths(1)"></i>
+                    <div>
+                        <input type="text" ng-readonly="true" ng-required="true"
+                               value="{{common.datePicker.mdate.toFormat('MM')}}">
+                    </div>
+                    <i class="fa fa-angle-down fa-3" ng-click="common.datePicker.mdate.addMonths(-1)"></i>
+                </td>
+                <td width="25%" align="center">
+                    <i class="fa fa-angle-up fa-3" ng-click="common.datePicker.ddate.addDays(1)"></i>
+                    <div>
+                        <input type="text" ng-readonly="true" ng-required="true"
+                               value="{{common.datePicker.ddate.toFormat('DD')}}">
+                    </div>
+                    <i class="fa fa-angle-down fa-3" ng-click="common.datePicker.ddate.addDays(-1)"></i>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" align="center" style="padding-top:2em;">{{common.datePicker.description}}</td>
+            </tr>
+        </table>
+	</div>
+</div>

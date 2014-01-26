@@ -1,9 +1,12 @@
 <div id="wx-photo" class="wx-page">
     <div class="header">
-        <a href="#main" class="button button-left"><i class="fa fa-th"></i></a>
-        <span class="title">{{leave.wexClassName}}请假考勤</span>
+        <!--a href="#main" class="button button-left"><i class="fa fa-th"></i></a-->
+        <a ng-show="leave.view == 'tvs'"
+           href="javascript:window.history.go(-1)" class="button button-left"><i class="fa fa-angle-left"></i></a>
+        <span class="title">{{leave.title}}请假考勤</span>
         <a href="#/leave/new" class="button button-right"><i class="fa fa-plus"></i></a>
     </div>
+
     
     <div ng-show="leave.records == null" class="wx-prompt">正在加载请假数据...</div>
     <div ng-show="leave.records && leave.records.length == 0" class="wx-prompt">没有请假记录。</div>
@@ -11,18 +14,22 @@
     <table ng-show="leave.records && leave.records.length > 0" class="pure-table pure-table-horizontal">
         <tbody>
             <tr ng-repeat="record in leave.records">
-                <td width="48px" valign="top"><img class="profile" src="images/profile.jpg"></td>
+                <td width="48px" valign="top">
+                    <a ng-href="#/student/{{record.studentId}}/leave"><img class="profile" src="images/profile.jpg"></a>
+                </td>
                 <td class="wx-message-content" valign="top">
-                    <div><a href="javascript:void(0)"><strong>{{record.studentName}}：</strong></a></div>
+                    <div><a ng-href="#/student/{{record.studentId}}/leave"><strong>{{record.studentName}}：</strong></a></div>
                     <div>
-                        <span>因【{{record.reason}}】</span>
-                        <span>请【{{record.days}}】天</span>
+                        <span class="strong">{{record.startDate.substring(5)}}</span>
+                        <span ng-show="record.days > 0">至</span>
+                        <span ng-show="record.days > 0" class="strong">{{record.endDate.substring(5)}}</span>
+                        <span ng-show="record.days > 0">，</span>
+                        <span class="strong" style="width:2em;">{{record.days}}</span>
+                        <span>天</span>
                         <span ng-bind="record.type == '1' ? '事假': '病假'"></span>
-                    </div>
-                    <div>
-                        <span>离园日期：</span>
-                        <span>{{record.startDate}}</span>
-                        <span ng-show="record.days > 1"> 至 {{record.endDate}} </span>
+                        <br/>
+                        <span>说明：</span>
+                        <span class="strong">{{record.reason}}</span>
                     </div>
                     <div>
                     </div>

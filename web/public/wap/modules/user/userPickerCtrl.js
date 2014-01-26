@@ -10,16 +10,30 @@ define(function (require, exports, module) {
 	        function($scope, $routeParams, $location, $http){
 	            $scope.common.userPicker = {};
 	            $scope.common.userPicker.title = '请选择';
-	            $scope.common.userPicker.hide = function() {
+	            $scope.common.userPicker.multi = false;
+	            $scope.common.userPicker.users = [];
+
+	            function hide() {
+	            	$scope.common.userPicker.users = [];
 	            	$("#wx-user-picker").hide();
-	            };
+	            }
+	            $scope.common.userPicker.hide = hide;
+
 	            $scope.common.userPicker.show = function(opts) {
+	            	var opts = opts || {};
 	            	$scope.common.userPicker.title = opts.title || '请选择';
+	            	$scope.common.userPicker.users = opts.users || [];
+	            	$scope.common.userPicker.onSelect = opts.onSelect || function() {};
 	            	$("#wx-user-picker").show();
 	            };
 	            $scope.common.userPicker.confirm = function(opts) {
-	            	$("#wx-user-picker").hide();
+	            	hide();
 	            };
+
+	            $scope.common.userPicker.pick = function(user) {
+	            	$scope.common.userPicker.onSelect([user]);
+	            	hide();
+	            }
 	        }]
 	    );
     }

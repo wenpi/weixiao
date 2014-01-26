@@ -15,8 +15,8 @@ define(function (require, exports, module) {
 
     $.fn.cookie("wexschool", "a106d68b-cbfd-294a-5324-8d0a5e329e2d");
     $.fn.cookie("wexuser", "2e9db4f7-4293-4c11-80eb-4895ebe01b50");
-    $.fn.cookie("wexkey", "1390710150215");
-    $.fn.cookie("wextoken", "daa3885b275bfcd696a4124c65f3c306");
+    $.fn.cookie("wexkey", "1390758409426");
+    $.fn.cookie("wextoken", "2b4a5bb39d6cb8b425ee42b8276de3bb");
     //配置期
     app.config(['$httpProvider', '$routeProvider', function($httpProvider, $routeProvider) {
         $httpProvider.defaults.headers.common['wexuser'] = $.fn.cookie("wexuser");  
@@ -71,7 +71,22 @@ define(function (require, exports, module) {
             break;
             case '1':
                 UserService.getTeacher(user.id).then(function(teacher) {
-                    $rootScope.session.user = $.extend(user, teacher, {schoolId: $.fn.cookie("wexschool")});
+                    var teacher = $.extend(user, teacher, {schoolId: $.fn.cookie("wexschool")});
+                    UserService.getClassesByTeacher(teacher)
+                    .then(function(wexClasses) {
+                        if (wexClasses && wexClasses.length > 0) {
+                            teacher.wexClasses = wexClasses;
+                        } else {
+                            teacher.wexClasses = [];
+                        }
+                        $rootScope.session.user = teacher;
+
+                        $(wexClasses).each(function (i, wexClass) {
+                            UserService.getStudentsByClass(wexClass).then(function(students) {
+                                wexClass.students = students.sort(function(a, b) { a.name > b.name ? -1 : 1;}) || [];
+                            })
+                        });
+                    });
                 }, function() {
                     alert('抱歉，加载教师信息出错。');
                     return;

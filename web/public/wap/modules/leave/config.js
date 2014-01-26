@@ -14,6 +14,15 @@ define(function (require, exports, module) {
                     controllerUrl: 'modules/leave/leaveCtrl.js',
                     templateUrl: 'modules/leave/leave.tpl.html'
                 })
+                .when('/class/:classId/leave', {
+                    controller: 'leaveCtrl',
+                    controllerUrl: 'modules/leave/leaveCtrl.js',
+                    templateUrl: 'modules/leave/leave.tpl.html'
+                }).when('/student/:studentId/leave', {
+                    controller: 'leaveCtrl',
+                    controllerUrl: 'modules/leave/leaveCtrl.js',
+                    templateUrl: 'modules/leave/leave.tpl.html'
+                })
                 .when('/leave/new', {
                     controller: 'leaveSaveCtrl',
                     controllerUrl: 'modules/leave/leaveSaveCtrl.js',
@@ -48,7 +57,7 @@ define(function (require, exports, module) {
                         method: 'POST',
                         headers:{'Content-Type':'application/x-www-form-urlencoded'},
                         data: $.param(record),
-                        url: WEXPATH + '/api/schoold/' + schooldId + '/student/' + record.studentId + '/leave' + (record.id ? ('/' + record.id) : '')
+                        url: WEXPATH + '/api/school/' + schooldId + '/student/' + record.studentId + '/leave' + (record.id ? ('/' + record.id) : '')
                     }).then(function(res) {
                         if (res.status === successCode) {
                             return true;
@@ -59,11 +68,11 @@ define(function (require, exports, module) {
                         throw err;
                     });
                 },
-                getLeavesByClass: function(schoolId, wexclass) {
+                getLeavesByUri: function(uri) {
                     return $http({
                         method: 'GET',
                         cache: false,
-                        url: WEXPATH + '/api/school/' + schoolId + '/class/' + wexclass.id + '/leave'
+                        url: WEXPATH + uri
                     }).then(function(res) {
                         return res.data || [];
                     }, function() {

@@ -3,7 +3,7 @@ define(function (require, exports, module) {
 
     module.exports = function(app){
         require('./userPickerCtrl.js')(app);
-        
+
         app.factory('UserService', function($rootScope, $http){
             var uri = WEXPATH + '/api/user';
             var puri = WEXPATH + '/api/parent';
@@ -47,6 +47,17 @@ define(function (require, exports, module) {
                         method: 'GET',
                         cache: false,
                         url: WEXPATH + '/api/school/' + teacher.schoolId + '/teacher/' + teacher.id + '/class'
+                    }).then(function(res) {
+                        return res.data;
+                    }, function() {
+                        return null;
+                    });
+                },
+                getStudentsByClass: function(wexClass) {
+                    return $http({
+                        method: 'GET',
+                        cache: false,
+                        url: WEXPATH + '/api/school/' + wexClass.school_id + '/class/' + wexClass.id + '/student'
                     }).then(function(res) {
                         return res.data;
                     }, function() {

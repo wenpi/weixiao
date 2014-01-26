@@ -1,7 +1,7 @@
 <div id="wx-photo" class="wx-page">
     <div class="header">
-        <a href="#leave" class="button button-left"><i class="fa fa-arrow-left"></i></a>
-        <span class="title">请假考勤 - {{leave.action}}</span>
+        <a href="javascript:window.history.go(-1)" class="button button-left"><i class="fa fa-angle-left"></i></a>
+        <span class="title">{{leave.title}}</span>
     </div>
     
     <div ng-show="leave.record == null" class="wx-prompt">正在加载请假数据...</div>
@@ -13,8 +13,9 @@
 
                 <label for="student">学生姓名：</label>
                 <input id="student" type="text" ng-readonly="true" ng-required="true"
+                       ng-click="leave.pickStudent()"
                        ng-model="leave.record.studentName" placeholder="请选择学生">
-                <i class="fa fa-users" ng-click="leave.showStudents()"></i>
+                <i class="fa fa-users" ng-click="leave.pickStudent()" ng-show="!leave.record.id"></i>
                              
                 <label for="type">请假类型：</label>
                 <div>
@@ -30,8 +31,9 @@
 
                 <label for="start_date">开始日期：</label>
                 <input id="start_date" type="text" ng-readonly="true" ng-required="true"
+                       ng-click="leave.pickDate()"
                        value="{{leave.record.startDate}}" placeholder="请选择开始日期">
-                <i class="fa fa-calendar" ></i>
+                <i class="fa fa-calendar" ng-click="leave.pickDate()"></i>
 
                 <label for="type">请假天数：</label>
                 <div ng-show="leave.dayType != 'self'">

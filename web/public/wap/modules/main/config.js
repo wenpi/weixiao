@@ -5,6 +5,8 @@ define(function (require, exports, module) {
     'use strict';
 
     module.exports = function(app){
+        require('./datePickerCtrl.js')(app);
+
         //配置期
         app.config(['$routeProvider', function($routeProvider) {    
             //Step4: add `controllerUrl` to your route item config
@@ -16,5 +18,16 @@ define(function (require, exports, module) {
                 });
             }
         ]);
+
+        app.directive("wxDatePicker", [ '$location', function($location) {
+            return {
+                restrict : 'A',
+                replace : false,
+                controller: 'datePickerCtrl',
+                templateUrl: 'modules/main/date.picker.tpl.html',
+                link : function($scope, $element, $attrs) {
+                }
+            };
+        }]);
     }
 });

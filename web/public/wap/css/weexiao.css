@@ -3,6 +3,7 @@ a { text-decoration: none; color: #006699; font-weight: bold !important; font-si
 .clear { clear: both; }
 
 .pure-button-xsmall { font-size: 70%; }
+.fa-3 { font-size: 3em; }
 
 #loading { width: 100%; padding: auto; padding-top: 8%; text-align: center; height: 100%; z-index: 101; background-color: #fff; position: fixed;}
 
@@ -28,6 +29,7 @@ a { text-decoration: none; color: #006699; font-weight: bold !important; font-si
 .pure-table div { padding: 0px 3px 6px 0px; }
 
 .wx-message-content { position: relative; }
+.wx-message-content .strong { color: red; }
 .wx-message-content img.photo { width: 90%; margin: 1px; }
 .wx-message-content .photo3_c { width: 70px; height: 70px; float: left; position: relative;}
 .wx-message-content img.photo3 { width: 100%; clip: rect(0px 70px 70px 0px); position:absolute;}
@@ -43,8 +45,8 @@ a { text-decoration: none; color: #006699; font-weight: bold !important; font-si
 .wx-help p { margin: 10px; line-height: 1.5em; text-indent: 2em; }
 .wx-help img { width: 90%; position: relative; left: -1em;}
 
-#wx-user-picker { width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; background-color: #fff; z-index: 300; display: none;}
-
+#wx-user-picker, #wx-date-picker { width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; background-color: #fff; z-index: 300; display: none;}
+#wx-date-picker input { height:2em;line-height:2em; width: 4em; text-align: center;}
 
 
 
