@@ -2,7 +2,6 @@
     <div class="header">
         <a href="#leave" class="button button-left"><i class="fa fa-arrow-left"></i></a>
         <span class="title">请假考勤 - {{leave.action}}</span>
-        <!--a href="javascript:void(0)" class="button button-right"><i class="fa fa-edit"></i></a-->
     </div>
     
     <div ng-show="leave.record == null" class="wx-prompt">正在加载请假数据...</div>
@@ -13,29 +12,71 @@
                 <legend>请假信息</legend>
 
                 <label for="student">学生姓名：</label>
-                <input id="student" type="text" 
-                       value="{{leave.record.student_name}}" placeholder="请选择学生">
-                                
+                <input id="student" type="text" ng-readonly="true" ng-required="true"
+                       ng-model="leave.record.studentName" placeholder="请选择学生">
+                <i class="fa fa-users" ng-click="leave.showStudents()"></i>
+                             
                 <label for="type">请假类型：</label>
-                <button class="pure-button-xsmall pure-button">事假</button>
-                <button class="pure-button-xsmall pure-button">病假</button>
+                <div>
+                <button class="pure-button-xsmall pure-button"
+                        ng-click="leave.record.type = '1'"
+                        ng-class="{'pure-button-primary': leave.record.type == '1'}">
+                        事假</button>
+                <button class="pure-button-xsmall pure-button"
+                        ng-click="leave.record.type = '0'"
+                        ng-class="{'pure-button-primary': leave.record.type == '0'}">
+                        病假</button>
+                </div>
 
                 <label for="start_date">开始日期：</label>
-                <input id="start_date" type="text" ng-readonly class="date"
-                       value="{{leave.record.start_date}}" placeholder="请选择开始日期">
-               <i class="fa fa-calendar"></i>
+                <input id="start_date" type="text" ng-readonly="true" ng-required="true"
+                       value="{{leave.record.startDate}}" placeholder="请选择开始日期">
+                <i class="fa fa-calendar" ></i>
 
                 <label for="type">请假天数：</label>
-                <input id="student" type="text" 
-                       value="{{leave.record.days}}" placeholder="请输入天数">
+                <div ng-show="leave.dayType != 'self'">
+                <button class="pure-button-xsmall pure-button"
+                        ng-click="leave.record.days = 1"
+                        ng-class="{'pure-button-primary': leave.record.days == 1}">
+                        1</button>
+                <button class="pure-button-xsmall pure-button"
+                        ng-click="leave.record.days = 2"
+                        ng-class="{'pure-button-primary': leave.record.days == 2}">
+                        2</button>
+                <button class="pure-button-xsmall pure-button"
+                        ng-click="leave.record.days = 3"
+                        ng-class="{'pure-button-primary': leave.record.days == 3}">
+                        3</button>
+                <button class="pure-button-xsmall pure-button"
+                        ng-click="leave.record.days = 4"
+                        ng-class="{'pure-button-primary': leave.record.days == 4}">
+                        4</button>
+                <button class="pure-button-xsmall pure-button"
+                        ng-click="leave.record.days = 5"
+                        ng-class="{'pure-button-primary': leave.record.days == 5}">
+                        5</button>
+                <button class="pure-button-xsmall pure-button"
+                        ng-click="leave.dayType = 'self'">
+                        ..</button>
+                </div>
+                
+                <div ng-show="leave.dayType == 'self'">
+                <input id="student" type="text" ng-model="leave.record.days" style="width:7em;" ng-required="true"
+                       placeholder="请输入其他天数">
+                <button class="pure-button-xsmall pure-button"
+                        ng-click="leave.dayType = ''">
+                        取消</button>
+                </div>
 
                 <label for="reason">请假理由：</label>
-                <textarea id="reason"
-                       value="{{leave.record.reason}}" placeholder="请输入请假理由" rows="4"></textarea>
+                <textarea id="reason" ng-model="leave.record.reason" ng-required="true"
+                          placeholder="请输入请假理由" rows="4"></textarea>
             </fieldset>
         </form>
         <div class="wx-buttons">
-            <button class="pure-button pure-button-primary full">保存</button>
+            <button class="pure-button full"
+                    ng-disabled="!saveLeaveForm.$valid"
+                    ng-class="{'pure-button-primary': saveLeaveForm.$valid}" ng-click="leave.saveRecord()">保存</button>
         </div>
     </div>
     

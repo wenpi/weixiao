@@ -1,6 +1,9 @@
 define(function (require, exports, module) {
     "use strict";
+
     module.exports = function(app){
+        require('./userPickerCtrl.js')(app);
+        
         app.factory('UserService', function($rootScope, $http){
             var uri = WEXPATH + '/api/user';
             var puri = WEXPATH + '/api/parent';
@@ -43,7 +46,7 @@ define(function (require, exports, module) {
                     return $http({
                         method: 'GET',
                         cache: false,
-                        url: WEXPATH + '/api/school/' + teacher.school_id + '/teacher/' + teacher.id + '/class'
+                        url: WEXPATH + '/api/school/' + teacher.schoolId + '/teacher/' + teacher.id + '/class'
                     }).then(function(res) {
                         return res.data;
                     }, function() {
@@ -52,5 +55,16 @@ define(function (require, exports, module) {
                 }
             }
         });
+
+        app.directive("wxUserPicker", [ '$location', function($location) {
+            return {
+                restrict : 'A',
+                replace : false,
+                controller: 'userPickerCtrl',
+                templateUrl: 'modules/user/user.picker.tpl.html',
+                link : function($scope, $element, $attrs) {
+                }
+            };
+        }]);
     }
 });

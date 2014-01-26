@@ -3,7 +3,7 @@ define(function (require, exports, module) {
     console.log('init app...' + (new Date().getTime()));
 
     // set PATH
-    window.WEXPATH = 'http://test.weexiao.com';
+    window.WEXPATH = 'http://192.168.1.107';
 
     //Step3: add 'angular-lazyload' to your main module's list of dependencies
     var app = angular.module('app', ['angular-lazyload', 'ngRoute', 'ngSanitize']);
@@ -15,8 +15,8 @@ define(function (require, exports, module) {
 
     $.fn.cookie("wexschool", "a106d68b-cbfd-294a-5324-8d0a5e329e2d");
     $.fn.cookie("wexuser", "2e9db4f7-4293-4c11-80eb-4895ebe01b50");
-    $.fn.cookie("wexkey", "1390574328198");
-    $.fn.cookie("wextoken", "05b048193f34f0b69f7352f10cd5e8f1");
+    $.fn.cookie("wexkey", "1390710150215");
+    $.fn.cookie("wextoken", "daa3885b275bfcd696a4124c65f3c306");
     //配置期
     app.config(['$httpProvider', '$routeProvider', function($httpProvider, $routeProvider) {
         $httpProvider.defaults.headers.common['wexuser'] = $.fn.cookie("wexuser");  
@@ -39,13 +39,14 @@ define(function (require, exports, module) {
     app.run(['$lazyload', '$rootScope', 'UserService', function($lazyload, $rootScope, UserService){
         setTimeout(function() {
             $("#loading").hide();
-        }, 1666);
+        }, 500);
 
         // init lazyload & hold refs
         $lazyload.init(app);
         app.register = $lazyload.register;
         // get user info and put it into the session
         $rootScope.session = {user: null};
+        $rootScope.common = {};
 
         if (!$.fn.cookie("wexuser")) {
             alert("您尚未登录。");
@@ -70,7 +71,7 @@ define(function (require, exports, module) {
             break;
             case '1':
                 UserService.getTeacher(user.id).then(function(teacher) {
-                    $rootScope.session.user = $.extend(user, teacher, {school_id: $.fn.cookie("wexschool")});
+                    $rootScope.session.user = $.extend(user, teacher, {schoolId: $.fn.cookie("wexschool")});
                 }, function() {
                     alert('抱歉，加载教师信息出错。');
                     return;

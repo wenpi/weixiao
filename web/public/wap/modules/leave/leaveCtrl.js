@@ -21,13 +21,17 @@ define(function (require, exports, module) {
 	        		.then(function(wexClasses) {
 	        			if (wexClasses && wexClasses.length > 0) {
 	        				$scope.leave.wexClassName = wexClasses[0].name;
-	        				LeaveService.getLeavesByClass($scope.session.user.school_id, wexClasses[0])
+	        				LeaveService.getLeavesByClass($scope.session.user.schoolId, wexClasses[0])
 	        				.then(function(records) {
 	        					$scope.leave.records = records.sort(function(a, b) { return a.start_date > b.start_date ? -1 : 1;});
 	        				});
 	        			}
 	        		});
 	        	});
+
+	        	$scope.leave.showStudents = function() {
+	        		
+	        	}
 	        }]
 	    );
     }
