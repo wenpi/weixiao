@@ -16,8 +16,8 @@ define(function (require, exports, module) {
                         url: uri + '/' + id
                     }).then(function(res) {
                         return res.data;
-                    }, function() {
-                        return null;
+                    }, function(err) {
+                        throw err;
                     });
                 },
                 getParent: function() {
@@ -38,8 +38,8 @@ define(function (require, exports, module) {
                         url: turi + '/' + id
                     }).then(function(res) {
                         return res.data;
-                    }, function() {
-                        return null;
+                    }, function(err) {
+                        throw err;
                     });
                 },
                 getClassesByTeacher: function(teacher) {

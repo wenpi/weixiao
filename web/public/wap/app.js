@@ -53,14 +53,16 @@ define(function (require, exports, module) {
         $rootScope.common = {};
 
         if (!$.fn.cookie("wexuser")) {
-            //alert("您尚未登录。");
+            alert("您尚未登录。");
             return false;
+        } else {
+            //alert($.fn.cookie("wexuser"));
         }
 
         UserService.get($.fn.cookie("wexuser")).then(function(user) {
             return user;
-        }, function() {
-            alert('抱歉，没有这个用户!');
+        }, function(err) {
+            alert('抱歉，无法获得用户信息!');
             return null;
         }).then(function(user) {
             if (!user) { return; }
@@ -69,7 +71,7 @@ define(function (require, exports, module) {
                 UserService.getParent(user.id).then(function(parent) {
                     $rootScope.session.user = $.extend(user, parent);
                 }, function() {
-                    alert('抱歉，加载家长信息出错。');
+                    //alert('抱歉，加载家长信息出错。');
                     return;
                 });
             break;
