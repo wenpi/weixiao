@@ -3,7 +3,7 @@ define(function (require, exports, module) {
 
     // set PATH
     if (window.location.hostname.indexOf('weexiao') >= 0) {
-        window.WEXPATH = window.location.hostname + '/webot';
+        window.WEXPATH = '';
     } else { // for debug
         window.WEXPATH = 'http://192.168.1.107';
         $.fn.cookie("wexschool", "a106d68b-cbfd-294a-5324-8d0a5e329e2d");

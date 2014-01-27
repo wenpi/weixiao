@@ -45,9 +45,10 @@ function add_leave_start(info, next) {
         } else {
             var schoolId = info.session.school.id;
             var userId = info.session.teacher.id;
+            var url = conf.site_root + '/webot/wap/index?' + BaseServices.getAuthoriedParams(schoolId, userId) + '#/leave';
             return next(null,  {
                 title: '考勤管理',
-                url: conf.site_root + '/webot/wap/index?' + BaseService.getAuthoriedParams(schoolId, userId) + '#/leave',
+                url: url,
                 picUrl: conf.site_root + '/webot/wap/images/webot/webanner.jpg',
                 description: '查看，编辑学生考勤记录',
             });
