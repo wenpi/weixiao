@@ -49,7 +49,7 @@ function add_leave_start(info, next) {
             return next(null,  {
                 title: '考勤管理',
                 url: url,
-                picUrl: conf.site_root + '/webot/wap/images/webot/webanner.jpg',
+                picUrl: conf.site_root + '/webot/wap/images/webot/webanner.png',
                 description: '查看，编辑学生考勤记录',
             });
         }
