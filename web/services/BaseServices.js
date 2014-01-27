@@ -24,7 +24,7 @@ exports.getAuthoriedHeader = getToken;
 /**
  * get auth params
  */
-export.getAuthoriedParams = function(schoolId) {
+exports.getAuthoriedParams = function(schoolId, userId) {
 	var token = getToken();
 	return [
 		'wexschool=' + schoolId,

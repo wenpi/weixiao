@@ -45,7 +45,7 @@ function add_leave_start(info, next) {
         } else {
             var schoolId = info.session.school.id;
             var userId = info.session.teacher.id;
-            return next(null, 
+            return next(null,  {
                 title: '考勤管理',
                 url: conf.site_root + '/webot/wap/index?' + BaseService.getAuthoriedParams(schoolId, userId) + '#/leave',
                 picUrl: conf.site_root + '/webot/wap/images/webot/webanner.jpg',
