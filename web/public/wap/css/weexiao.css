@@ -29,7 +29,7 @@ a { text-decoration: none; color: #006699; font-weight: bold !important; font-si
 .pure-table div { padding: 0px 3px 6px 0px; }
 
 .wx-message-content { position: relative; }
-.wx-message-content .strong { color: red; }
+.wx-message-content .strong { color: #006699; }
 .wx-message-content img.photo { width: 90%; margin: 1px; }
 .wx-message-content .photo3_c { width: 70px; height: 70px; float: left; position: relative;}
 .wx-message-content img.photo3 { width: 100%; clip: rect(0px 70px 70px 0px); position:absolute;}

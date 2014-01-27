@@ -69,10 +69,6 @@ define(function (require, exports, module) {
     					$scope.leave.records = records.sort(function(a, b) { return a.startDate > b.startDate ? -1 : 1;});
     				});
 	        	});
-
-	        	$scope.leave.showStudents = function() {
-	        		
-	        	}
 	        }]
 	    );
     }

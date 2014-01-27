@@ -20,18 +20,18 @@
                 <td class="wx-message-content" valign="top">
                     <div><a ng-href="#/student/{{record.studentId}}/leave"><strong>{{record.studentName}}：</strong></a></div>
                     <div>
-                        <span class="strong">{{record.startDate.substring(5)}}</span>
-                        <span ng-show="record.days > 0">至</span>
-                        <span ng-show="record.days > 0" class="strong">{{record.endDate.substring(5)}}</span>
-                        <span ng-show="record.days > 0">，</span>
-                        <span class="strong" style="width:2em;">{{record.days}}</span>
+                        <span>请</span>
+                        <span class="strong" style="width:1em;text-align:center;display:inline-block;">{{record.days}}</span>
                         <span>天</span>
                         <span ng-bind="record.type == '1' ? '事假': '病假'"></span>
-                        <br/>
-                        <span>说明：</span>
-                        <span class="strong">{{record.reason}}</span>
+                        <span>：</span>
+                        <span class="strong">{{record.startDate.substring(5)}}</span>
+                        <span ng-show="record.days > 1">至</span>
+                        <span ng-show="record.days > 1" class="strong">{{record.endDate.substring(5)}}</span>
                     </div>
                     <div>
+                        <span>说明：</span>
+                        <span class="strong">{{record.reason}}</span>
                     </div>
                     <div class="clear">
                         <span class="time">{{record.createdTime.substring(5, 16)}}</span>

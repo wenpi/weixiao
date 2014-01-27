@@ -20,6 +20,7 @@ define(function (require, exports, module) {
 	        			$scope.leave.title = '修改请假记录';
 	        			LeaveService.get($routeParams.id).then(function(record) {
 	        				$scope.leave.record = record;
+	        				$scope.leave.record.updatedBy = $scope.session.user.id;
 	        			}, function(err) {
 	        				alert('抱歉，该请假记录不存在。');
 	        			});

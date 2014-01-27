@@ -7,7 +7,8 @@ var crypto = require('crypto');
 /**
  * get auth header
  */
-exports.getAuthoriedHeader = function() {
+
+function getToken() {
     var today = Date.today();
     var shasum = crypto.createHash('md5');
     var key = (new Date()).getTime();
@@ -17,4 +18,18 @@ exports.getAuthoriedHeader = function() {
         'wexkey': key,
         'wextoken': token,
     }
+}
+exports.getAuthoriedHeader = getToken;
+
+/**
+ * get auth params
+ */
+export.getAuthoriedParams = function(schoolId) {
+	var token = getToken();
+	return [
+		'wexschool=' + schoolId,
+		'wexuser=' + userId,
+		'wexkey=' + token.wexkey,
+		'wextoken=' + token.wextoken
+	].join("&");
 }

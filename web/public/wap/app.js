@@ -1,9 +1,17 @@
 define(function (require, exports, module) {
     "use strict";
-    console.log('init app...' + (new Date().getTime()));
 
     // set PATH
-    window.WEXPATH = 'http://192.168.1.107';
+    if (window.location.hostname.indexOf('weexiao') >= 0) {
+        window.WEXPATH = window.location.hostname + '/webot';
+    } else { // for debug
+        window.WEXPATH = 'http://192.168.1.107';
+        $.fn.cookie("wexschool", "a106d68b-cbfd-294a-5324-8d0a5e329e2d");
+        $.fn.cookie("wexuser", "2e9db4f7-4293-4c11-80eb-4895ebe01b50");
+        $.fn.cookie("wexkey", "1390758409426");
+        $.fn.cookie("wextoken", "2b4a5bb39d6cb8b425ee42b8276de3bb");
+    }
+    
 
     //Step3: add 'angular-lazyload' to your main module's list of dependencies
     var app = angular.module('app', ['angular-lazyload', 'ngRoute', 'ngSanitize']);
@@ -13,10 +21,6 @@ define(function (require, exports, module) {
     require('./modules/photo/config.js')(app);
     require('./modules/leave/config.js')(app);
 
-    $.fn.cookie("wexschool", "a106d68b-cbfd-294a-5324-8d0a5e329e2d");
-    $.fn.cookie("wexuser", "2e9db4f7-4293-4c11-80eb-4895ebe01b50");
-    $.fn.cookie("wexkey", "1390758409426");
-    $.fn.cookie("wextoken", "2b4a5bb39d6cb8b425ee42b8276de3bb");
     //配置期
     app.config(['$httpProvider', '$routeProvider', function($httpProvider, $routeProvider) {
         $httpProvider.defaults.headers.common['wexuser'] = $.fn.cookie("wexuser");  
@@ -49,7 +53,7 @@ define(function (require, exports, module) {
         $rootScope.common = {};
 
         if (!$.fn.cookie("wexuser")) {
-            alert("您尚未登录。");
+            //alert("您尚未登录。");
             return false;
         }
 
@@ -83,7 +87,7 @@ define(function (require, exports, module) {
 
                         $(wexClasses).each(function (i, wexClass) {
                             UserService.getStudentsByClass(wexClass).then(function(students) {
-                                wexClass.students = students.sort(function(a, b) { a.name > b.name ? -1 : 1;}) || [];
+                                wexClass.students = students.sort(function(a, b) { return a.name >= b.name ? -1 : 1;}) || [];
                             })
                         });
                     });

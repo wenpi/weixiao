@@ -49,15 +49,19 @@ define(function (require, exports, module) {
                     });
                 },
                 save: function(schooldId, record) {
-                    var successCode = 201;
+                    var successCode = 201, method = 'POST', uri;
                     if (record.id) {
+                        method = 'POST'; //it should be PUT
                         successCode = 200;
+                        uri = WEXPATH + '/api/leave/' + record.id; 
+                    } else {
+                        uri =  WEXPATH + '/api/school/' + schooldId + '/student/' + record.studentId + '/leave';
                     }
                     return $http({
-                        method: 'POST',
+                        method: method,
                         headers:{'Content-Type':'application/x-www-form-urlencoded'},
                         data: $.param(record),
-                        url: WEXPATH + '/api/school/' + schooldId + '/student/' + record.studentId + '/leave' + (record.id ? ('/' + record.id) : '')
+                        url: uri
                     }).then(function(res) {
                         if (res.status === successCode) {
                             return true;

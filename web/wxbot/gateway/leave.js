@@ -8,6 +8,7 @@ require('date-utils');
 var ejs = require('ejs');
 var utils = require("../utils");
 var conf = require('../../conf');
+var BaseServices = require("../../services/BaseServices");
 var UserServices = require("../../services/UserServices");
 
 function add_leave_start(info, next) {
@@ -39,7 +40,18 @@ function add_leave_start(info, next) {
         next(null, text.join("\n"));
             
     } else if (info.session.teacher) {
-        next(null, '抱歉！该功能尚未为教师开放。');
+        if (info.session.teacher.isAdmin === 1) {
+            return next(null, "抱歉！园长，管理员暂时需通过PC端使用！");
+        } else {
+            var schoolId = info.session.school.id;
+            var userId = info.session.teacher.id;
+            return next(null, 
+                title: '考勤管理',
+                url: conf.site_root + '/webot/wap/index?' + BaseService.getAuthoriedParams(schoolId, userId) + '#/leave',
+                picUrl: conf.site_root + '/webot/wap/images/webot/webanner.jpg',
+                description: '查看，编辑学生考勤记录',
+            });
+        }
     } else {
         return next(null, "抱歉，您不是认证用户，不能使用该功能。");
     }
