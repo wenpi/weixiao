@@ -46,12 +46,17 @@ function add_leave_start(info, next) {
             var schoolId = info.session.school.id;
             var userId = info.session.teacher.id;
             var url = conf.site_root + '/webot/wap/index?' + BaseServices.getAuthoriedParams(schoolId, userId) + '#/leave';
-            return next(null,  {
-                title: '考勤管理',
+            return next(null,  [{
+                title: '考勤管理测试Link1',
                 url: url,
                 picUrl: conf.site_root + '/webot/wap/images/webot/webanner.png',
                 description: '查看，编辑学生考勤记录',
-            });
+            }, {
+                title: '考勤管理测试Link2',
+                url: conf.site_root + '/webot/wap/index.html#/leave',
+                picUrl: conf.site_root + '/webot/wap/images/webot/webanner.png',
+                description: '查看，编辑学生考勤记录',
+            }]);
         }
     } else {
         return next(null, "抱歉，您不是认证用户，不能使用该功能。");
