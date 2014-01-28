@@ -13,7 +13,7 @@ define(function (require, exports, module) {
                     return $http({
                         method: 'GET',
                         cache: false,
-                        url: uri + '/' + id
+                        url: uri + '/' + id + '?_t=' + (new Date()).getTime()
                     }).then(function(res) {
                         return res.data;
                     }, function(err) {
@@ -27,8 +27,8 @@ define(function (require, exports, module) {
                         url: puri + '/' + id
                     }).then(function(res) {
                         return res.data;
-                    }, function() {
-                        return null;
+                    }, function(err) {
+                        throw err;
                     });
                 },
                 getTeacher: function(id) {
@@ -49,8 +49,8 @@ define(function (require, exports, module) {
                         url: WEXPATH + '/api/school/' + teacher.schoolId + '/teacher/' + teacher.id + '/class'
                     }).then(function(res) {
                         return res.data;
-                    }, function() {
-                        return null;
+                    }, function(err) {
+                        throw err;
                     });
                 },
                 getStudentsByClass: function(wexClass) {
@@ -60,8 +60,8 @@ define(function (require, exports, module) {
                         url: WEXPATH + '/api/school/' + wexClass.school_id + '/class/' + wexClass.id + '/student'
                     }).then(function(res) {
                         return res.data;
-                    }, function() {
-                        return null;
+                    }, function(err) {
+                        throw err;
                     });
                 }
             }

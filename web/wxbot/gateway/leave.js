@@ -45,18 +45,18 @@ function add_leave_start(info, next) {
         } else {
             var schoolId = info.session.school.id;
             var userId = info.session.teacher.id;
-            var url = conf.site_root + '/webot/wap/index?' + BaseServices.getAuthoriedParams(schoolId, userId) + '#/leave';
+            var baseurl = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, userId);
             return next(null,  [{
-                title: '考勤管理测试Link1',
-                url: url,
+                title: '考勤管理',
+                url: baseurl + '#/leave',
                 picUrl: conf.site_root + '/webot/wap/images/webot/webanner.png',
                 description: '查看，编辑学生考勤记录',
-            }, {
-                title: '考勤管理测试Link2',
-                url: conf.site_root + '/webot/wap/index.html#/leave',
-                picUrl: conf.site_root + '/webot/wap/images/webot/webanner.png',
+            }/*, {
+                title: '添加考勤记录',
+                url: baseurl + '#/leave/new',
+                picUrl: conf.site_root + '/webot/wap/images/webot/index_1.jpg',
                 description: '查看，编辑学生考勤记录',
-            }]);
+            }*/]);
         }
     } else {
         return next(null, "抱歉，您不是认证用户，不能使用该功能。");

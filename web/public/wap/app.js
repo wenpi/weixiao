@@ -3,9 +3,14 @@ define(function (require, exports, module) {
 
     // set PATH
     if (window.location.hostname.indexOf('weexiao') >= 0) {
+        var args = getArgs();
+        $.fn.cookie("wexschool", args.wexschool);
+        $.fn.cookie("wexuser", args.wexuser);
+        $.fn.cookie("wexkey", args.wexkey);
+        $.fn.cookie("wextoken", args.wextoken);
         window.WEXPATH = '';
     } else { // for debug
-        window.WEXPATH = 'http://192.168.1.107';
+        window.WEXPATH = 'http://192.168.1.104';
         $.fn.cookie("wexschool", "a106d68b-cbfd-294a-5324-8d0a5e329e2d");
         $.fn.cookie("wexuser", "2e9db4f7-4293-4c11-80eb-4895ebe01b50");
         $.fn.cookie("wexkey", "1390758409426");
@@ -41,9 +46,6 @@ define(function (require, exports, module) {
 
     //运行期
     app.run(['$lazyload', '$rootScope', 'UserService', function($lazyload, $rootScope, UserService){
-        setTimeout(function() {
-            $("#loading").hide();
-        }, 500);
 
         // init lazyload & hold refs
         $lazyload.init(app);
@@ -62,10 +64,16 @@ define(function (require, exports, module) {
         UserService.get($.fn.cookie("wexuser")).then(function(user) {
             return user;
         }, function(err) {
-            alert('抱歉，无法获得用户信息!');
             return null;
         }).then(function(user) {
-            if (!user) { return; }
+            if (!user) { 
+                alert("读取用户资料异常，无法初始化应用。");
+                return; 
+            }
+            setTimeout(function() {
+                $("#loading").hide();
+            }, 500);
+
             switch(user.type) {
             case '0':
                 UserService.getParent(user.id).then(function(parent) {
