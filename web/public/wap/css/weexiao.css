@@ -36,6 +36,7 @@ a { text-decoration: none; color: #006699; font-weight: bold !important; font-si
 .wx-message-content .time { color: #ccc; }
 .wx-message-content div.reply { background-color: #eee; padding: 8px; margin: 6px; border-radius: 5px;}
 .wx-message-content textarea { width: 100%; }
+.wx-message-content .onright { float: right; margin-left: 10px;}
 
 .wex-form input, .wex-form label { width: 90%; margin: 10px 0px; display: inline-block !important; }
 .wex-form textarea { width: 90%; display: inline-block; }

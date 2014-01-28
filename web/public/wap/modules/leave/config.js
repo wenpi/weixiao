@@ -44,8 +44,8 @@ define(function (require, exports, module) {
                         url: WEXPATH + '/api/leave/' + id
                     }).then(function(res) {
                         return res.data || [];
-                    }, function() {
-                        return null;
+                    }, function(err) {
+                        throw err;
                     });
                 },
                 save: function(schooldId, record) {
@@ -72,6 +72,17 @@ define(function (require, exports, module) {
                         throw err;
                     });
                 },
+                remove: function(id) {
+                    return $http({
+                        method: 'DELETE',
+                        cache: false,
+                        url: WEXPATH + '/api/leave/' + id
+                    }).then(function(res) {
+                        return true;
+                    }, function(err) {
+                        throw err;
+                    });
+                },
                 getLeavesByUri: function(uri) {
                     return $http({
                         method: 'GET',
@@ -79,8 +90,8 @@ define(function (require, exports, module) {
                         url: WEXPATH + uri
                     }).then(function(res) {
                         return res.data || [];
-                    }, function() {
-                        return null;
+                    }, function(err) {
+                        throw err;
                     });
                 }
             }

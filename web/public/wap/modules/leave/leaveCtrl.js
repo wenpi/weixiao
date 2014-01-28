@@ -13,12 +13,34 @@ define(function (require, exports, module) {
 	        	$scope.leave.title = '';
 	        	$scope.leave.records = null;
 
+	        	var uri;
+
+	        	function refresh() {
+	        		LeaveService.getLeavesByUri(uri)
+    				.then(function(records) {
+    					$scope.leave.records = records.sort(function(a, b) { return a.startDate > b.startDate ? -1 : 1;});
+    				});
+	        	}
+
+	        	$scope.leave.remove = function(record) {
+	        		if (confirm("确认删除" + record.studentName + "的请假记录？")) {
+	        			LeaveService.remove(record.id)
+	        			.then(function() {
+	        				alert('删除成功！');
+	        				refresh();
+	        			}, function() {
+	        				alert('删除失败！');
+	        			});
+	        		}
+	        	};
 	        	$scope.$watch("session.user", function() {
 	        		if (!$scope.session.user) {
 	        			return;
 	        		}
 
-	        		var path = $location.path(), uri = '/api/school/' + $scope.session.user.schoolId;
+	        		var path = $location.path();
+
+	        		uri = '/api/school/' + $scope.session.user.schoolId;
 
 	        		if (path.indexOf('class') >= 0) {
 	        			var classId = $routeParams.classId;
@@ -46,7 +68,6 @@ define(function (require, exports, module) {
 		        				}
 		        			});
 	        			});
-	        			
 	        		} else if (path.indexOf('school') >= 0) {
 	        			var schoolId = $routeParams.schoolId;
 	        			uri += '/school/' + schoolId + '/leave';
@@ -64,10 +85,7 @@ define(function (require, exports, module) {
 	        			return;
 	        		}
 
-        			LeaveService.getLeavesByUri(uri)
-    				.then(function(records) {
-    					$scope.leave.records = records.sort(function(a, b) { return a.startDate > b.startDate ? -1 : 1;});
-    				});
+        			refresh();
 	        	});
 	        }]
 	    );

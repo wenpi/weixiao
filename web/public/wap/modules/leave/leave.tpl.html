@@ -14,20 +14,19 @@
     <table ng-show="leave.records && leave.records.length > 0" class="pure-table pure-table-horizontal">
         <tbody>
             <tr ng-repeat="record in leave.records">
-                <td width="48px" valign="top">
+                <!--td width="48px" valign="top">
                     <a ng-href="#/student/{{record.studentId}}/leave"><img class="profile" src="images/profile.jpg"></a>
-                </td>
+                </td-->
                 <td class="wx-message-content" valign="top">
                     <div><a ng-href="#/student/{{record.studentId}}/leave"><strong>{{record.studentName}}：</strong></a></div>
                     <div>
+                        <span class="strong">{{record.startDate.substring(5)}}</span>
+                        <span ng-show="record.days > 0">至</span>
+                        <span ng-show="record.days > 0" class="strong">{{record.endDate.substring(5)}}</span>
                         <span>请</span>
                         <span class="strong" style="width:1em;text-align:center;display:inline-block;">{{record.days}}</span>
                         <span>天</span>
                         <span ng-bind="record.type == '1' ? '事假': '病假'"></span>
-                        <span>：</span>
-                        <span class="strong">{{record.startDate.substring(5)}}</span>
-                        <span ng-show="record.days > 1">至</span>
-                        <span ng-show="record.days > 1" class="strong">{{record.endDate.substring(5)}}</span>
                     </div>
                     <div>
                         <span>说明：</span>
@@ -35,7 +34,8 @@
                     </div>
                     <div class="clear">
                         <span class="time">{{record.createdTime.substring(5, 16)}}</span>
-                        <a ng-href="#/leave/{{record.id}}"><i class="fa fa-pencil"></i>修改</a>
+                        <a ng-href="#/leave/{{record.id}}" class="onright"><i class="fa fa-pencil"></i>修改</a>
+                        <a href="javascript:void(0)" ng-click="leave.remove(record)" class="onright"><i class="fa fa-times"></i>删除</a>
                     </div>
                 </td>
             </tr>
