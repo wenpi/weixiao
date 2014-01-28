@@ -63,8 +63,9 @@
                 </div>
                 
                 <div ng-show="leave.dayType == 'self'">
-                <input type="number" ng-model="leave.record.days" style="width:7em;" ng-required="true"
-                       placeholder="请输入">
+                <input type="text" ng-model="leave.record.days" style="width:7em;"
+                       ng-required="true" ng-pattern="/^(\d{1}|1\d{1}|2\d{1}|3[01]{1})$/" placeholder="请输入">
+                <span>1-31之间的数字</span>
                 <button class="pure-button-xsmall pure-button"
                         ng-click="leave.dayType = ''">
                         取消</button>
