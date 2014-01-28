@@ -46,8 +46,9 @@ a { text-decoration: none; color: #006699; font-weight: bold !important; font-si
 .wx-help p { margin: 10px; line-height: 1.5em; text-indent: 2em; }
 .wx-help img { width: 90%; position: relative; left: -1em;}
 
-#wx-user-picker, #wx-date-picker { width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; background-color: #fff; z-index: 300; display: none;}
-#wx-date-picker input { height:2em;line-height:2em; width: 4em; text-align: center;}
+.wx-picker { width: 100%; position: absolute; top: 0px; left: 0px; background-color: #fff; z-index: 300; display: none;}
+.wx-picker .overlay { width: 100%; height: 100%; position: absolute; z-index: 200; background-color: #fff;}
+#wx-date-picker input { height:2em; line-height:2em; width: 4em; text-align: center;}
 
 
 

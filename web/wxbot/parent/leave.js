@@ -103,8 +103,8 @@ module.exports = function(webot) {
                 var len = leaves.length, added = false;
                 for (var i=0; i<len; i++) {
                     var leave = leaves[i];
-                    if (leave.end_date < info.session.parent.addleave.startDate ||
-                        info.session.parent.addleave.endDate < leave.start_date) {
+                    if (leave.endDate < info.session.parent.addleave.startDate ||
+                        info.session.parent.addleave.endDate < leave.startDate) {
                         // do nothing
                     } else {
                         added = true;

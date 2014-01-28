@@ -1,20 +1,24 @@
 define(function (require, exports, module) {
     "use strict";
 
+    var args = getArgs(), isStatic = true;
     // set PATH
     if (window.location.hostname.indexOf('weexiao') >= 0) {
-        var args = getArgs();
-        $.fn.cookie("wexschool", args.wexschool);
-        $.fn.cookie("wexuser", args.wexuser);
-        $.fn.cookie("wexkey", args.wexkey);
-        $.fn.cookie("wextoken", args.wextoken);
         window.WEXPATH = '';
+        if (args.wexschool) {
+            $.fn.cookie("wexschool", args.wexschool);
+            $.fn.cookie("wexuser", args.wexuser);
+            $.fn.cookie("wexkey", args.wexkey);
+            $.fn.cookie("wextoken", args.wextoken);
+            isStatic = false;
+        }
     } else { // for debug
         window.WEXPATH = 'http://192.168.1.104';
         $.fn.cookie("wexschool", "a106d68b-cbfd-294a-5324-8d0a5e329e2d");
         $.fn.cookie("wexuser", "2e9db4f7-4293-4c11-80eb-4895ebe01b50");
         $.fn.cookie("wexkey", "1390758409426");
         $.fn.cookie("wextoken", "2b4a5bb39d6cb8b425ee42b8276de3bb");
+        isStatic = false;
     }
     
 
@@ -54,11 +58,18 @@ define(function (require, exports, module) {
         $rootScope.session = {user: null};
         $rootScope.common = {};
 
+        // 如果只是查看使用帮助之类的界面
+        if (isStatic) {
+            setTimeout(function() {
+                $("#loading").hide();
+            }, 500);
+            return true;
+        }
+
+        // 理论上这不应该被访问
         if (!$.fn.cookie("wexuser")) {
             alert("您尚未登录。");
             return false;
-        } else {
-            //alert($.fn.cookie("wexuser"));
         }
 
         UserService.get($.fn.cookie("wexuser")).then(function(user) {

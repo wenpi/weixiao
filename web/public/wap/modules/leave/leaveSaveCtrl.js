@@ -20,6 +20,9 @@ define(function (require, exports, module) {
 	        			$scope.leave.title = '修改请假记录';
 	        			LeaveService.get($routeParams.id).then(function(record) {
 	        				$scope.leave.record = record;
+	        				if (record.days > 5) {
+	        					$scope.leave.dayType = 'self';
+	        				}
 	        				$scope.leave.record.updatedBy = $scope.session.user.id;
 	        			}, function(err) {
 	        				alert('抱歉，该请假记录不存在。');
@@ -59,6 +62,12 @@ define(function (require, exports, module) {
 	        	};
 
 	        	$scope.leave.saveRecord = function() {
+	        		if ($scope.leave.record.days <= 0) {
+	        			alert("输入无效天数");
+	        			return;
+	        		}
+	        		$scope.leave.record.days = parseInt($scope.leave.record.days, 10);
+	        		
 	        		var endDate = new Date($scope.leave.record.startDate);
 	        		endDate.addDays($scope.leave.record.days - 1);
 	        		$scope.leave.record.endDate = endDate.toYMD();
@@ -70,7 +79,6 @@ define(function (require, exports, module) {
 	        		}, function() {
 	        			alert('操作失败，可能该段时间已经有请假记录。');
 	        		});
-	        		//$scope.leave.record.end_date = 
 	        	};
 	        }]
 	    );

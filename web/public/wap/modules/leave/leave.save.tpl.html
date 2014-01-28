@@ -63,8 +63,8 @@
                 </div>
                 
                 <div ng-show="leave.dayType == 'self'">
-                <input id="student" type="text" ng-model="leave.record.days" style="width:7em;" ng-required="true"
-                       placeholder="请输入其他天数">
+                <input type="number" ng-model="leave.record.days" style="width:7em;" ng-required="true"
+                       placeholder="请输入">
                 <button class="pure-button-xsmall pure-button"
                         ng-click="leave.dayType = ''">
                         取消</button>

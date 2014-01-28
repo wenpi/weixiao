@@ -1,4 +1,4 @@
-<div id="wx-user-picker" class="wx-page">
+<div id="wx-user-picker" class="wx-page wx-picker">
     <div class="header">
     	<a href="javascript:void(0)" class="button button-left" ng-click="common.userPicker.hide()"><i class="fa fa-times"></i></a>
         <span class="title">{{common.userPicker.title}}</span>
@@ -13,4 +13,5 @@
                 ng-class="{'pure-button-primary': leave.record.type == '0'}">
                 {{user.name}}</button>
 	</div>
+    <div class="overlay"></div>
 </div>
