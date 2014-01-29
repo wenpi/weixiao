@@ -29,20 +29,21 @@ function getBasicToken(type) {
 	token = {"wexkey": key, "wextoken": shasum.digest('hex')}
 	break;
 	}
-	console.info(token);
+	//console.info(token);
 	return token;
 }
 
+var SERVER = "http://192.168.1.105";
 module.exports.config = function() {
 	return {
-		SERVER: "http://test.weexiao.com"
+		SERVER: SERVER
 	};
 };
 module.exports.queryPagingList = function(url, options) {
-	var deferred = Q.defer(), options = options || {token: 'basci-valid'};
+	var deferred = Q.defer(), options = options || {token: 'basic-valid'};
 
     request({
-        url: url,
+        url: SERVER + url,
         method: 'GET',
         headers: getBasicToken(options.token)
     }, function callback(error, response, body) {
@@ -50,7 +51,80 @@ module.exports.queryPagingList = function(url, options) {
             var jsondata = JSON.parse(body);
             deferred.resolve(jsondata.result);
         } else {
-            deferred.reject(body);
+            deferred.reject(error || body || new Error('unkown'));
+        }
+    });
+
+    return deferred.promise;
+}
+module.exports.create = function(url, data, options) {
+	var deferred = Q.defer(), options = options || {token: 'basic-valid'};
+
+    request({
+        url: SERVER + url,
+        method: 'POST',
+        headers: getBasicToken(options.token),
+        form: data
+    }, function callback(error, response, body) {
+        if (!error && response.statusCode == 201) {
+        	var jsondata = JSON.parse(body);
+            deferred.resolve(jsondata.message);
+        } else {
+            deferred.reject(error || body || new Error('unkown'));
+        }
+    });
+
+    return deferred.promise;
+}
+module.exports.get = function(url, options) {
+	var deferred = Q.defer(), options = options || {token: 'basic-valid'};
+
+    request({
+        url: SERVER + url,
+        method: 'GET',
+        headers: getBasicToken(options.token)
+    }, function callback(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var jsonitem = JSON.parse(body);
+            deferred.resolve(jsonitem);
+        } else {
+            deferred.reject(error || body || new Error('unkown'));
+        }
+    });
+
+    return deferred.promise;
+}
+module.exports.update = function(url, data, options) {
+	var deferred = Q.defer(), options = options || {token: 'basic-valid'};
+
+    request({
+        url: SERVER + url,
+        method: 'POST',
+        headers: getBasicToken(options.token),
+        form: data
+    }, function callback(error, response, body) {
+        if (!error && response.statusCode == 200) {
+        	var jsondata = JSON.parse(body);
+            deferred.resolve(jsondata.message);
+        } else {
+            deferred.reject(error || body || new Error('unkown'));
+        }
+    });
+
+    return deferred.promise;
+}
+module.exports.remove = function(url, options) {
+	var deferred = Q.defer(), options = options || {token: 'basic-valid'};
+
+    request({
+        url: SERVER + url,
+        method: 'DELETE',
+        headers: getBasicToken(options.token)
+    }, function callback(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            deferred.resolve(true);
+        } else {
+            deferred.reject(error || body || new Error('unkown'));
         }
     });
 

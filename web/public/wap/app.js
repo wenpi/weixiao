@@ -13,11 +13,11 @@ define(function (require, exports, module) {
             isStatic = false;
         }
     } else { // for debug
-        window.WEXPATH = 'http://192.168.1.104';
+        window.WEXPATH = 'http://192.168.1.105';
         $.fn.cookie("wexschool", "a106d68b-cbfd-294a-5324-8d0a5e329e2d");
         $.fn.cookie("wexuser", "2e9db4f7-4293-4c11-80eb-4895ebe01b50");
-        $.fn.cookie("wexkey", "1390758409426");
-        $.fn.cookie("wextoken", "2b4a5bb39d6cb8b425ee42b8276de3bb");
+        $.fn.cookie("wexkey", "1390917621336");
+        $.fn.cookie("wextoken", "716384bd9f29829b4a918719cbec8291");
         isStatic = false;
     }
     
