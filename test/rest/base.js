@@ -33,7 +33,7 @@ function getBasicToken(type) {
 	return token;
 }
 
-var SERVER = "http://192.168.1.105";
+var SERVER = "http://192.168.1.107";
 module.exports.config = function() {
 	return {
 		SERVER: SERVER
@@ -50,6 +50,24 @@ module.exports.queryPagingList = function(url, options) {
         if (!error && response.statusCode == 200) {
             var jsondata = JSON.parse(body);
             deferred.resolve(jsondata.result);
+        } else {
+            deferred.reject(error || body || new Error('unkown'));
+        }
+    });
+
+    return deferred.promise;
+}
+module.exports.queryAll = function(url, options) {
+	var deferred = Q.defer(), options = options || {token: 'basic-valid'};
+
+    request({
+        url: SERVER + url,
+        method: 'GET',
+        headers: getBasicToken(options.token)
+    }, function callback(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var jsondata = JSON.parse(body);
+            deferred.resolve(jsondata);
         } else {
             deferred.reject(error || body || new Error('unkown'));
         }

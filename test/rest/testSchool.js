@@ -84,7 +84,7 @@ module.exports = function() {
                 done(err);
             });
         });
-        
+
         // 没有token不能创建学校，只是为了判断是否使用auth方法，无需完成其他auth验证
         it('failed to create school data without token', function(done){
             // an example using an object instead of an array
