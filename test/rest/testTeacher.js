@@ -280,6 +280,41 @@ module.exports = function() {
             });
         });
 
+        it('success to bind teacher with open id', function(done){
+            // an example using an object instead of an array
+            async.series({
+                query: function(callback){
+                    base.update("/api/school/" + schoolId + "/teacher/" + teacherId, 
+                        {openId: 'openId' + teacherId}, {token: 'basic-valid'})
+                    .then(function() {
+                        done();
+                    }, function(err) {
+                        console.info(err);
+                        callback(new Error("should update the teacher"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        it('failed to bind another open id', function(done){
+            // an example using an object instead of an array
+            async.series({
+                query: function(callback){
+                    base.update("/api/school/" + schoolId + "/teacher/" + teacherId, 
+                        {openId: 'badopenId' + teacherId}, {token: 'basic-valid'})
+                    .then(function() {
+                        callback(new Error("should not bind the teacher"));
+                    }, function(err) {
+                        done();
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
         // 没有token不能删除教师
         it('failed to remove teacher without token', function(done){
             // an example using an object instead of an array
