@@ -7,7 +7,7 @@ module.exports = function() {
     describe('test class api : ', function(){
         var schoolId = null;
         // 能获得数据
-        it('success to get a school data with basic token', function(done){
+        it('success to get a school data for class with basic token', function(done){
             // an example using an object instead of an array
             async.series({
                 query: function(callback){
@@ -249,7 +249,7 @@ module.exports = function() {
                         assert.equal("codeupdated", wexclass.code);
                         done();
                     }, function(err) {
-                        callback(new Error("should get the created class"));
+                        callback(new Error("should get the updated class"));
                     });
                 }
             }, function(err, results) {
@@ -264,7 +264,7 @@ module.exports = function() {
                 query: function(callback){
                     base.remove("/api/school/" + schoolId + "/class/" + classId, {token: 'basic-none'})
                     .then(function() {
-                        callback(new Error("should not update the class"));
+                        callback(new Error("should not remove the class"));
                     }, function(err) {
                         done();
                     });
@@ -283,7 +283,7 @@ module.exports = function() {
                     .then(function() {
                         done();
                     }, function(err) {
-                        callback(new Error("should update the class"));
+                        callback(new Error("should remove the class"));
                     });
                 }
             }, function(err, results) {

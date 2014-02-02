@@ -267,7 +267,7 @@ module.exports = function() {
                 query: function(callback){
                     base.get("/api/school/" + schoolId, {token: 'basic-valid'})
                     .then(function() {
-                        callback(new Error("should not get the reremoved school"));
+                        callback(new Error("should not get the removed school"));
                     }, function(err) {
                         done();
                     });
