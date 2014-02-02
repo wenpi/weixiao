@@ -72,7 +72,7 @@ function ensure_user_is_register (info, next) {
                     userId: info.session.teacher.id
                 }).then(function(teacher) {
                     info.session.teacher.teacherId = teacher.id;
-                    info.session.teacher.isAdmin = parseInt(teacher.is_admin, 10);
+                    info.session.teacher.isAdmin = parseInt(teacher.isAdmin, 10);
 
                     if (info.session.teacher.isAdmin === 1) {
                         ClassServices.queryBySchool({schoolId: info.session.school.id})

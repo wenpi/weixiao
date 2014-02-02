@@ -84,6 +84,7 @@ module.exports.create = function(url, data, options) {
         headers: getBasicToken(options.token),
         form: data
     }, function callback(error, response, body) {
+    	//console.info(body);
         if (!error && response.statusCode == 201) {
         	var jsondata = JSON.parse(body);
             deferred.resolve(jsondata.message);
