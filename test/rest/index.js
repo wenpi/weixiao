@@ -3,4 +3,5 @@ module.exports = function() {
 	require("./testClass")();
 	require("./testTeacher")();
 	require("./testClassTeacher")();
+	require("./testClassParent")();
 }

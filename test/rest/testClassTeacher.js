@@ -44,6 +44,7 @@ module.exports = function() {
                 done(err);
             });
         });
+        var teacherId;
         var mobile = '13' + (new Date()).getTime().toString().substring(4, 13);
         // 能创建一个教师
         it('success to create teacher data with properties', function(done){
@@ -111,6 +112,25 @@ module.exports = function() {
                         {token: 'basic-valid'})
                     .then(function(teachers) {
                         assert.equal(count + 1, teachers.length);
+                        done();
+                    }, function(err) {
+                        callback(new Error("should get the count"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 获得老师管理班级列表
+        it('success to get the new count of class for the teacher', function(done){
+            // an example using an object instead of an array
+            async.series({
+                query: function(callback){
+                    base.queryAll("/api/school/" + schoolId + "/teacher/" + teacherId + "/class", 
+                        {token: 'basic-valid'})
+                    .then(function(wexclasses) {
+                        assert.equal(1, wexclasses.length);
                         done();
                     }, function(err) {
                         callback(new Error("should get the count"));
