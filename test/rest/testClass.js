@@ -24,7 +24,7 @@ module.exports = function() {
                 done(err);
             });
         });
-        // 没有token无法获得学校信息
+        // 没有token无法获得班级信息
         it('failed to get class data without basic token', function(done){
             assert.notEqual(null, schoolId);
             // an example using an object instead of an array
@@ -42,7 +42,7 @@ module.exports = function() {
             });
         });
 
-        // 错误的token无法获得学校信息
+        // 错误的token无法获得班级信息
         it('failed to get class data with invalid token', function(done){
             // an example using an object instead of an array
             async.series({
@@ -59,7 +59,7 @@ module.exports = function() {
             });
         });
 
-        // 过期的token无法获得学校信息
+        // 过期的token无法获得班级信息
         it('failed to get class data with expired token', function(done){
             // an example using an object instead of an array
             async.series({
@@ -95,7 +95,7 @@ module.exports = function() {
             });
         });
         
-        // 没有token不能创建学校，只是为了判断是否使用auth方法，无需完成其他auth验证
+        // 没有token不能创建班级，只是为了判断是否使用auth方法，无需完成其他auth验证
         it('failed to create class data without token', function(done){
             // an example using an object instead of an array
             async.series({
@@ -112,7 +112,7 @@ module.exports = function() {
             });
         });
 
-        // 没有name和createdby不能创建学校
+        // 没有name和createdby不能创建班级
         it('failed to create class data without properties', function(done){
             // an example using an object instead of an array
             async.series({
@@ -130,7 +130,7 @@ module.exports = function() {
         });
 
         var classId;
-        // 能创建学校
+        // 能创建班级
         it('success to create class data with properties', function(done){
             // an example using an object instead of an array
             async.series({
@@ -167,7 +167,7 @@ module.exports = function() {
             });
         });
 
-        // 没有token不能获得学校信息
+        // 没有token不能获得班级信息
         it('failed to get class data without token', function(done){
             // an example using an object instead of an array
             async.series({
@@ -184,7 +184,7 @@ module.exports = function() {
             });
         });
 
-        // 能获得学校信息
+        // 能获得班级信息
         it('success to get class data with new id', function(done){
             // an example using an object instead of an array
             async.series({
@@ -220,7 +220,7 @@ module.exports = function() {
             });
         });
 
-        // 没有token不能激活学校
+        // 没有token不能激活班级
         it('success to update class with token', function(done){
             // an example using an object instead of an array
             async.series({
@@ -257,7 +257,7 @@ module.exports = function() {
             });
         });
 
-        // 没有token不能删除学校
+        // 没有token不能删除班级
         it('failed to remove class without token', function(done){
             // an example using an object instead of an array
             async.series({
@@ -274,7 +274,7 @@ module.exports = function() {
             });
         });
 
-        // 有token能删除学校
+        // 有token能删除班级
         it('success to remove class with token', function(done){
             // an example using an object instead of an array
             async.series({
@@ -291,7 +291,7 @@ module.exports = function() {
             });
         });
 
-        // 有token能删除学校
+        // 有token能删除班级
         it('failed to get the removed class with token', function(done){
             // an example using an object instead of an array
             async.series({

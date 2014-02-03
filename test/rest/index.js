@@ -1,5 +1,6 @@
 module.exports = function() {
 	//require("./testSchool")();
 	//require("./testClass")();
-	require("./testTeacher")();
+	//require("./testTeacher")();
+	require("./testClassTeacher")();
 }
