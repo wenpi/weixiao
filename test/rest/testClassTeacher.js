@@ -44,7 +44,7 @@ module.exports = function() {
                 done(err);
             });
         });
-        var mobile = '138' + (new Date()).getTime().toString().substring(3, 11);
+        var mobile = '13' + (new Date()).getTime().toString().substring(4, 13);
         // 能创建一个教师
         it('success to create teacher data with properties', function(done){
             // an example using an object instead of an array

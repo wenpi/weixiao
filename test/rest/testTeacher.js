@@ -95,7 +95,7 @@ module.exports = function() {
             });
         });
         
-        var mobile = '138' + (new Date()).getTime().toString().substring(3, 11);
+        var mobile = '13' + (new Date()).getTime().toString().substring(4, 13);
         // 没有token不能创建教师，只是为了判断是否使用auth方法，无需完成其他auth验证
         it('failed to create teacher data without token', function(done){
             // an example using an object instead of an array
