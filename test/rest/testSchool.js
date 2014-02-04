@@ -9,7 +9,7 @@ module.exports = function() {
         it('failed to get school data without basic token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryPagingList("/api/school", {token: 'basic-none'})
                     .then(function(err) {
                         callback(err);
@@ -26,7 +26,7 @@ module.exports = function() {
         it('failed to get school data with invalid token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryPagingList("/api/school", {token: 'basic-invalid'})
                     .then(function(err) {
                         callback(err);
@@ -43,7 +43,7 @@ module.exports = function() {
         it('failed to get school data with expired token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryPagingList("/api/school", {token: 'basic-expired'})
                     .then(function() {
                         callback(new Error("should not get data"));
@@ -60,7 +60,7 @@ module.exports = function() {
         it('success to get school data with basic token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryPagingList("/api/school", {token: 'basic-valid'})
                     .then(function(schools) {
                         assert.equal(true, Array.isArray(schools));
@@ -89,7 +89,7 @@ module.exports = function() {
         it('failed to create school data without token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.create("/api/school", {name: '测试学校'}, {token: 'basic-none'})
                     .then(function() {
                         callback(new Error("should not create a test school"));
@@ -106,7 +106,7 @@ module.exports = function() {
         it('failed to create school data without properties', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.create("/api/school", {name: ''}, {token: 'basic-valid'})
                     .then(function() {
                         callback(new Error("should not create a test school"));
@@ -124,7 +124,7 @@ module.exports = function() {
         it('success to create school data with properties', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.create("/api/school", {name: '测试学校', createdBy: 'rest tester'}, {token: 'basic-valid'})
                     .then(function(id) {
                         assert.notEqual(undefined, id);
@@ -143,7 +143,7 @@ module.exports = function() {
         it('failed to get school data without token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.get("/api/school/" + schoolId, {token: 'basic-none'})
                     .then(function() {
                         callback(new Error("should not get the created school"));
@@ -160,7 +160,7 @@ module.exports = function() {
         it('success to get school data with new id', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.get("/api/school/" + schoolId, {token: 'basic-valid'})
                     .then(function(school) {
                         assert.equal(schoolId, school.id);
@@ -179,7 +179,7 @@ module.exports = function() {
         it('failed to bind school without token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.update("/api/school/" + schoolId, {openId: 'openId' + schoolId}, {token: 'basic-none'})
                     .then(function() {
                         callback(new Error("should not bind the school"));
@@ -196,7 +196,7 @@ module.exports = function() {
         it('success to bind school with token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.update("/api/school/" + schoolId, {openId: 'openId' + schoolId}, {token: 'basic-valid'})
                     .then(function() {
                         done();
@@ -213,7 +213,7 @@ module.exports = function() {
         it('failed to bind school with same open id again', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.update("/api/school/" + schoolId, {openId: 'openId' + schoolId}, {token: 'basic-valid'})
                     .then(function() {
                         callback(new Error("should bind the school for twice"));
@@ -230,7 +230,7 @@ module.exports = function() {
         it('failed to remove school without token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.remove("/api/school/" + schoolId, {token: 'basic-none'})
                     .then(function() {
                         callback(new Error("should not bind the school"));
@@ -247,7 +247,7 @@ module.exports = function() {
         it('success to remove school with token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.remove("/api/school/" + schoolId, {token: 'basic-valid'})
                     .then(function() {
                         done();
@@ -264,7 +264,7 @@ module.exports = function() {
         it('failed to get the removed school with token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.get("/api/school/" + schoolId, {token: 'basic-valid'})
                     .then(function() {
                         callback(new Error("should not get the removed school"));

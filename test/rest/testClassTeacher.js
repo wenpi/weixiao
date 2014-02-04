@@ -10,7 +10,7 @@ module.exports = function() {
         it('success to get a school data for class and teacher with basic token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryPagingList("/api/school", {token: 'basic-valid'})
                     .then(function(schools) {
                         assert.notEqual(0, schools.length);
@@ -29,7 +29,7 @@ module.exports = function() {
         it('success to create class data with properties', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.create("/api/school/" + schoolId + "/class", 
                         {name: '测试班级', code: "classcode", createdBy: 'rest tester'}, {token: 'basic-valid'})
                     .then(function(id) {
@@ -50,7 +50,7 @@ module.exports = function() {
         it('success to create teacher data with properties', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.create("/api/school/" + schoolId + "/teacher", 
                         {name: '测试教师', gender: 1, mobile: mobile, isAdmin: 0, createdBy: 'rest tester'}, {token: 'basic-valid'})
                     .then(function(id) {
@@ -70,7 +70,7 @@ module.exports = function() {
         it('success to get the current count of teacher in this class', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/teacher", 
                         {token: 'basic-valid'})
                     .then(function(teachers) {
@@ -89,7 +89,7 @@ module.exports = function() {
         it('success to create a reference between class and teacher', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.create("/api/school/" + schoolId + "/class/" + classId + "/teacher/" + teacherId, 
                         {}, {token: 'basic-valid'})
                     .then(function() {
@@ -107,7 +107,7 @@ module.exports = function() {
         it('success to get the new count of teacher in this class', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/teacher", 
                         {token: 'basic-valid'})
                     .then(function(teachers) {
@@ -126,7 +126,7 @@ module.exports = function() {
         it('success to get the new count of class for the teacher', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryAll("/api/school/" + schoolId + "/teacher/" + teacherId + "/class", 
                         {token: 'basic-valid'})
                     .then(function(wexclasses) {
@@ -145,7 +145,7 @@ module.exports = function() {
         it('success to delete the reference between class and teacher', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.remove("/api/school/" + schoolId + "/class/" + classId + "/teacher/" + teacherId, {token: 'basic-valid'})
                     .then(function() {
                         done();
@@ -163,7 +163,7 @@ module.exports = function() {
         it('success to get the final count of teacher in this class', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/teacher", 
                         {token: 'basic-valid'})
                     .then(function(teachers) {
