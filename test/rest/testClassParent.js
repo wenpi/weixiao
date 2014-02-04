@@ -10,7 +10,7 @@ module.exports = function() {
         it('success to get a school data for class and parent with basic token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryPagingList("/api/school", {token: 'basic-valid'})
                     .then(function(schools) {
                         assert.notEqual(0, schools.length);
@@ -30,7 +30,7 @@ module.exports = function() {
         it('success to create class data with properties', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.create("/api/school/" + schoolId + "/class", 
                         {name: '测试班级', code: "classcode", createdBy: 'rest tester'}, {token: 'basic-valid'})
                     .then(function(id) {
@@ -51,14 +51,13 @@ module.exports = function() {
         it('success to get the current count of parent in this class', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/parent", 
                         {token: 'basic-valid'})
                     .then(function(parents) {
                         count = parents.length;
                         done();
                     }, function(err) {
-                        console.info(err);
                         callback(new Error("should get the count of the parents."));
                     });
                 }
@@ -71,7 +70,7 @@ module.exports = function() {
         it('success to get the current count of student in this class', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/student", 
                         {token: 'basic-valid'})
                     .then(function(students) {
@@ -91,7 +90,7 @@ module.exports = function() {
         it('failed to create a parent and a student', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.create("/api/school/" + schoolId + "/class/" + classId + "/parent", 
                         {name: "孩子1", gender: 1, mobile: mobile, photo: 'none'}, {token: 'basic-none'})
                     .then(function() {
@@ -110,14 +109,13 @@ module.exports = function() {
         it('success to create a parent and a student', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.create("/api/school/" + schoolId + "/class/" + classId + "/parent", 
                         {name: "孩子1", gender: 1, mobile: mobile, photo: 'none', createdBy: 'creator'}, {token: 'basic-valid'})
                     .then(function(id) {
                         parentId = id;
                         done();
                     }, function(err) {
-                        console.info(err);
                         callback(new Error("should create a parent and a student"));
                     });
                 }
@@ -130,7 +128,7 @@ module.exports = function() {
         it('success to get the new count of parent in this class', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/parent", 
                         {token: 'basic-valid'})
                     .then(function(parents) {
@@ -150,7 +148,7 @@ module.exports = function() {
         it('success to get the current count of student for the parent', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryAll("/api/school/" + schoolId + "/parent/" + parentId + "/student", 
                         {token: 'basic-valid'})
                     .then(function(students) {
@@ -170,7 +168,7 @@ module.exports = function() {
         it('success to get the current count of parent for the student', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryAll("/api/school/" + schoolId + "/student/" + studentId + "/parent", 
                         {token: 'basic-valid'})
                     .then(function(parents) {
@@ -187,14 +185,176 @@ module.exports = function() {
             });
         });
 
-        //TODO: 添加第二位家长和相关检测
+        var secParentId;
+        var newMobile = '18' + (new Date()).getTime().toString().substring(4, 13);
+        it('success to create the second parent', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.create("/api/school/" + schoolId + "/student/" + studentId + "/parent", 
+                        {name: '家长2', mobile: newMobile, photo: "none"}, {token: 'basic-valid'})
+                    .then(function(id) {
+                        secParentId = id;
+                        done();
+                    }, function(err) {
+                        callback(new Error("should create the second parent"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        it('success to get the two parent for the student', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.queryAll("/api/school/" + schoolId + "/student/" + studentId + "/parent", 
+                        {token: 'basic-valid'})
+                    .then(function(parents) {
+                        assert.equal(2, parents.length);
+                        done();
+                    }, function(err) {
+                        callback(new Error("should get the parent count"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        it('success to get the first parent info', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.queryAll("/api/school/" + schoolId + "/parent/" + parentId, 
+                        {token: 'basic-valid'})
+                    .then(function(parent) {
+                        assert.equal(parent.id, parentId);
+                        done();
+                    }, function(err) {
+                        callback(new Error("should get the parent info"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        it('success to update the first parent info', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.update("/api/school/" + schoolId + "/parent/" + parentId, 
+                        {name: '孩子家长updated'}, {token: 'basic-valid'})
+                    .then(function() {
+                        done();
+                    }, function(err) {
+                        callback(new Error("should update the parent info"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        it('success to get the updated first parent info', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.queryAll("/api/school/" + schoolId + "/parent/" + parentId, 
+                        {token: 'basic-valid'})
+                    .then(function(parent) {
+                        assert.equal(parent.name, "孩子家长updated");
+                        done();
+                    }, function(err) {
+                        callback(new Error("should get the parent info"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        it('success to update the first parent open id', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.update("/api/school/" + schoolId + "/parent/" + parentId, 
+                        {openId: 'openId' + mobile}, {token: 'basic-valid'})
+                    .then(function() {
+                        done();
+                    }, function(err) {
+                        callback(new Error("should update the parent open id"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        it('failed to update the first parent open id again', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.update("/api/school/" + schoolId + "/parent/" + parentId, 
+                        {openId: 'openId' + mobile}, {token: 'basic-valid'})
+                    .then(function() {
+                        callback(new Error("should not update the parent open id"));
+                    }, function(err) {
+                        done();
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        it('failed to update the second parent open id with the first parent open id', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.update("/api/school/" + schoolId + "/parent/" + secParentId, 
+                        {openId: 'openId' + mobile}, {token: 'basic-valid'})
+                    .then(function() {
+                        callback(new Error("should not update the parent open id"));
+                    }, function(err) {
+                        done();
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 教师能登录
+        it('success to get auth info', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.auth("/api/auth", {username: mobile, password: mobile.substring(7)}, {token: 'basic-none'})
+                    .then(function(token) {
+                        assert.notEqual(token.wexuser, undefined);
+                        assert.equal(token.type, 0);
+                        assert.notEqual(token.wexkey, undefined);
+                        assert.notEqual(token.wextoken, undefined);
+                        done();
+                    }, function(err) {
+                        callback(new Error("should able to login"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
         return;
 
         // 没有token不能删除关系
         it('failed to delete the parent and student', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.remove("/api/school/" + schoolId + "/class/" + classId + "/parent/" + parentId, {token: 'basic-none'})
                     .then(function() {
                         callback(new Error("should not remove the parent"));
@@ -211,7 +371,7 @@ module.exports = function() {
         it('success to delete the parent and student', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.remove("/api/school/" + schoolId + "/class/" + classId + "/parent/" + parentId, {token: 'basic-valid'})
                     .then(function() {
                         done();
@@ -228,7 +388,7 @@ module.exports = function() {
         it('success to get the final count of parent in this class', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/parent", 
                         {token: 'basic-valid'})
                     .then(function(parents) {
@@ -246,7 +406,7 @@ module.exports = function() {
         it('success to get the final count of student in this class', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/student", 
                         {token: 'basic-valid'})
                     .then(function(students) {

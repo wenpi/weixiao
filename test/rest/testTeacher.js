@@ -10,7 +10,7 @@ module.exports = function() {
         it('success to get a school data for teacher with basic token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryPagingList("/api/school", {token: 'basic-valid'})
                     .then(function(schools) {
                         assert.notEqual(0, schools.length);
@@ -29,7 +29,7 @@ module.exports = function() {
             assert.notEqual(null, schoolId);
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryAll("/api/school/" + schoolId + "/teacher", {token: 'basic-none'})
                     .then(function(err) {
                         callback(err);
@@ -46,7 +46,7 @@ module.exports = function() {
         it('failed to get teacher data with invalid token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryAll("/api/school/" + schoolId + "teacher", {token: 'basic-invalid'})
                     .then(function(err) {
                         callback(err);
@@ -63,7 +63,7 @@ module.exports = function() {
         it('failed to get teacher data with expired token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryAll("/api/school/" + schoolId + "/teacher", {token: 'basic-expired'})
                     .then(function() {
                         callback(new Error("should not get data"));
@@ -81,7 +81,7 @@ module.exports = function() {
         it('success to get teacher data with basic token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryAll("/api/school/" + schoolId + "/teacher", {token: 'basic-valid'})
                     .then(function(teahcers) {
                         count = teahcers.length;
@@ -100,7 +100,7 @@ module.exports = function() {
         it('failed to create teacher data without token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.create("/api/school/" + schoolId + "/teacher",
                         {name: '测试教师', gender: 1, mobile: mobile, isAdmin: 0, createdBy: "rest tester"}, {token: 'basic-none'})
                     .then(function() {
@@ -118,7 +118,7 @@ module.exports = function() {
         it('failed to create teacher data without properties', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.create("/api/school/" + schoolId + "/teacher", {name: ''}, {token: 'basic-valid'})
                     .then(function() {
                         callback(new Error("should not create a test teacher"));
@@ -136,7 +136,7 @@ module.exports = function() {
         it('success to create teacher data with properties', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.create("/api/school/" + schoolId + "/teacher", 
                         {name: '测试教师', gender: 1, mobile: mobile, isAdmin: 0, createdBy: 'rest tester'}, {token: 'basic-valid'})
                     .then(function(id) {
@@ -156,7 +156,7 @@ module.exports = function() {
         it('success to get the new teacher data with basic token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryAll("/api/school/" + schoolId + "/teacher", {token: 'basic-valid'})
                     .then(function(teahcers) {
                         assert.equal(count + 1, teahcers.length);
@@ -173,7 +173,7 @@ module.exports = function() {
         it('success to get the new teacher data with a specific id', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.queryAll("/api/school/" + schoolId + "/teacher?userid=" + teacherId, {token: 'basic-valid'})
                     .then(function(teahcers) {
                         assert.equal(1, teahcers.length);
@@ -192,7 +192,7 @@ module.exports = function() {
         it('failed to get teacher data without token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.get("/api/school/" + schoolId + "/teacher/" + teacherId, {token: 'basic-none'})
                     .then(function() {
                         callback(new Error("should not get the created teacher"));
@@ -209,7 +209,7 @@ module.exports = function() {
         it('success to get teacher data with new id', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.get("/api/school/" + schoolId + "/teacher/" + teacherId, {token: 'basic-valid'})
                     .then(function(teacher) {
                         assert.equal(teacherId, teacher.id);
@@ -228,7 +228,7 @@ module.exports = function() {
         it('failed to update teacher without token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.update("/api/school/" + schoolId + "/teacher/" + teacherId, 
                         {name: '测试教师updated', gender: 0, mobile: mobile, isAdmin: 1, updatedBy: 'rest updated'}, {token: 'basic-none'})
                     .then(function() {
@@ -246,7 +246,7 @@ module.exports = function() {
         it('success to update teacher with token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.update("/api/school/" + schoolId + "/teacher/" + teacherId, 
                         {name: '测试教师updated', gender: 0, mobile: mobile, isAdmin: 1, updatedBy: 'rest updated'}, {token: 'basic-valid'})
                     .then(function() {
@@ -263,7 +263,7 @@ module.exports = function() {
         it('success to get the updated data with id', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.get("/api/school/" + schoolId + "/teacher/" + teacherId, {token: 'basic-valid'})
                     .then(function(teacher) {
                         assert.equal(teacherId, teacher.id);
@@ -283,9 +283,9 @@ module.exports = function() {
         it('success to bind teacher with open id', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.update("/api/school/" + schoolId + "/teacher/" + teacherId, 
-                        {openId: 'openId' + teacherId}, {token: 'basic-valid'})
+                        {openId: 'openId' + mobile}, {token: 'basic-valid'})
                     .then(function() {
                         done();
                     }, function(err) {
@@ -301,9 +301,9 @@ module.exports = function() {
         it('failed to bind another open id', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.update("/api/school/" + schoolId + "/teacher/" + teacherId, 
-                        {openId: 'badopenId' + teacherId}, {token: 'basic-valid'})
+                        {openId: 'badopenId' + mobile}, {token: 'basic-valid'})
                     .then(function() {
                         callback(new Error("should not bind the teacher"));
                     }, function(err) {
@@ -315,11 +315,71 @@ module.exports = function() {
             });
         });
 
+        var newMobile = '12' + (new Date()).getTime().toString().substring(4, 13);
+        var secTeacherId;
+        // 能创建一个教师
+        it('success to create teacher data with properties', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.create("/api/school/" + schoolId + "/teacher", 
+                        {name: '测试教师2', gender: 1, mobile: newMobile, isAdmin: 0, createdBy: 'rest tester'}, {token: 'basic-valid'})
+                    .then(function(id) {
+                        assert.notEqual(undefined, id);
+                        secTeacherId = id;
+                        done();
+                    }, function(err) {
+                        callback(new Error("should create a test teacher"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        it('failed to bind the second teacher with first teacher open id', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.update("/api/school/" + schoolId + "/teacher/" + secTeacherId, 
+                        {openId: 'openId' + mobile}, {token: 'basic-valid'})
+                    .then(function() {
+                        callback(new Error("should not update the teacher"));
+                    }, function(err) {
+                        done();
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 教师能登录
+        it('success to get auth info', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.auth("/api/auth", {username: mobile, password: mobile.substring(7)}, {token: 'basic-none'})
+                    .then(function(token) {
+                        assert.notEqual(token.wexuser, undefined);
+                        assert.equal(token.type, 1);
+                        assert.notEqual(token.wexkey, undefined);
+                        assert.notEqual(token.wextoken, undefined);
+                        done();
+                    }, function(err) {
+                        callback(new Error("should able to login"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
         // 没有token不能删除教师
         it('failed to remove teacher without token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.remove("/api/school/" + schoolId + "/teacher/" + teacherId, {token: 'basic-none'})
                     .then(function() {
                         callback(new Error("should not remove the teacher"));
@@ -336,7 +396,7 @@ module.exports = function() {
         it('success to remove teacher with token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.remove("/api/school/" + schoolId + "/teacher/" + teacherId, {token: 'basic-valid'})
                     .then(function() {
                         done();
@@ -353,7 +413,7 @@ module.exports = function() {
         it('failed to get the removed teacher with token', function(done){
             // an example using an object instead of an array
             async.series({
-                query: function(callback){
+                action: function(callback){
                     base.get("/api/school/" + schoolId + "/" + teacherId, {token: 'basic-valid'})
                     .then(function() {
                         callback(new Error("should not get the remvoed teacher"));

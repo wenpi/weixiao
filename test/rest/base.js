@@ -33,12 +33,30 @@ function getBasicToken(type) {
 	return token;
 }
 
-var SERVER = "http://192.168.1.107";
+var SERVER = "http://192.168.1.105";
 module.exports.config = function() {
 	return {
 		SERVER: SERVER
 	};
 };
+module.exports.auth = function(url, data, options) {
+    var deferred = Q.defer(), options = options || {token: 'basic-valid'};
+
+    request({
+        url: SERVER + url,
+        method: 'POST',
+        form: data
+    }, function callback(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var jsondata = JSON.parse(body);
+            deferred.resolve(jsondata);
+        } else {
+            deferred.reject(error || body || new Error('unkown'));
+        }
+    });
+
+    return deferred.promise;
+}
 module.exports.queryPagingList = function(url, options) {
 	var deferred = Q.defer(), options = options || {token: 'basic-valid'};
 
