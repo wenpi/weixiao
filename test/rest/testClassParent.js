@@ -92,7 +92,7 @@ module.exports = function() {
             async.series({
                 action: function(callback){
                     base.create("/api/school/" + schoolId + "/class/" + classId + "/parent", 
-                        {name: "孩子1", gender: 1, mobile: mobile, photo: 'none'}, {token: 'basic-none'})
+                        {name: "孩子1", gender: 1, mobile: mobile}, {token: 'basic-none'})
                     .then(function() {
                         callback(new Error("should not create a parent and a student"));
                     }, function(err) {
@@ -178,6 +178,25 @@ module.exports = function() {
                         done();
                     }, function(err) {
                         callback(new Error("should get the parent count"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 能获得学生信息
+        it('success to get the student info', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.queryAll("/api/school/" + schoolId + "/student/" + studentId, 
+                        {token: 'basic-valid'})
+                    .then(function(student) {
+                        assert.equal(studentId, student.id);
+                        done();
+                    }, function(err) {
+                        callback(new Error("should get the student info"));
                     });
                 }
             }, function(err, results) {

@@ -1,0 +1,20 @@
+<div id="wx-photo" class="wx-page">
+    <div class="header">
+        <!--a href="#main" class="button button-left"><i class="fa fa-th"></i></a-->
+        <a ng-show="student.view == 'tvs'"
+           href="#/main" class="button button-left"><i class="fa fa-angle-left"></i></a>
+        <span class="title">{{student.title}}学生</span>
+        <a href="#/class/{{student.classId}}/student/new" class="button button-right"><i class="fa fa-plus"></i></a>
+    </div>
+
+    
+    <div ng-show="student.records == null" class="wx-prompt">正在加载学生列表...</div>
+    <div ng-show="student.records && student.records.length == 0" class="wx-prompt">没有学生记录。</div>
+    
+    <div class="wx-page-detal">
+        <a  ng-repeat="record in student.records" ng-href="#/class/{{student.classId}}/student/{{record.id}}"
+            class="pure-button-xsmall pure-button" style="width:21%;margin:5px 2%;padding:10px 0px;text-align:center;">
+            {{record.name}}</a>
+    </div>
+
+</div>

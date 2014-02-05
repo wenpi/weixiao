@@ -32,6 +32,7 @@ function getBasicToken(type) {
 	//console.info(token);
 	return token;
 }
+module.exports.getBasicToken = getBasicToken;
 
 var SERVER = "http://192.168.1.105";
 module.exports.config = function() {

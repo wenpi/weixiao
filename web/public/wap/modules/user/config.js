@@ -57,7 +57,7 @@ define(function (require, exports, module) {
                     return $http({
                         method: 'GET',
                         cache: false,
-                        url: WEXPATH + '/api/school/' + wexClass.school_id + '/class/' + wexClass.id + '/student'
+                        url: WEXPATH + '/api/school/' + wexClass.schoolId + '/class/' + wexClass.id + '/student'
                     }).then(function(res) {
                         return res.data;
                     }, function(err) {

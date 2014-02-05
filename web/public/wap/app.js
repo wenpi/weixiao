@@ -16,8 +16,8 @@ define(function (require, exports, module) {
         window.WEXPATH = 'http://192.168.1.105';
         $.fn.cookie("wexschool", "a106d68b-cbfd-294a-5324-8d0a5e329e2d");
         $.fn.cookie("wexuser", "2e9db4f7-4293-4c11-80eb-4895ebe01b50");
-        $.fn.cookie("wexkey", "1390917621336");
-        $.fn.cookie("wextoken", "716384bd9f29829b4a918719cbec8291");
+        $.fn.cookie("wexkey", "1391617179241");
+        $.fn.cookie("wextoken", "6b0c3498274550091a9b532660b8d154");
         isStatic = false;
     }
     
@@ -26,6 +26,7 @@ define(function (require, exports, module) {
     var app = angular.module('app', ['angular-lazyload', 'ngRoute', 'ngSanitize']);
     require('./modules/main/config.js')(app);
     require('./modules/user/config.js')(app);
+    require('./modules/student/config.js')(app);
     require('./modules/message/config.js')(app);
     require('./modules/photo/config.js')(app);
     require('./modules/leave/config.js')(app);
@@ -108,7 +109,7 @@ define(function (require, exports, module) {
 
                         $(wexClasses).each(function (i, wexClass) {
                             UserService.getStudentsByClass(wexClass).then(function(students) {
-                                wexClass.students = students.sort(function(a, b) { return a.name >= b.name ? -1 : 1;}) || [];
+                                wexClass.students = students || [];
                             })
                         });
                     });

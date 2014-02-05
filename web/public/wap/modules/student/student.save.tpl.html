@@ -1,0 +1,45 @@
+<div id="wx-photo" class="wx-page">
+    <div class="header">
+        <a href="javascript:window.history.go(-1)" class="button button-left"><i class="fa fa-angle-left"></i></a>
+        <span class="title">{{student.title}}</span>
+    </div>
+    
+    <div ng-show="student.record == null" class="wx-prompt">正在加载学生数据...</div>
+    
+    <div ng-show="student.record" class="wx-page-detail">
+        <form name="saveStudentForm" class="pure-form pure-form-stacked wex-form">
+            <fieldset>
+                <legend>学生信息</legend>
+
+                <div ng-show="!student.record.id">
+                <label for="mobile">家长手机：</label>
+                <input id="mobile" type="text" ng-required="true" ng-pattern="/^1\d{10}$/"
+                       ng-model="student.record.mobile" placeholder="请输入家长手机">
+                </div>
+
+                <label for="name">学生姓名：</label>
+                <input id="name" type="text" ng-required="true"
+                       ng-model="student.record.name" placeholder="请输入学生姓名">
+
+                <label for="gender">学生性别：</label>
+                <div>
+                <button class="pure-button-xsmall pure-button"
+                        ng-click="student.record.gender = 1"
+                        ng-class="{'pure-button-primary': student.record.gender == 1}">
+                        男</button>
+                <button class="pure-button-xsmall pure-button"
+                        ng-click="student.record.gender = 0"
+                        ng-class="{'pure-button-primary': student.record.gender == 0}">
+                        女</button>
+                </div>
+                             
+            </fieldset>
+        </form>
+        <div class="wx-buttons">
+            <button class="pure-button full"
+                    ng-disabled="!saveStudentForm.$valid"
+                    ng-class="{'pure-button-primary': saveStudentForm.$valid}" ng-click="student.saveRecord()">保存</button>
+        </div>
+    </div>
+    
+</div>
