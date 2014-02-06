@@ -346,7 +346,7 @@ module.exports = function() {
             });
         });
 
-        // 教师能登录
+        // 家长能登录
         it('success to get auth info', function(done){
             // an example using an object instead of an array
             async.series({
@@ -360,6 +360,45 @@ module.exports = function() {
                         done();
                     }, function(err) {
                         callback(new Error("should able to login"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 更新学生信息
+        it('success to update the student info', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.update("/api/school/" + schoolId + "/student/" + studentId, 
+                        {name: '孩子updated', gender: 0}, {token: 'basic-valid'})
+                    .then(function() {
+                        done();
+                    }, function(err) {
+                        console.info(err);
+                        callback(new Error("should update the student info"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        it('success to get the updated student info', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.queryAll("/api/school/" + schoolId + "/student/" + studentId, 
+                        {token: 'basic-valid'})
+                    .then(function(student) {
+                        assert.equal(student.name, "孩子updated");
+                        assert.equal(student.gender, "0");
+                        done();
+                    }, function(err) {
+                        console.info(err);
+                        callback(new Error("should get the updated parent info"));
                     });
                 }
             }, function(err, results) {
