@@ -3,7 +3,7 @@
         <!--a href="#main" class="button button-left"><i class="fa fa-th"></i></a-->
         <a ng-show="student.view == 'tvs'"
            href="#/main" class="button button-left"><i class="fa fa-angle-left"></i></a>
-        <span class="title">{{student.title}}学生</span>
+        <span class="title">{{student.title}}学生(共{{student.records.length}}名)</span>
         <a href="#/class/{{student.classId}}/student/new" class="button button-right"><i class="fa fa-plus"></i></a>
     </div>
 

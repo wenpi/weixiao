@@ -48,7 +48,7 @@
             </div>
             <div class="badge">100</div>
         </a>
-        <a href="javascript:void(0)">
+        <!--a href="javascript:void(0)">
             <div class="icon">
                 <i class="fa fa-bell"></i>
             </div>
@@ -56,7 +56,7 @@
                 提醒备忘
             </div>
             <div class="badge">100</div>
-        </a>
+        </a-->
         <a href="javascript:void(0)" ng-show="session.user && session.user.type == 0">
             <div class="icon">
                 <i class="fa fa-users"></i>
@@ -75,16 +75,16 @@
             </div>
             <div class="badge">100</div>
         </a>
-        <a href="javascript:void(0)">
+        <a ng-href="#/user/{{session.user.id}}">
             <div class="icon">
                 <i class="fa fa-user"></i>
             </div>
             <div class="label">
-                个人资料
+                个人设置
             </div>
             <div class="badge">100</div>
         </a>
-        <a href="javascript:void(0)">
+        <!--a href="javascript:void(0)">
             <div class="icon">
                 <i class="fa fa-lock"></i>
             </div>
@@ -92,6 +92,6 @@
                 修改密码
             </div>
             <div class="badge">100</div>
-        </a>
+        </a-->
     </div>
 </div>

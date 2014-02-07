@@ -1,0 +1,69 @@
+<div id="wx-photo" class="wx-page">
+    <div class="header">
+        <a href="javascript:window.history.go(-1)" class="button button-left"><i class="fa fa-angle-left"></i></a>
+        <span class="title">个人设置</span>
+    </div>
+    
+    <div ng-show="user.record == null" class="wx-prompt">正在加载个人信息...</div>
+    
+    <table width="100%" class="wx-tab" ng-show="user.record.id">
+        <tr><td align="center" ng-class="{'selected': user.tab == 'basic'}" >
+            <a ng-click="user.tab = 'basic'" href="javascript:void(0)">基本信息</a>
+        </td><td align="center" ng-class="{'selected': user.tab == 'password'}">
+            <a ng-click="user.tab = 'password'" href="javascript:void(0)">修改密码</a>
+        </td></tr>
+    </table>
+
+    <div ng-show="user.record && user.tab == 'basic'" class="wx-page-detail">
+        <form name="saveStudentForm" class="pure-form pure-form-stacked wex-form">
+            <fieldset>
+                <label for="mobile">认证手机：</label>
+                <input id="mobile" type="text" ng-required="true" ng-pattern="/^1\d{10}$/" ng-readonly="true"
+                       ng-model="user.record.mobile" placeholder="请输入家长手机">
+
+                <label for="name">姓名：</label>
+                <input id="name" type="text" ng-required="true"
+                       ng-model="user.record.name" placeholder="请输入学生姓名">
+
+                <label for="type">类型：</label>
+                <div>
+                    <button class="pure-button-xsmall pure-button" ng-show="user.record.type == 0">家长</button>
+                    <button class="pure-button-xsmall pure-button" ng-show="user.record.type == 1">教师</button>
+                </div>
+
+            </fieldset>
+        </form>
+        <div class="wx-buttons">
+            <button class="pure-button full"
+                    ng-disabled="!saveStudentForm.$valid"
+                    ng-class="{'pure-button-primary': saveStudentForm.$valid}" ng-click="user.saveRecord()">保存</button>
+            <a href="javascript:window.history.go(-1)"><button class="pure-button full">返回</button></a>
+        </div>
+    </div>
+
+    <div ng-show="user.record && user.tab == 'password'" class="wx-page-detail">
+        <form name="savePasswordForm" class="pure-form pure-form-stacked wex-form">
+            <fieldset>
+                <label for="oldpassword">旧密码：</label>
+                <input id="oldpassword" type="password" ng-required="true"
+                       ng-model="user.record.oldpassword" placeholder="请输入旧密码">
+
+                <label for="newpassword">新密码：</label>
+                <input id="newpassword" type="password" ng-required="true" ng-minlength="4"
+                       ng-model="user.record.newpassword" placeholder="请输入新密码，至少4位">
+
+                <label for="confirmpassword">确认新密码：</label>
+                <input id="confirmpassword" type="password" ng-required="true"
+                       ng-model="user.record.confirmpassword" placeholder="请再次输入新密码">
+            </fieldset>
+        </form>
+        <div class="wx-buttons">
+            <button class="pure-button full"
+                    ng-disabled="!savePasswordForm.$valid || user.record.newpassword != user.record.confirmpassword"
+                    ng-class="{'pure-button-primary': savePasswordForm.$valid && user.record.newpassword == user.record.confirmpassword}"
+                    ng-click="user.savePassword()">提交</button>
+            <a href="javascript:window.history.go(-1)"><button class="pure-button full">返回</button></a>
+        </div>
+    </div>
+    
+</div>

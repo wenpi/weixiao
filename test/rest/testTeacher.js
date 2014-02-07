@@ -153,6 +153,24 @@ module.exports = function() {
             });
         });
 
+        // 不能再次创建教师
+        it('failed to create teacher data with properties again', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.create("/api/school/" + schoolId + "/teacher", 
+                        {name: '测试教师', gender: 1, mobile: mobile, isAdmin: 0, createdBy: 'rest tester'}, {token: 'basic-valid'})
+                    .then(function() {
+                        callback(new Error("should create a test teacher"));
+                    }, function(err) {
+                        done();
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
         it('success to get the new teacher data with basic token', function(done){
             // an example using an object instead of an array
             async.series({
@@ -367,6 +385,63 @@ module.exports = function() {
                         assert.notEqual(token.wextoken, undefined);
                         done();
                     }, function(err) {
+                        console.info(err);
+                        callback(new Error("should able to login"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 教师能更新姓名
+        it('success to update user profile', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.update("/api/user/" + teacherId, {name: '教师newName'}, {token: 'basic-valid'})
+                    .then(function() {
+                        done();
+                    }, function(err) {
+                        callback(new Error("should able to update profile"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 教师能修改密码
+        it('success to update user password', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.update("/api/user/" + teacherId, {oldPassword: mobile.substring(7), password: 'passw0rd'}, {token: 'basic-valid'})
+                    .then(function() {
+                        done();
+                    }, function(err) {
+                        callback(new Error("should able to update password"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 有新密码以后,教师能登录
+        it('success to get auth info again', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.auth("/api/auth", {username: mobile, password: 'passw0rd'}, {token: 'basic-none'})
+                    .then(function(token) {
+                        assert.notEqual(token.wexuser, undefined);
+                        assert.equal(token.type, 1);
+                        assert.notEqual(token.wexkey, undefined);
+                        assert.notEqual(token.wextoken, undefined);
+                        done();
+                    }, function(err) {
+                        console.info(err);
                         callback(new Error("should able to login"));
                     });
                 }

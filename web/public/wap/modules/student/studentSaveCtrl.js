@@ -47,7 +47,7 @@ define(function (require, exports, module) {
 	        			alert(message);
 	        			$location.path("student");
 	        		}, function() {
-	        			alert('操作失败，可能该段时间已经有学生资料。');
+	        			alert('抱歉，操作失败！');
 	        		});
 	        	};
 	        }]

@@ -1,0 +1,86 @@
+<div id="wx-photo" class="wx-page">
+    <div class="header">
+        <a href="javascript:window.history.go(-1)" class="button button-left">
+            <i class="fa fa-angle-left"></i>
+        </a>
+        <span class="title">{{student.record.name}}</span>
+        <a ng-show="student.record.id" href="javascript:void(0)" class="button button-right" ng-click="student.remove()">
+            <i class="fa fa-times"></i>
+        </a>
+    </div>
+    
+    <div ng-show="!student.record.id" class="wx-prompt">正在加载学生数据...</div>
+    
+    <table width="100%" class="wx-tab" ng-show="student.record.id">
+        <tr><td align="center" ng-class="{'selected': student.tab == 'basic'}" >
+            <a ng-click="student.tab = 'basic'" href="javascript:void(0)">基本信息</a>
+        </td><td align="center" ng-class="{'selected': student.tab == 'parents'}">
+            <a ng-click="student.tab = 'parents'" href="javascript:void(0)">家长信息</a>
+        </td></tr>
+    </table>
+
+    <div class="wx-page-detail" ng-show="student.record.id && student.tab == 'basic'">
+        <form name="saveStudentForm" class="pure-form pure-form-stacked wex-form">
+            <fieldset>
+                <div ng-show="!student.record.id">
+                <label for="mobile">家长手机：</label>
+                <input id="mobile" type="text" ng-required="!student.record.id" ng-pattern="/^1\d{10}$/"
+                       ng-model="student.record.mobile" placeholder="请输入家长手机">
+                </div>
+
+                <label for="name">学生姓名：</label>
+                <input id="name" type="text" ng-required="true"
+                       ng-model="student.record.name" placeholder="请输入学生姓名">
+
+                <label for="gender">学生性别：</label>
+                <div>
+                <button class="pure-button-xsmall pure-button"
+                        ng-click="student.record.gender = 1"
+                        ng-class="{'pure-button-primary': student.record.gender == 1}">
+                        男</button>
+                <button class="pure-button-xsmall pure-button"
+                        ng-click="student.record.gender = 0"
+                        ng-class="{'pure-button-primary': student.record.gender == 0}">
+                        女</button>
+                </div>
+                             
+            </fieldset>
+        </form>
+        <div class="wx-buttons">
+            <button class="pure-button full"
+                    ng-disabled="!saveStudentForm.$valid"
+                    ng-class="{'pure-button-primary': saveStudentForm.$valid}" ng-click="student.saveRecord()">保存</button>
+            <a href="javascript:window.history.go(-1)"><button class="pure-button full">返回</button></a>
+        </div>
+    </div>
+
+    <div class="wx-page-detail" ng-show="student.record.id && student.tab == 'parents'">
+        <table class="pure-table pure-table-horizontal" style="border:none">
+            <tbody>
+                <tr ng-repeat="parent in student.parents">
+                    <!--td width="48px" valign="top">
+                        <a ng-href="#/student/{{record.studentId}}/student"><img class="profile" src="images/profile.jpg"></a>
+                    </td-->
+                    <td class="wx-message-content" valign="top">
+                        <strong style="">{{parent.name}}</strong>
+                    </td>
+                    <td class="wx-message-content" valign="top">
+                        <a href="tel:{{parent.mobile}}">{{parent.mobile}}</a>
+                        <a href="javascript:void(0)" ng-click="student.removeParent(parent)" 
+                           ng-show="student.parents && student.parents.length > 1" class="onright">
+                           <i class="fa fa-times"></i>删除
+                       </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="height:30px;"></div>
+        <div class="wx-buttons">
+            <a ng-href="#/class/{{student.classId}}/student/{{student.record.id}}/newparent"
+               ng-show="student.parents && student.parents.length < 4">
+                <button class="pure-button pure-button-primary full">添加家长</button>
+            </a>   
+            <a href="#/student"><button class="pure-button full">返回</button></a>
+        </div>
+    </div>
+</div>

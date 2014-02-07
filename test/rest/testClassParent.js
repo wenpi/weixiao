@@ -406,16 +406,14 @@ module.exports = function() {
             });
         });
 
-        return;
-
-        // 没有token不能删除关系
-        it('failed to delete the parent and student', function(done){
+        // 没有token不能删除第一位家长
+        it('failed to delete the first parent', function(done){
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
-                    base.remove("/api/school/" + schoolId + "/class/" + classId + "/parent/" + parentId, {token: 'basic-none'})
+                    base.remove("/api/school/" + schoolId + "/parent/" + parentId, {token: 'basic-none'})
                     .then(function() {
-                        callback(new Error("should not remove the parent"));
+                        callback(new Error("should not remove the first parent"));
                     }, function(err) {
                         done();
                     });
@@ -425,16 +423,16 @@ module.exports = function() {
             });
         });
 
-        // 能删除关系
-        it('success to delete the parent and student', function(done){
+        // 能删除第一位家长
+        it('success to delete the first parent', function(done){
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
-                    base.remove("/api/school/" + schoolId + "/class/" + classId + "/parent/" + parentId, {token: 'basic-valid'})
+                    base.remove("/api/school/" + schoolId + "/parent/" + parentId, {token: 'basic-valid'})
                     .then(function() {
                         done();
                     }, function(err) {
-                        callback(new Error("should remove the parent"));
+                        callback(new Error("should remove the first parent"));
                     });
                 }
             }, function(err, results) {
@@ -442,7 +440,81 @@ module.exports = function() {
             });
         });
 
-        // 删除以后，家长总数下降
+        // 删除以后，家长总数下降一位
+        it('success to get the latest count of parent in this class', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/parent", 
+                        {token: 'basic-valid'})
+                    .then(function(parents) {
+                        assert.equal(count + 1, parents.length);
+                        done();
+                    }, function(err) {
+                        callback(new Error("should get the count"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 删除以后，学生数量没变,因为第二位家长还在
+        it('success to get the latest count of student in this class', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/student", 
+                        {token: 'basic-valid'})
+                    .then(function(students) {
+                        assert.equal(sCount + 1, students.length);
+                        done();
+                    }, function(err) {
+                        callback(new Error("should get the count"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 创建第三位家长,仅仅为了测试删除学生能级联删掉这个家长
+        var mobile3 = '15' + (new Date()).getTime().toString().substring(4, 13);
+        it('success to create the third parent', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.create("/api/school/" + schoolId + "/student/" + studentId + "/parent", 
+                        {name: '家长3', mobile: mobile3, photo: "none"}, {token: 'basic-valid'})
+                    .then(function(id) {
+                        done();
+                    }, function(err) {
+                        callback(new Error("should create the third parent"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 能删除学生
+        it('success to delete the student', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.remove("/api/school/" + schoolId + "/student/" + studentId, {token: 'basic-valid'})
+                    .then(function() {
+                        done();
+                    }, function(err) {
+                        callback(new Error("should remove the student"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 删除以后，家长总数恢复原数
         it('success to get the final count of parent in this class', function(done){
             // an example using an object instead of an array
             async.series({
@@ -460,7 +532,8 @@ module.exports = function() {
                 done(err);
             });
         });
-        // 删除以后，学生总数下降
+
+        // 删除以后，学生数量恢复原数
         it('success to get the final count of student in this class', function(done){
             // an example using an object instead of an array
             async.series({
@@ -472,6 +545,23 @@ module.exports = function() {
                         done();
                     }, function(err) {
                         callback(new Error("should get the count"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 家长不能登录
+        it('failed to get auth info', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.auth("/api/auth", {username: mobile, password: mobile.substring(7)}, {token: 'basic-none'})
+                    .then(function(token) {
+                        callback(new Error("should able to login"));
+                    }, function(err) {
+                        done();
                     });
                 }
             }, function(err, results) {

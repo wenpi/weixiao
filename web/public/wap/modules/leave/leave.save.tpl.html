@@ -11,12 +11,14 @@
             <fieldset>
                 <legend>请假信息</legend>
 
+                <div class="field-with-fa">
                 <label for="student">学生姓名：</label>
                 <input id="student" type="text" ng-readonly="true" ng-required="true"
                        ng-click="leave.pickStudent()"
                        ng-model="leave.record.studentName" placeholder="请选择学生">
                 <i class="fa fa-users" ng-click="leave.pickStudent()" ng-show="!leave.record.id"></i>
-                             
+                </div>
+                
                 <label for="type">请假类型：</label>
                 <div>
                 <button class="pure-button-xsmall pure-button"
@@ -29,11 +31,13 @@
                         病假</button>
                 </div>
 
+                <div class="field-with-fa">
                 <label for="start_date">开始日期：</label>
                 <input id="start_date" type="text" ng-readonly="true" ng-required="true"
                        ng-click="leave.pickDate()"
                        value="{{leave.record.startDate}}" placeholder="请选择开始日期">
                 <i class="fa fa-calendar" ng-click="leave.pickDate()"></i>
+                </div>
 
                 <label for="type">请假天数：</label>
                 <div ng-show="leave.dayType != 'self'">
@@ -80,6 +84,7 @@
             <button class="pure-button full"
                     ng-disabled="!saveLeaveForm.$valid"
                     ng-class="{'pure-button-primary': saveLeaveForm.$valid}" ng-click="leave.saveRecord()">保存</button>
+            <a href="javascript:window.history.go(-1)"><button class="pure-button full">返回</button></a>
         </div>
     </div>
     
