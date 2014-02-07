@@ -16,8 +16,8 @@ define(function (require, exports, module) {
         window.WEXPATH = 'http://192.168.1.105';
         $.fn.cookie("wexschool", "a106d68b-cbfd-294a-5324-8d0a5e329e2d");
         $.fn.cookie("wexuser", "2e9db4f7-4293-4c11-80eb-4895ebe01b50");
-        $.fn.cookie("wexkey", "1391739222447");
-        $.fn.cookie("wextoken", "4d7b5aae053a49de624f9f23a2204e13");
+        $.fn.cookie("wexkey", "1391790020017");
+        $.fn.cookie("wextoken", "5f2cc67f5fe04c9ee4509d5f20fe1593");
         isStatic = false;
     }
     
