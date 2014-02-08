@@ -17,15 +17,15 @@
     <div ng-show="user.record && user.tab == 'basic'" class="wx-page-detail">
         <form name="saveStudentForm" class="pure-form pure-form-stacked wex-form">
             <fieldset>
+                <label for="name">用户姓名：</label>
+                <input id="name" type="text" ng-required="true"
+                       ng-model="user.record.name" placeholder="请输入学生姓名">
+
                 <label for="mobile">认证手机：</label>
                 <input id="mobile" type="text" ng-required="true" ng-pattern="/^1\d{10}$/" ng-readonly="true"
                        ng-model="user.record.mobile" placeholder="请输入家长手机">
 
-                <label for="name">姓名：</label>
-                <input id="name" type="text" ng-required="true"
-                       ng-model="user.record.name" placeholder="请输入学生姓名">
-
-                <label for="type">类型：</label>
+                <label for="type">用户类型：</label>
                 <div>
                     <button class="pure-button-xsmall pure-button" ng-show="user.record.type == 0">家长</button>
                     <button class="pure-button-xsmall pure-button" ng-show="user.record.type == 1">教师</button>

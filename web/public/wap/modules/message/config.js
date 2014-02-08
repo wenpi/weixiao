@@ -41,15 +41,18 @@ define(function (require, exports, module) {
             return {
                 save: function(record) {
                     var successCode = 201, method = 'POST', uri;
-                    var schoolId = record.schoolId;
-                    var classId = record.classId;
+                    var schoolId = record.schoolId,
+                        classId = record.classId,
+                        teacherId = record.teacherId;
 
                     if (record.id) {
                         method = 'POST'; //it should be PUT
                         successCode = 200;
                         uri =  WEXPATH + '/api/school/' + schoolId + '/message/' + record.id;
                     } else {
-                        uri =  WEXPATH + '/api/class/' + classId + '/message/';
+                        if (teacherId) {
+                            uri =  WEXPATH + '/api/class/' + classId + '/teacher/' + teacherId + '/message';
+                        }
                     }
                     
                     return $http({

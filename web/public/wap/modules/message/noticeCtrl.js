@@ -44,6 +44,7 @@ define(function (require, exports, module) {
 
         	$scope.notice.top = function(record, top) {
         		record.top = top;
+        		record.updatedBy = $scope.session.user.id;
     			MessageService.save(record)
     			.then(function() {
     				alert('操作成功！');

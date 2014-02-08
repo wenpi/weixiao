@@ -1,0 +1,50 @@
+<div id="wx-photo" class="wx-page">
+    <div class="header">
+        <a href="#/notice" class="button button-left"><i class="fa fa-angle-left"></i></a>
+        <span class="title">添加通知</span>
+    </div>
+    
+    <div ng-show="notice.record == null" class="wx-prompt">正在加载用户数据...</div>
+    
+    <div ng-show="notice.record" class="wx-page-detail">
+        <form name="saveNoticeForm" class="pure-form pure-form-stacked wex-form">
+            <fieldset>
+                <label for="content">通知内容：</label>
+                <textarea id="content" ng-model="notice.record.content" ng-maxlength="100" ng-required="true"
+                          placeholder="请输入通知内容，字数100字以内" rows="6"></textarea>
+                
+                <label for="top">是否置顶：</label>
+                <div>
+                <button class="pure-button-xsmall pure-button"
+                        ng-click="notice.record.top = 1"
+                        ng-class="{'pure-button-primary': notice.record.top == 1}">
+                        是</button>
+                <button class="pure-button-xsmall pure-button"
+                        ng-click="notice.record.top = 0"
+                        ng-class="{'pure-button-primary': notice.record.top == 0}">
+                        否</button>
+                </div>
+
+                <label for="sendsms">是否发送短信通知：</label>
+                <div>
+                <button class="pure-button-xsmall pure-button"
+                        ng-click="notice.record.sendsms = 1"
+                        ng-class="{'pure-button-primary': notice.record.sendsms == 1}">
+                        是</button>
+                <button class="pure-button-xsmall pure-button"
+                        ng-click="notice.record.sendsms = 0"
+                        ng-class="{'pure-button-primary': notice.record.sendsms == 0}">
+                        否</button>
+                </div>
+                
+            </fieldset>
+        </form>
+        <div class="wx-buttons">
+            <button class="pure-button full"
+                    ng-disabled="!saveNoticeForm.$valid"
+                    ng-class="{'pure-button-primary': saveNoticeForm.$valid}" ng-click="notice.saveRecord()">保存</button>
+            <a href="javascript:window.history.go(-1)"><button class="pure-button full">返回</button></a>
+        </div>
+    </div>
+    
+</div>
