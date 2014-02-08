@@ -6,8 +6,8 @@ define(function (require, exports, module) {
 
     module.exports = function(app){
 
-	    app.register.controller('leaveCtrl', ['$scope', '$routeParams', '$location', '$http', 'UserService', 'LeaveService',
-	        function($scope, $routeParams, $location, $http, UserService, LeaveService) {
+	    app.register.controller('leaveCtrl', ['$scope', '$routeParams', '$location', '$http', 'LeaveService',
+	        function($scope, $routeParams, $location, $http, LeaveService) {
 	        	$scope.leave = {};
 	        	$scope.leave.view = '';
 	        	$scope.leave.title = '';
@@ -24,7 +24,7 @@ define(function (require, exports, module) {
 
 	        	$scope.leave.remove = function(record) {
 	        		if (confirm("确认删除" + record.studentName + "的请假记录？")) {
-	        			LeaveService.remove(record.id)
+	        			LeaveService.remove(record)
 	        			.then(function() {
 	        				alert('删除成功！');
 	        				refresh();

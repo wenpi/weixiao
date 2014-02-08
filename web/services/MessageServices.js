@@ -16,10 +16,10 @@ module.exports.create = function(schoolId, user, message) {
     var deferred = Q.defer(),
         url = conf.site_root + '/api/school/' + schoolId + '/teacher/' + user.teacherId + '/message',
         data = {
-            'Message[title]': message.title || '',
-            'Message[content]:': message.content || '',
-            'Message[top]:': message.top || '0',
-            'userid': user.id,
+            'title': message.title || '',
+            'content': message.content || '',
+            'top:': message.top || '0',
+            'createdBy': user.id,
             'sendsms': message.sms || '0'
         };
 

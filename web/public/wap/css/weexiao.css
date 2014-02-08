@@ -26,10 +26,10 @@ a { text-decoration: none; color: #006699; font-weight: bold !important; font-si
 .wx-nav-container a .badge { display:none; border-radius: 5px; position: absolute; right: 3px; top: 3px; background-color: #2d89ef; padding: 2px; color: #fff; font-size: 0.8em;}
 
 .pure-table { width: 100%; }
-.pure-table td { padding: 10px 0px; }
+.pure-table td { padding: 5px 5px; }
 #wx-leave .pure-table td { padding: 10px 10px;}
 .pure-table img.profile { width: 48px; height: 48px; /*-webkit-border-radius: 25px; border-radius:25px;*/ border-radius: 5px;border: 2px solid #eee;}
-.pure-table div { padding: 0px 3px 6px 0px; }
+.pure-table div { line-height: 1.5em; }
 
 .wx-message-content { position: relative;}
 .wx-message-content .strong { color: #006699; }

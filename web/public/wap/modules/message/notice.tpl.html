@@ -2,18 +2,62 @@
     <div class="header">
         <a href="#main" class="button button-left"><i class="fa fa-th"></i></a>
         <span class="title">班级通知</span>
+        <a ng-show="session.user.type == 1" ng-href="#/class/{{notice.classId}}/leave/new" class="button button-right">
+            <i class="fa fa-plus"></i>
+        </a>
     </div>
-    <table class="pure-table pure-table-horizontal">
+
+    <div ng-show="notice.tRecords == null || notice.utRecords == null" class="wx-prompt">正在加载数据...</div>
+    <div ng-show="notice.tRecords.length == 0 && notice.utRecords.length == 0" class="wx-prompt">没有通知。</div>
+
+    <table ng-show="notice.tRecords != null && notice.utRecords != null" class="pure-table pure-table-horizontal">
         <tbody>
-            <tr>
-                <td width="48px" valign="top"><img class="profile" src="images/profile.jpg"></td>
+            <tr ng-repeat="record in notice.tRecords">
+                <!--td width="48px" valign="top"><img class="profile" src="images/profile.jpg"></td-->
                 <td class="wx-message-content" valign="top">
-                    <div><a href="javascript:void(0)"><strong>蔷薇老师：</strong></a></div>
-                    <div>今天的联欢会太开心啦！温馨的大家庭！有你们这些爸爸妈妈还有这些可爱的宝贝们真是太幸福了！</div>
                     <div>
-                        <span class="time">3分钟前<span>
-                        <a href="javascript:void(0)"><i class="fa fa-tasks"></i>已读统计</a>
-                        <a href="javascript:void(0)"><i class="fa fa-times"></i>删除</a>
+                        <a href="javascript:void(0)"><strong>{{record.creator}}:</strong></a>
+                        <a href="javascript:void(0)" class="onright">
+                            <i class="fa fa-flag" style="color:red"></i>
+                        </a>
+                    </div>
+                    <div>{{record.content}}</div>
+                    <div>
+                        <span class="time">{{record.updatedTime.substring(5, 16)}}<span>
+                        <a ng-click="notice.remove(record)" ng-show="session.user.type == 1" href="javascript:void(0)" class="onright">
+                            <i class="fa fa-times"></i>删除
+                        </a>
+                        <!--a ng-show="session.user.type == 1" href="javascript:void(0)" class="onright">
+                            <i class="fa fa-tasks"></i>统计
+                        </a-->
+                        <a ng-click="notice.top(record, 0)" ng-show="session.user.type == 1" href="javascript:void(0)" class="onright">
+                            <i class="fa fa-arrow-circle-o-down"></i>取消置顶
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table ng-show="notice.tRecords != null && notice.utRecords != null" class="pure-table pure-table-horizontal">
+        <tbody>
+            <tr ng-repeat="record in notice.utRecords">
+                <!--td width="48px" valign="top"><img class="profile" src="images/profile.jpg"></td-->
+                <td class="wx-message-content" valign="top">
+                    <div>
+                        <a href="javascript:void(0)"><strong>{{record.creator}}:</strong></a>
+                    </div>
+                    <div>{{record.content}}</div>
+                    <div>
+                        <span class="time">{{record.createdTime.substring(5, 16)}}<span>
+                        <a ng-click="notice.remove(record)" ng-show="session.user.type == 1" href="javascript:void(0)" class="onright">
+                            <i class="fa fa-times"></i>删除
+                        </a>
+                        <!--a ng-show="session.user.type == 1" href="javascript:void(0)" class="onright">
+                            <i class="fa fa-tasks"></i>统计
+                        </a-->
+                        <a ng-click="notice.top(record, 1)" ng-show="session.user.type == 1" href="javascript:void(0)" class="onright">
+                            <i class="fa fa-arrow-circle-o-up"></i>置顶
+                        </a>
                     </div>
                 </td>
             </tr>

@@ -48,14 +48,14 @@ define(function (require, exports, module) {
                         throw err;
                     });
                 },
-                save: function(schooldId, record) {
+                save: function(schoolId, record) {
                     var successCode = 201, method = 'POST', uri;
                     if (record.id) {
                         method = 'POST'; //it should be PUT
                         successCode = 200;
                         uri = WEXPATH + '/api/leave/' + record.id; 
                     } else {
-                        uri =  WEXPATH + '/api/school/' + schooldId + '/student/' + record.studentId + '/leave';
+                        uri =  WEXPATH + '/api/school/' + schoolId + '/student/' + record.studentId + '/leave';
                     }
                     return $http({
                         method: method,
@@ -89,7 +89,8 @@ define(function (require, exports, module) {
                         cache: false,
                         url: WEXPATH + uri
                     }).then(function(res) {
-                        return res.data || [];
+                        var records = res.data || [];
+                        return records.sort(function(a, b) { return a.startDate > b.startDate ? -1 : 1;});
                     }, function(err) {
                         throw err;
                     });
