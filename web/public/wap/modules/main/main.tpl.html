@@ -12,7 +12,16 @@
             </div>
             <div class="badge">100</div>
         </a>
-        <a href="#message">
+        <a href="#message" ng-show="session.user && session.user.type == 0">
+            <div class="icon">
+                <i class="fa fa-comment"></i>
+            </div>
+            <div class="label">
+                我的留言
+            </div>
+            <div class="badge">100</div>
+        </a>
+        <a href="#message" ng-show="session.user && session.user.type == 1">
             <div class="icon">
                 <i class="fa fa-comment"></i>
             </div>

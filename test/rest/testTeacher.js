@@ -59,23 +59,6 @@ module.exports = function() {
             });
         });
 
-        // 过期的token无法获得教师信息
-        it('failed to get teacher data with expired token', function(done){
-            // an example using an object instead of an array
-            async.series({
-                action: function(callback){
-                    base.queryAll("/api/school/" + schoolId + "/teacher", {token: 'basic-expired'})
-                    .then(function() {
-                        callback(new Error("should not get data"));
-                    }, function(err) {
-                        done();
-                    });
-                }
-            }, function(err, results) {
-                done(err);
-            });
-        });
-
         // 能获得数据
         var count = 0;
         it('success to get teacher data with basic token', function(done){

@@ -33,6 +33,11 @@ define(function (require, exports, module) {
                     controller: 'messageCtrl',
                     controllerUrl: 'modules/message/messageCtrl.js',
                     templateUrl: 'modules/message/message.tpl.html'
+                })
+                .when('/class/:classId/message', {
+                    controller: 'messageCtrl',
+                    controllerUrl: 'modules/message/messageCtrl.js',
+                    templateUrl: 'modules/message/message.tpl.html'
                 });
             }
         ]);
@@ -90,6 +95,45 @@ define(function (require, exports, module) {
                         url: WEXPATH + uri
                     }).then(function(res) {
                         return res.data.sort(function(a, b) { return a.createdTime > b.createdTime ? -1 : 1; }) || [];
+                    }, function(err) {
+                        throw err;
+                    });
+                },
+                reply: function(record, creator) {
+                    var successCode = 201, method = 'POST', uri;
+                    var schoolId = record.schoolId,
+                        classId = record.classId,
+                        teacherId = record.teacherId;
+
+                    uri =  WEXPATH + '/api/school/' + schoolId + '/message/' + record.id + '/reply';
+                    
+                    return $http({
+                        method: method,
+                        headers:{'Content-Type':'application/x-www-form-urlencoded'},
+                        data: $.param({
+                            content: record.draftReply,
+                            createdBy: creator
+                        }),
+                        url: uri
+                    }).then(function(res) {
+                        if (res.status === successCode) {
+                            return true;
+                        } else {
+                            throw new Error("not match the success code");
+                        }
+                    }, function(err) {
+                        throw err;
+                    });
+                },
+                removeReply: function(message, reply) {
+                    var schoolId = message.schoolId,
+                        messageId = reply.messageId;
+                    return $http({
+                        method: 'DELETE',
+                        cache: false,
+                        url: WEXPATH + '/api/school/' + schoolId + '/message/' + messageId + '/reply/' + reply.id
+                    }).then(function(res) {
+                        return true;
                     }, function(err) {
                         throw err;
                     });

@@ -36,9 +36,11 @@ a { text-decoration: none; color: #006699; font-weight: bold !important; font-si
 .wx-message-content img.photo { width: 90%; margin: 1px; }
 .wx-message-content .photo3_c { width: 70px; height: 70px; float: left; position: relative;}
 .wx-message-content img.photo3 { width: 100%; clip: rect(0px 70px 70px 0px); position:absolute;}
-.wx-message-content .time { color: #ccc; }
-.wx-message-content div.reply { background-color: #eee; padding: 8px; margin: 6px; border-radius: 5px;}
+.wx-message-content .time { color: #333; }
+.wx-message-content div.reply { background-color: #eee; padding: 10px; margin: 6px; border-radius: 5px;}
+.wx-message-content div.reply div { clear: both; }
 .wx-message-content textarea { width: 100%; }
+.wx-message-content div.reply textarea { width: 98%; }
 .wx-message-content .onright { float: right; margin-left: 10px;}
 
 .wex-form input, .wex-form label { width: 100%; margin: 10px 0px; display: inline-block !important; }
@@ -51,8 +53,7 @@ a { text-decoration: none; color: #006699; font-weight: bold !important; font-si
 .wx-help p { margin: 10px; line-height: 1.5em; text-indent: 2em; }
 .wx-help img { width: 90%; position: relative; left: -1em;}
 
-.wx-picker { width: 100%; position: absolute; top: 0px; left: 0px; background-color: #fff; z-index: 300; display: none;}
-.wx-picker .overlay { width: 100%; height: 100%; position: absolute; z-index: 200; background-color: #fff;}
+.wx-picker { width: 100%; height: 100%; position: absolute; top: 0px; left: 0px; background-color: #fff; z-index: 300; display: none;}
 #wx-date-picker input { height:2em; line-height:2em; width: 4em; text-align: center;}
 
 .wx-tab { background-color: #ccc; }

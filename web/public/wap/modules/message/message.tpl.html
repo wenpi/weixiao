@@ -1,9 +1,57 @@
 <div id="wx-nav" class="wx-page">
     <div class="header">
         <a href="#main" class="button button-left"><i class="fa fa-th"></i></a>
-        <span class="title">家长留言</span>
+        <span class="title">{{message.title}}</span>
     </div>
-    <table class="pure-table pure-table-horizontal">
+    <div ng-show="message.records == null" class="wx-prompt">正在加载数据...</div>
+    <div ng-show="message.records.length == 0" class="wx-prompt">暂无留言</div>
+
+    <table ng-show="message.records && message.records.length > 0" class="pure-table pure-table-horizontal">
+        <tbody>
+            <tr ng-repeat="record in message.records">
+                <!--td width="48px" valign="top"><img class="profile" src="images/profile.jpg"></td-->
+                <td class="wx-message-content" valign="top">
+                    <div>
+                        <a href="javascript:void(0)"><strong>{{record.creator}}:</strong></a>
+                    </div>
+                    <div>{{record.content}}</div>
+                    <div>
+                        <span class="time">{{record.updatedTime.substring(5, 16)}}</span>
+                        <a ng-click="message.remove(record)" ng-show="session.user.type == 0" href="javascript:void(0)" class="onright">
+                            <i class="fa fa-times"></i>删除
+                        </a>
+                        <a href="javascript:void(0)" class="onright"
+                           ng-click="record.replying = true"
+                           ng-show="session.user.type == 1 && record.replies.length == 0 && !record.replying">
+                           <i class="fa fa-flickr"></i>回复
+                        </a>
+                    </div>
+                    <div class="reply" ng-show="record.replying">
+                        <div>
+                            <textarea placeholder="请输入回复，100字以内" rows="10" ng-model="record.draftReply"></textarea>
+                        </div>
+                        <div style="padding-top: 10px;">
+                            <button class="pure-button pure-button-primary pure-button-xsmall" ng-click="message.reply(record)">回复</button>
+                            <button class="pure-button pure-button-active pure-button-xsmall" ng-click="record.replying = false">取消</button>
+                        </div>
+                    </div>
+                    <div ng-repeat="reply in record.replies" class="reply">
+                        <div>
+                            <a href="javascript:void(0)"><strong>{{reply.creator}}回复：</strong></a>
+                            <span>{{reply.content}}</span>
+                        </div>
+                        <div>
+                            <span class="time">{{reply.createdTime.substring(5, 16)}}&nbsp;</span>
+                            <a ng-show="session.user.id == reply.createdBy" ng-click="message.removeReply(record, reply)"
+                               href="javascript:void(0)" class="onright"><i class="fa fa-times"></i>删除</a>
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!--table class="pure-table pure-table-horizontal">
         <tbody>
             <tr>
                 <td width="48px" valign="top"><img class="profile" src="images/profile.jpg"></td>
@@ -58,5 +106,5 @@
                 </td>
             </tr>
         </tbody>
-    </table>
+    </table-->
 </div>

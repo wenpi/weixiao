@@ -369,6 +369,75 @@ module.exports = function() {
             });
         });
 
+        it('failed to create a reply without token', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.create("/api/school/" + schoolId + '/message/' + messageId + '/reply', 
+                        {content: '回复', createdBy: teacherId}, {token: 'basic-none'})
+                    .then(function(id) {
+                        callback(new Error("should not create a reply"));
+                    }, function(err) {
+                        done();
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 添加一条回复，在GUI中公共类型消息是没有回复的，仅仅是为了测试API是否可用
+        var replyId;
+        it('success to create a reply with token', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.create("/api/school/" + schoolId + '/message/' + messageId + '/reply', 
+                        {content: '回复', createdBy: teacherId}, {token: 'basic-valid'})
+                    .then(function(id) {
+                        replyId = id;
+                        done();
+                    }, function(err) {
+                        callback(new Error("should create a reply"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        it('failed to remove the reply without token', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.remove("/api/school/" + schoolId + '/message/' + messageId + '/reply/' + replyId, {token: 'basic-none'})
+                    .then(function() {
+                        callback(new Error("should not remove a reply"));
+                    }, function(err) {
+                        done();
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        it('success to remove the reply with token', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.remove("/api/school/" + schoolId + '/message/' + messageId + '/reply/' + replyId, {token: 'basic-valid'})
+                    .then(function() {
+                        done();
+                    }, function(err) {
+                        callback(new Error("should create a reply"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
         // 无法删除消息
         it('success to remove the message with token', function(done){
             // an example using an object instead of an array
