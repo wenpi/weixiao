@@ -12,11 +12,11 @@
                 <legend>请假信息</legend>
 
                 <div class="field-with-fa">
-                <label for="student">学生姓名：</label>
+                <label for="student">{{leave.studentLabel}}：</label>
                 <input id="student" type="text" ng-readonly="true" ng-required="true"
                        ng-click="leave.pickStudent()"
                        ng-model="leave.record.studentName" placeholder="请选择学生">
-                <i class="fa fa-users" ng-click="leave.pickStudent()" ng-show="!leave.record.id"></i>
+                <i ng-show="$scope.session.user.type == '1'" class="fa fa-users" ng-click="leave.pickStudent()" ng-show="!leave.record.id"></i>
                 </div>
                 
                 <label for="type">请假类型：</label>

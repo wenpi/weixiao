@@ -11,6 +11,7 @@ define(function (require, exports, module) {
 	        	$scope.leave = {};
 	        	$scope.leave.record = null;
 	        	$scope.leave.title = '添加请假记录';
+	        	$scope.leave.studentLabel = '孩子姓名';
 
 	        	$scope.$watch("session.user", function() {
 	        		if (!$scope.session.user) {
@@ -30,10 +31,20 @@ define(function (require, exports, module) {
 	        		} else {
 	        			$scope.leave.record = {type: '1', days: '1', startDate: (new Date()).toYMD()};
 	        			$scope.leave.record.createdBy = $scope.session.user.id;
+	        			if ($scope.session.user.type === '0' &&
+                            $scope.session.user.students &&
+                            $scope.session.user.students.length > 0) {
+	        				var student = $scope.session.user.students[0];
+	        				$scope.leave.record.studentName = student.name;
+	        				$scope.leave.record.studentId = student.id;
+	        			} else if ($scope.scope.user.type === '1') {
+	        				$scope.leave.studentLabel = "学生姓名";
+	        			}
 	        		}
 	        	});
 
 	        	$scope.leave.pickStudent = function() {
+	        		if ($scope.session.user.type == '0') { return; }
 	        		if ($scope.session.user.wexClasses.length == 0) {
 	        			alert('没有班级可选');
 	        			return;

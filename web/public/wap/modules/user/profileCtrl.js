@@ -38,6 +38,7 @@ define(function (require, exports, module) {
 	        		UserService.save(userId, {
 	        			oldPassword: $scope.user.record.oldpassword,
 	        			password: $scope.user.record.newpassword,
+	        			updatedBy: $scope.user.record.updatedBy
 	        		}).then(function() {
 	        			alert("修改密码成功。");
 	        		}, function() {

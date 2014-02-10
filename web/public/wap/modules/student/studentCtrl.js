@@ -58,8 +58,11 @@ define(function (require, exports, module) {
                             $scope.session.user.wexClasses &&
                             $scope.session.user.wexClasses.length > 0) {
                             $location.path("class/" + $scope.session.user.wexClasses[0].id + '/student');
-                        } else if ($scope.session.user.type === '0') {
-                            $location.path("student/" + 1);
+                        } else if ($scope.session.user.type === '0' &&
+                            $scope.session.user.students &&
+                            $scope.session.user.students.length > 0) {
+                            var student = $scope.session.user.students[0], classId = student.classId;
+                            $location.path("class/" + classId + '/student/' + student.id);
                         } else {
                             alert('没有可以请假数据可查看');
                         }

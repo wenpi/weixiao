@@ -14,8 +14,8 @@ define(function (require, exports, module) {
         }
     } else { // for debug
         window.WEXPATH = 'http://192.168.1.105';
-        $.fn.cookie("wexschool", "a106d68b-cbfd-294a-5324-8d0a5e329e2d");
-        $.fn.cookie("wexuser", "2e9db4f7-4293-4c11-80eb-4895ebe01b50");
+        $.fn.cookie("wexschool", "d28eefe9-db3b-4db5-a469-424ac5d187d8");
+        $.fn.cookie("wexuser", "02b3213c-c4ba-4b7b-be4b-8d751f8b305e");
         $.fn.cookie("wexkey", "1391963638334");
         $.fn.cookie("wextoken", "cb5376c94b89d558cc14a51515152663");
         isStatic = false;
@@ -86,18 +86,28 @@ define(function (require, exports, module) {
                 $("#loading").hide();
             }, 500);
 
+            var schoolId = $.fn.cookie("wexschool");
             switch(user.type) {
             case '0':
-                UserService.getParent(user.id).then(function(parent) {
-                    $rootScope.session.user = $.extend(user, parent);
+                UserService.getParent(schoolId, user.id).then(function(parent) {
+                    var parent = $.extend(user, parent, {schoolId: schoolId});
+                    UserService.getStudentsByParent(parent)
+                    .then(function(students) {
+                        if (students && students.length > 0) {
+                            parent.students = students;
+                        } else {
+                            parent.students = [];
+                        }
+                        $rootScope.session.user = parent;
+                    });
                 }, function() {
-                    //alert('抱歉，加载家长信息出错。');
+                    alert('抱歉，加载家长信息出错。');
                     return;
                 });
             break;
             case '1':
-                UserService.getTeacher(user.id).then(function(teacher) {
-                    var teacher = $.extend(user, teacher, {schoolId: $.fn.cookie("wexschool")});
+                UserService.getTeacher(schoolId, user.id).then(function(teacher) {
+                    var teacher = $.extend(user, teacher, {schoolId: schoolId});
                     UserService.getClassesByTeacher(teacher)
                     .then(function(wexClasses) {
                         if (wexClasses && wexClasses.length > 0) {

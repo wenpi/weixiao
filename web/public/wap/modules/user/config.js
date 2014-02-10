@@ -18,8 +18,6 @@ define(function (require, exports, module) {
 
         app.factory('UserService', function($rootScope, $http){
             var uri = WEXPATH + '/api/user';
-            var puri = WEXPATH + '/api/parent';
-            var turi = WEXPATH + '/api/teacher';
             return {
                 get: function(id) {
                     return $http({
@@ -32,22 +30,22 @@ define(function (require, exports, module) {
                         throw err;
                     });
                 },
-                getParent: function() {
+                getParent: function(schoolId, parentId) {
                     return $http({
                         method: 'GET',
                         cache: false,
-                        url: puri + '/' + id
+                        url: WEXPATH + '/api/school/' + schoolId + '/parent/' + parentId
                     }).then(function(res) {
                         return res.data;
                     }, function(err) {
                         throw err;
                     });
                 },
-                getTeacher: function(id) {
+                getTeacher: function(schoolId, teacherId) {
                     return $http({
                         method: 'GET',
                         cache: false,
-                        url: turi + '/' + id
+                        url: WEXPATH + '/api/school/' + schoolId + '/teacher/' + teacherId
                     }).then(function(res) {
                         return res.data;
                     }, function(err) {
@@ -70,6 +68,17 @@ define(function (require, exports, module) {
                         method: 'GET',
                         cache: false,
                         url: WEXPATH + '/api/school/' + wexClass.schoolId + '/class/' + wexClass.id + '/student'
+                    }).then(function(res) {
+                        return res.data;
+                    }, function(err) {
+                        throw err;
+                    });
+                },
+                getStudentsByParent: function(parent) {
+                    return $http({
+                        method: 'GET',
+                        cache: false,
+                        url: WEXPATH + '/api/school/' + parent.schoolId + '/parent/' + parent.id + '/student'
                     }).then(function(res) {
                         return res.data;
                     }, function(err) {

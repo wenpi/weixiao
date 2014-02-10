@@ -11,6 +11,7 @@ define(function (require, exports, module) {
 	        	$scope.leave = {};
 	        	$scope.leave.view = '';
 	        	$scope.leave.title = '';
+	        	$scope.leave.returnUrl = '';
 	        	$scope.leave.records = null;
 
 	        	var uri;
@@ -43,6 +44,7 @@ define(function (require, exports, module) {
 	        		uri = '/api/school/' + $scope.session.user.schoolId;
 
 	        		if (path.indexOf('class') >= 0) {
+	        			$scope.leave.returnUrl = '#main';
 	        			var classId = $routeParams.classId;
 	        			uri += '/class/' + classId + '/leave';
 	        			if ($scope.session.user.type === '1') {
@@ -57,9 +59,11 @@ define(function (require, exports, module) {
 	        			var studentId = $routeParams.studentId;
 	        			uri += '/student/' + studentId + '/leave';
 	        			if ($scope.session.user.type === '1') {
-	        				$scope.leave.view = 'tvs'; // teacher view student
+	        				$scope.leave.view = 'tvs';
+	        				$scope.leave.returnUrl = '#leave';
 	        			} else if ($scope.session.user.type === '0') {
-	        				$scope.leave.view = 'pvs'; // teacher view student
+	        				$scope.leave.returnUrl = '#main';
+	        				$scope.leave.view = 'pvs';
 	        			}
 	        			$($scope.session.user.wexClasses).each(function(i, wexClass) {
         					$(wexClass.students).each(function(j, student) {
@@ -77,9 +81,12 @@ define(function (require, exports, module) {
 		        			$scope.session.user.wexClasses &&
 		        			$scope.session.user.wexClasses.length > 0) {
 	        				$location.path("class/" + $scope.session.user.wexClasses[0].id + '/leave');
-	        			} else if ($scope.session.user.type === '0') {
-	        				$location.path("student/" + 1 + '/leave');
-	        			} else {
+	        			} else if ($scope.session.user.type === '0' &&
+                            $scope.session.user.students &&
+                            $scope.session.user.students.length > 0) {
+                            var student = $scope.session.user.students[0], classId = student.classId;
+                            $location.path('/student/' + student.id + '/leave');
+                        } else {
 	        				alert('没有可以请假数据可查看');
 	        			}
 	        			return;

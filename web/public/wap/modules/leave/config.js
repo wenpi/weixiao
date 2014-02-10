@@ -72,11 +72,11 @@ define(function (require, exports, module) {
                         throw err;
                     });
                 },
-                remove: function(id) {
+                remove: function(record) {
                     return $http({
                         method: 'DELETE',
                         cache: false,
-                        url: WEXPATH + '/api/leave/' + id
+                        url: WEXPATH + '/api/leave/' + record.id
                     }).then(function(res) {
                         return true;
                     }, function(err) {

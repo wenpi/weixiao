@@ -1,6 +1,6 @@
 <div id="wx-photo" class="wx-page">
     <div class="header">
-        <a href="javascript:window.history.go(-1)" class="button button-left">
+        <a ng-href="{{student.returnUrl}}" class="button button-left">
             <i class="fa fa-angle-left"></i>
         </a>
         <span class="title">{{student.record.name}}</span>
@@ -50,7 +50,7 @@
             <button class="pure-button full"
                     ng-disabled="!saveStudentForm.$valid"
                     ng-class="{'pure-button-primary': saveStudentForm.$valid}" ng-click="student.saveRecord()">保存</button>
-            <a href="javascript:window.history.go(-1)"><button class="pure-button full">返回</button></a>
+            <a ng-href="{{student.returnUrl}}"><button class="pure-button full">返回</button></a>
         </div>
     </div>
 
@@ -80,7 +80,7 @@
                ng-show="student.parents && student.parents.length < 4">
                 <button class="pure-button pure-button-primary full">添加家长</button>
             </a>   
-            <a href="#/student"><button class="pure-button full">返回</button></a>
+            <a ng-href="{{student.returnUrl}}"><button class="pure-button full">返回</button></a>
         </div>
     </div>
 </div>

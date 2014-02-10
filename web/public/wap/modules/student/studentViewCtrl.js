@@ -11,6 +11,7 @@ define(function (require, exports, module) {
 	        	$scope.student = {};
 	        	$scope.student.record = {name: ''};
 	        	$scope.student.tab = 'basic';
+	        	$scope.student.returnUrl = '#student';
 
 	        	var schoolId, classId, studentId;
 
@@ -29,6 +30,9 @@ define(function (require, exports, module) {
 	        	$scope.$watch("session.user", function() {
 	        		if (!$scope.session.user) {
 	        			return;
+	        		}
+	        		if ($scope.session.user.type == 0) {
+	        			$scope.student.returnUrl = "#main";
 	        		}
 	        		if ($routeParams.classId && $routeParams.id) {
 	        			schoolId = $scope.session.user.schoolId;
