@@ -11,27 +11,9 @@ function query(schoolId, conditions){
     for (var prop in conditions) {
         extra += '&' + prop + '=' + conditions[prop];
     }
-    var deferred = Q.defer(),
-        url = conf.site_root + '/api/school/' + schoolId + '/teacher' + extra;
 
-    var options = {
-        url: url,
-        method: 'GET',
-        headers: BaseServices.getAuthoriedHeader()
-    };
-
-    function callback(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            var teachers = JSON.parse(body);
-            deferred.resolve(teachers);
-        } else {
-            deferred.reject();
-        }
-    }
-
-    request(options, callback);
-
-    return deferred.promise;
+    var url = conf.site_root + '/api/school/' + schoolId + '/teacher' + extra;
+    return BaseServices.queryAll(url);
 };
 exports.query = query;
 /*
@@ -57,25 +39,6 @@ exports.queryByUserId = function(data) {
  * 返回某个学生的老师数据
  */
 exports.queryByStudentId = function(data) {
-    var deferred = Q.defer(),
-        url = conf.site_root + '/api/school/' + data.schoolId + '/student/' + data.studentId + '/teacher';
-
-    var options = {
-        url: url,
-        method: 'GET',
-        headers: BaseServices.getAuthoriedHeader()
-    };
-
-    function callback(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            var teachers = JSON.parse(body);
-            deferred.resolve(teachers);
-        } else {
-            deferred.reject();
-        }
-    }
-
-    request(options, callback);
-
-    return deferred.promise;
+    var url = conf.site_root + '/api/school/' + data.schoolId + '/student/' + data.studentId + '/teacher';
+    return BaseServices.queryAll(url);
 }

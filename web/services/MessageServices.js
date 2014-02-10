@@ -3,7 +3,6 @@ var BaseServices = require("./BaseServices");
 var conf = require("../conf");
 var request = require('request');
 var BaseServices = require("./BaseServices");
-//var collection = BaseServices.getCollection('wex_message');
 
 /*
  * 查询消息数目
@@ -13,8 +12,7 @@ var BaseServices = require("./BaseServices");
  * 插入消息 默认为老师提交,如果message含有studentId,则是家长提交
  */
 module.exports.create = function(schoolId, user, message) {
-    var deferred = Q.defer(),
-        url = conf.site_root + '/api/school/' + schoolId + '/teacher/' + user.teacherId + '/message',
+    var url = conf.site_root + '/api/school/' + schoolId + '/teacher/' + user.teacherId + '/message',
         data = {
             'title': message.title || '',
             'content': message.content || '',
@@ -27,23 +25,5 @@ module.exports.create = function(schoolId, user, message) {
         url = conf.site_root + '/api/school/' + schoolId + '/student/' + message.studentId + '/message';
     }
 
-    var options = {
-        url: url,
-        method: 'POST',
-        headers: BaseServices.getAuthoriedHeader(),
-        form: data
-    };
-
-    function callback(error, response, body) {
-        if (!error && response.statusCode == 201) {
-            deferred.resolve();
-        } else {
-            console.info(response.body);
-            deferred.reject();
-        }
-    }
-
-    request(options, callback);
-
-    return deferred.promise;
+    return BaseServices.create(url, data);
 }

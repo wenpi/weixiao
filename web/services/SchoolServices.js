@@ -1,6 +1,5 @@
 var Q = require("q");
 var wechat = require('wechat');
-var request = require('request');
 var conf = require("../conf");
 var BaseServices = require("./BaseServices");
 
@@ -12,31 +11,10 @@ function query(conditions){
     for (var prop in conditions) {
         extra += '&' + prop + '=' + conditions[prop];
     }
-    var deferred = Q.defer(),
-        url = conf.site_root + '/api/school' + extra;
+    
+    var url = conf.site_root + '/api/school' + extra;
 
-    var options = {
-        url: url,
-        method: 'GET',
-        headers: BaseServices.getAuthoriedHeader()
-    };
-
-    function callback(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            var jsondata = JSON.parse(body);
-            if (jsondata.result) {
-                deferred.resolve(jsondata.result);
-            } else {
-                deferred.resolve([]);
-            }
-        } else {
-            deferred.reject();
-        }
-    }
-
-    request(options, callback);
-
-    return deferred.promise;
+    return BaseServices.queryPagingList(url);
 };
 exports.query = query;
 
@@ -61,30 +39,9 @@ exports.queryByOpenId = function(openId) {
  * 更新数据 主要用于激活学校
  */
 function bind(schoolId, data) {
-    var deferred = Q.defer(),
-        url = conf.site_root + '/api/school/' + schoolId;
+    var url = conf.site_root + '/api/school/' + schoolId;
 
-    var options = {
-        url: url,
-        method: 'POST',
-        headers: BaseServices.getAuthoriedHeader(),
-        form: {
-            openId: data.openId
-        }
-    };
-
-    function callback(error, response, body) {
-        console.info(body);
-        if (!error && response.statusCode == 200) {
-            deferred.resolve();
-        } else {
-            deferred.reject();
-        }
-    }
-
-    request(options, callback);
-
-    return deferred.promise;
+    return return BaseServices.update(url, {openId: data.openId});
 };
 exports.bind = bind;
 

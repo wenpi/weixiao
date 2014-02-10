@@ -11,31 +11,8 @@ function query(conditions){
     for (var prop in conditions) {
         extra += '&' + prop + '=' + conditions[prop];
     }
-    var deferred = Q.defer(),
-        url = conf.site_root + '/api/user' + extra;
-
-    var options = {
-        url: url,
-        method: 'GET',
-        headers: BaseServices.getAuthoriedHeader()
-    };
-
-    function callback(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            var jsondata = JSON.parse(body);
-            if (jsondata.result) {
-                deferred.resolve(jsondata.result);
-            } else {
-                deferred.resolve([]);
-            }
-        } else {
-            deferred.reject();
-        }
-    }
-
-    request(options, callback);
-
-    return deferred.promise;
+    var url = conf.site_root + '/api/user' + extra;
+    return BaseServices.queryPagingList(url);
 };
 exports.query = query;
 
@@ -82,54 +59,17 @@ exports.queryByOpenId = function(opts) {
  * 查询某个用户的未读实体情况
  */
 exports.queryUnread = function(data) {
-    var deferred = Q.defer(),
-        url = conf.site_root + '/api/user/' + data.userId + '/unread';
-
-    var options = {
-        url: url,
-        method: 'GET',
-        headers: BaseServices.getAuthoriedHeader()
-    };
-
-    function callback(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            var unread = JSON.parse(body);
-            deferred.resolve(unread);
-        } else {
-            deferred.reject();
-        }
-    }
-
-    request(options, callback);
-
-    return deferred.promise;
+    var url = conf.site_root + '/api/user/' + data.userId + '/unread';
+    return BaseServices.queryAll(url);
 }
 
 /*
  * 更新profile image
  */
-module.exports.updateProfileImage = function(user) {
-    var deferred = Q.defer(),
-        url = conf.site_root + '/user/mobileModifyPhoto';
-
-    var data = {
+exports.updateProfileImage = function(user) {
+    var url = conf.site_root + '/user/mobileModifyPhoto';
+    return BaseServices.update(url, {
         'userid': user.id,
         'profileImage': user.profileImage 
-    };
-
-    request.post(
-        url,
-        {
-            form: data
-        },
-        function (error, response, body) {
-            if (error) {
-                //console.info(response.body)
-                deferred.reject(error);
-            }
-            deferred.resolve();
-        }
-    );
-
-    return deferred.promise;
+    });
 };
