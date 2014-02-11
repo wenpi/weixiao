@@ -78,7 +78,16 @@ define(function (require, exports, module) {
         					$scope.message.title = wexClass.name + '的家长留言';
         				}
         			});
-        		} else if (path.indexOf('teacher') >= 0) {
+        		} else if (path.indexOf('student') >= 0) {
+                    var studentId = $routeParams.studentId;
+                    uri += '/student/' + studentId + '/message?type=0';
+                    if ($scope.session.user.type === '1') {
+                        $scope.message.view = 'tvm'; // teacher view message
+                    } else {
+                        $scope.message.view = 'pvm'; // parent view message
+                    }
+                    $scope.message.title = "我的留言";
+                } else if (path.indexOf('teacher') >= 0) {
         			return; // not support yet
         			var teacherId = $routeParams.teacherId;
         			uri += '/teacher/' + teacherId + '/message';
@@ -96,8 +105,11 @@ define(function (require, exports, module) {
 	        			$scope.session.user.wexClasses &&
 	        			$scope.session.user.wexClasses.length > 0) {
         				$location.path("class/" + $scope.session.user.wexClasses[0].id + '/message');
-        			} else if ($scope.session.user.type === '0') {
-        				$location.path("teacher/" + 1 + '/message');
+        			} else if ($scope.session.user.type === '0' &&
+                        $scope.session.user.students &&
+                        $scope.session.user.students.length > 0) {
+                        var student = $scope.session.user.students[0];
+        				$location.path("student/" + student.id + '/message');
         			} else {
         				alert('没有可以留言可查看');
         			}

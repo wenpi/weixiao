@@ -2,6 +2,9 @@
     <div class="header">
         <a href="#main" class="button button-left"><i class="fa fa-th"></i></a>
         <span class="title">{{message.title}}</span>
+        <a ng-show="session.user.type == '0'" ng-href="#/parent/{{session.user.id}}/message/new" class="button button-right">
+            <i class="fa fa-plus"></i>
+        </a>
     </div>
     <div ng-show="message.records == null" class="wx-prompt">正在加载数据...</div>
     <div ng-show="message.records.length == 0" class="wx-prompt">暂无留言</div>
@@ -11,8 +14,11 @@
             <tr ng-repeat="record in message.records">
                 <!--td width="48px" valign="top"><img class="profile" src="images/profile.jpg"></td-->
                 <td class="wx-message-content" valign="top">
-                    <div>
+                    <div ng-show="session.user.type == '0'">
                         <a href="javascript:void(0)"><strong>{{record.creator}}:</strong></a>
+                    </div>
+                    <div ng-show="session.user.type == '1'">
+                        <a href="javascript:void(0)"><strong>{{record.studentName}}:</strong></a>
                     </div>
                     <div>{{record.content}}</div>
                     <div>

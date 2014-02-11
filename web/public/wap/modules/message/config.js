@@ -24,7 +24,7 @@ define(function (require, exports, module) {
                     controllerUrl: 'modules/message/noticeSaveCtrl.js',
                     templateUrl: 'modules/message/notice.save.tpl.html'
                 })
-                .when('/teacher/:teacherId/notice', {
+                .when('/parent/:teacherId/notice', {
                     controller: 'noticeCtrl',
                     controllerUrl: 'modules/message/noticeCtrl.js',
                     templateUrl: 'modules/message/notice.tpl.html'
@@ -38,6 +38,16 @@ define(function (require, exports, module) {
                     controller: 'messageCtrl',
                     controllerUrl: 'modules/message/messageCtrl.js',
                     templateUrl: 'modules/message/message.tpl.html'
+                })
+                .when('/student/:studentId/message', {
+                    controller: 'messageCtrl',
+                    controllerUrl: 'modules/message/messageCtrl.js',
+                    templateUrl: 'modules/message/message.tpl.html'
+                })
+                .when('/parent/:parentId/message/new', {
+                    controller: 'messageSaveCtrl',
+                    controllerUrl: 'modules/message/messageSaveCtrl.js',
+                    templateUrl: 'modules/message/message.save.tpl.html'
                 });
             }
         ]);
@@ -48,7 +58,8 @@ define(function (require, exports, module) {
                     var successCode = 201, method = 'POST', uri;
                     var schoolId = record.schoolId,
                         classId = record.classId,
-                        teacherId = record.teacherId;
+                        teacherId = record.teacherId,
+                        studentId = record.studentId;
 
                     if (record.id) {
                         method = 'POST'; //it should be PUT
@@ -57,6 +68,8 @@ define(function (require, exports, module) {
                     } else {
                         if (teacherId) {
                             uri =  WEXPATH + '/api/class/' + classId + '/teacher/' + teacherId + '/message';
+                        } else if (studentId) {
+                            uri =  WEXPATH + '/api/class/' + classId + '/student/' + studentId + '/message';
                         }
                     }
                     

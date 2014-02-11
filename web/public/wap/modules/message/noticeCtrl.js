@@ -92,8 +92,11 @@ define(function (require, exports, module) {
 	        			$scope.session.user.wexClasses &&
 	        			$scope.session.user.wexClasses.length > 0) {
         				$location.path("class/" + $scope.session.user.wexClasses[0].id + '/notice');
-        			} else if ($scope.session.user.type === '0') {
-        				$location.path("teacher/" + 1 + '/notice');
+        			} else if ($scope.session.user.type === '0' &&
+                            $scope.session.user.students &&
+                            $scope.session.user.students.length > 0) {
+                        var student = $scope.session.user.students[0];
+        				$location.path("class/" + student.classId + '/notice');
         			} else {
         				alert('没有可以通知可查看');
         			}
