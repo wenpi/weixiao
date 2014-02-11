@@ -41,7 +41,7 @@ exports.queryByOpenId = function(openId) {
 function bind(schoolId, data) {
     var url = conf.site_root + '/api/school/' + schoolId;
 
-    return return BaseServices.update(url, {openId: data.openId});
+    return BaseServices.update(url, {openId: data.openId});
 };
 exports.bind = bind;
 
