@@ -31,3 +31,8 @@ seajs.on('error', function(module){
 seajs.use(['app'], function(app){
     angular.bootstrap(document, ['app']);
 });
+
+document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+    WeixinJSBridge.call('hideOptionMenu');
+    WeixinJSBridge.call('hideToolbar');
+});
