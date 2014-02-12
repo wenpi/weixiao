@@ -1,3 +1,8 @@
+document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+    WeixinJSBridge.call('hideOptionMenu');
+    WeixinJSBridge.call('hideToolbar');
+});
+
 var getArgs = function () {
     var args = new Object(); //声明一个空对象 
     var query = window.location.search.substring(1); // 取查询字符串，如从 http://www.snowpeak.org/testjs.htm?a1=v1&a2=&a3=v3#anchor 中截出 a1=v1&a2=&a3=v3。 
@@ -30,9 +35,4 @@ seajs.on('error', function(module){
 //Step2: bootstrap youself
 seajs.use(['app'], function(app){
     angular.bootstrap(document, ['app']);
-});
-
-document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
-    WeixinJSBridge.call('hideOptionMenu');
-    WeixinJSBridge.call('hideToolbar');
 });
