@@ -11,7 +11,7 @@ function query(conditions){
     for (var prop in conditions) {
         extra += '&' + prop + '=' + conditions[prop];
     }
-    
+
     var url = conf.site_root + '/api/school' + extra;
 
     return BaseServices.queryPagingList(url);

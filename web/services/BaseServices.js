@@ -48,6 +48,7 @@ exports.queryPagingList = function(url) {
     };
 
     function callback(error, response, body) {
+        console.info(body);
         if (!error && response.statusCode == 200) {
             var jsondata = JSON.parse(body);
             if (jsondata.result) {
