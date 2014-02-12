@@ -24,9 +24,7 @@ function ensure_school_is_bind (info, next) {
         return next();
     }
 
-    console.info(111);
     SchoolServices.queryByOpenId(info.sp).then(function(school) {
-        console.info(222);
         info.session.school = school;
         return next();
     }, function() {

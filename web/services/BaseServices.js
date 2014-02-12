@@ -25,6 +25,7 @@ exports.getAuthoriedHeader = getToken;
 function getUserToken(userId) {
     var shasum = crypto.createHash('md5');
     var key = (new Date()).getTime();
+    console.info(userId);
     shasum.update(key + 'rest' + 'kinderg' + '1qw23er4' + userId);
     var token = shasum.digest('hex');
     return {
@@ -58,7 +59,6 @@ exports.queryPagingList = function(url) {
     };
 
     function callback(error, response, body) {
-        console.info(body);
         if (!error && response.statusCode == 200) {
             var jsondata = JSON.parse(body);
             if (jsondata.result) {

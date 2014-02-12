@@ -14,6 +14,10 @@ module.exports = function(webot) {
             var teacherurl = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, '64edb1cc-54e1-4671-b2cb-cebe479a40d3');
             var adminurl = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, 'dcc7e4d2-7124-445a-9145-e2254eccc435');
 
+            /*
+            console.info(userurl);
+            console.info(teacherurl);
+            console.info(adminurl);*/
             var prompt = [
                 '<a href="' + userurl + '">家长</a>',
                 '<a href="' + teacherurl + '">老师</a>',
