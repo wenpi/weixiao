@@ -1,17 +1,23 @@
 var utils = require("./utils");
 var conf = require('../conf');
+var BaseServices = require("../services/BaseServices");
 
 module.exports = function(webot) {
 	webot.loads("weexiao", "gateway", "school", "parent", "teacher");
 
     // 默认欢迎词
     webot.set('houtai test', {
-        pattern: /^houtai/i,
+        pattern: /^test/i,
         handler: function(info, next) {
+            var schoolId = 'd28eefe9-db3b-4db5-a469-424ac5d187d8';
+            var userurl = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, '3d6a1441-b4f5-445c-a27f-02a8667ad293');
+            var teacherurl = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, '64edb1cc-54e1-4671-b2cb-cebe479a40d3');
+            var adminurl = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, 'dcc7e4d2-7124-445a-9145-e2254eccc435');
+
             var prompt = [
-                '<a href="http://wvovo.com/mangular">NGCSS3</a>',
-                '<a href="http://purecss.io/forms/">PureCSS</a>',
-                '<a href="' + conf.site_root + '/webot/wap/index.html">后台测试</a>'
+                '<a href="' + userurl + '">家长</a>',
+                '<a href="' + teacherurl + '">老师</a>',
+                '<a href="' + adminurl + '">园长</a>'
             ];
             next(null, prompt.join("\n\n"));
         }
