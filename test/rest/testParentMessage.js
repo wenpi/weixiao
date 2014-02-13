@@ -4,7 +4,7 @@ var base = require("./base");
 var SERVER = base.config().SERVER;
 
 module.exports = function() {
-    describe('test teacher message api : ', function(){
+    describe('test parent message api : ', function(){
         var schoolId = null;
         // 能获得学校数据
         it('success to get a school data for message module with basic token', function(done){
@@ -25,29 +25,10 @@ module.exports = function() {
             });
         });
 
-        // 能获得教师ID
-        var teacherId = 0;
-        it('success to get teacher data with basic token', function(done){
-            // an example using an object instead of an array
-            async.series({
-                action: function(callback){
-                    base.queryAll("/api/school/" + schoolId + "/teacher", {token: 'basic-valid'})
-                    .then(function(teahcers) {
-                        assert.notEqual(0, teahcers.length);
-                        teacherId = teahcers[0].id;
-                        done();
-                    }, function(err) {
-                        callback(err);
-                    });
-                }
-            }, function(err, results) {
-                done(err);
-            });
-        });
-
         // 能获得班级id
         var classId;
         it('success to get class data with basic token', function(done){
+            assert.notEqual(null, schoolId);
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
@@ -65,12 +46,35 @@ module.exports = function() {
             });
         });
 
-        // 删除关系，无论成功与否
-        it('success to delete the reference between class and teacher', function(done){
+        var mobile = '13' + (new Date()).getTime().toString().substring(4, 13);
+        
+        // 能创建家长账号信息及孩子信息
+        var parentId;
+        it('success to create a parent and a student', function(done){
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
-                    base.remove("/api/school/" + schoolId + "/class/" + classId + "/teacher/" + teacherId, {token: 'basic-valid'})
+                    base.create("/api/school/" + schoolId + "/class/" + classId + "/parent", 
+                        {name: "孩子1", gender: 1, mobile: mobile, photo: 'none', createdBy: 'creator'}, {token: 'basic-valid'})
+                    .then(function(id) {
+                        parentId = id;
+                        done();
+                    }, function(err) {
+                        callback(new Error("should create a parent and a student"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+        return;
+
+        // 删除关系，无论成功与否
+        it('success to delete the reference between class and parent', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.remove("/api/school/" + schoolId + "/class/" + classId + "/parent/" + parentId, {token: 'basic-valid'})
                     .then(function() {
                         done();
                     }, function(err) {
@@ -82,12 +86,12 @@ module.exports = function() {
             });
         });
 
-        // 没有token,该教师无法向这个班级提交信息
+        // 没有token,该家长无法向这个班级提交信息
         it('failed to create message data without token', function(done){
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
-                    base.create("/api/class/" + classId + '/teacher/' + teacherId + '/message', 
+                    base.create("/api/class/" + classId + '/parent/' + parentId + '/message', 
                         {content: '测试消息'}, {token: 'basic-none'})
                     .then(function() {
                         callback(new Error("should not create a message"));
@@ -100,13 +104,13 @@ module.exports = function() {
             });
         });
 
-        // 即使有token,该教师依然无法向这个班级提交信息
+        // 即使有token,该家长依然无法向这个班级提交信息
         it('failed to create message data with token', function(done){
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
-                    base.create("/api/class/" + classId + '/teacher/' + teacherId + '/message', 
-                        {content: '测试消息', createdBy: teacherId}, {token: 'basic-valid'})
+                    base.create("/api/class/" + classId + '/parent/' + parentId + '/message', 
+                        {content: '测试消息', createdBy: parentId}, {token: 'basic-valid'})
                     .then(function() {
                         callback(new Error("should not create a message"));
                     }, function(err) {
@@ -119,14 +123,14 @@ module.exports = function() {
         });
 
         // 增加绑定
-        it('success to create the reference between class and teacher', function(done){
+        it('success to create the reference between class and parent', function(done){
             async.series({
                 action: function(callback){
-                    base.create("/api/school/" + schoolId + "/class/" + classId + "/teacher/" + teacherId, {token: 'basic-valid'})
+                    base.create("/api/school/" + schoolId + "/class/" + classId + "/parent/" + parentId, {token: 'basic-valid'})
                     .then(function() {
                         done();
                     }, function(err) {
-                        callback(new Error("should assgin a teacher to a class"));
+                        callback(new Error("should assgin a parent to a class"));
                     });
                 }
             }, function(err, results) {
@@ -205,11 +209,11 @@ module.exports = function() {
             });
         });
 
-        it('success to get the message count of the teacher with basic token', function(done){
+        it('success to get the message count of the parent with basic token', function(done){
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
-                    base.queryAll("/api/school/" + schoolId + "/teacher/" + teacherId + "/message", {token: 'basic-valid'})
+                    base.queryAll("/api/school/" + schoolId + "/parent/" + parentId + "/message", {token: 'basic-valid'})
                     .then(function(messages) {
                         tCount = messages.length;
                         done();
@@ -227,8 +231,8 @@ module.exports = function() {
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
-                    base.create("/api/class/" + classId + '/teacher/' + teacherId + '/message', 
-                        {content: '普通消息', createdBy: teacherId}, {token: 'basic-valid'})
+                    base.create("/api/class/" + classId + '/parent/' + parentId + '/message', 
+                        {content: '普通消息', createdBy: parentId}, {token: 'basic-valid'})
                     .then(function() {
                         done();
                     }, function(err) {
@@ -296,11 +300,11 @@ module.exports = function() {
         });
 
         // 总数加一
-        it('success to get a newer message count of the teacher with basic token', function(done){
+        it('success to get a newer message count of the parent with basic token', function(done){
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
-                    base.queryAll("/api/school/" + schoolId + "/teacher/" + teacherId + "/message", {token: 'basic-valid'})
+                    base.queryAll("/api/school/" + schoolId + "/parent/" + parentId + "/message", {token: 'basic-valid'})
                     .then(function(messages) {
                         assert.equal(tCount + 1, messages.length);
                         done();
@@ -319,8 +323,8 @@ module.exports = function() {
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
-                    base.create("/api/class/" + classId + '/teacher/' + teacherId + '/message', 
-                        {content: '置顶消息', top: 1, createdBy: teacherId}, {token: 'basic-valid'})
+                    base.create("/api/class/" + classId + '/parent/' + parentId + '/message', 
+                        {content: '置顶消息', top: 1, createdBy: parentId}, {token: 'basic-valid'})
                     .then(function(id) {
                         messageId = id;
                         done();
@@ -339,7 +343,7 @@ module.exports = function() {
             async.series({
                 action: function(callback){
                     base.update("/api/school/" + schoolId + '/message/' + messageId, 
-                        {top: 0, updatedBy: teacherId}, {token: 'basic-none'})
+                        {top: 0, updatedBy: parentId}, {token: 'basic-none'})
                     .then(function() {
                         callback(new Error("should not untop a message"));
                     }, function(err) {
@@ -357,7 +361,7 @@ module.exports = function() {
             async.series({
                 action: function(callback){
                     base.update("/api/school/" + schoolId + '/message/' + messageId, 
-                        {top: 0, updatedBy: teacherId}, {token: 'basic-valid'})
+                        {top: 0, updatedBy: parentId}, {token: 'basic-valid'})
                     .then(function() {
                         done();
                     }, function(err) {
@@ -374,7 +378,7 @@ module.exports = function() {
             async.series({
                 action: function(callback){
                     base.create("/api/school/" + schoolId + '/message/' + messageId + '/reply', 
-                        {content: '回复', createdBy: teacherId}, {token: 'basic-none'})
+                        {content: '回复', createdBy: parentId}, {token: 'basic-none'})
                     .then(function(id) {
                         callback(new Error("should not create a reply"));
                     }, function(err) {
@@ -393,7 +397,7 @@ module.exports = function() {
             async.series({
                 action: function(callback){
                     base.create("/api/school/" + schoolId + '/message/' + messageId + '/reply', 
-                        {content: '回复', createdBy: teacherId}, {token: 'basic-valid'})
+                        {content: '回复', createdBy: parentId}, {token: 'basic-valid'})
                     .then(function(id) {
                         replyId = id;
                         done();
