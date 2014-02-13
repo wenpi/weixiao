@@ -11,4 +11,4 @@ function getUserToken(userId) {
     }
 }
 
-console.info(getUserToken('02b3213c-c4ba-4b7b-be4b-8d751f8b305e'));
+console.info(getUserToken('3d6a1441-b4f5-445c-a27f-02a8667ad293'));

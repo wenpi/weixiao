@@ -35,7 +35,7 @@ define(function (require, exports, module) {
 	        				var student = $scope.session.user.students[0];
 	        				$scope.leave.record.studentName = student.name;
 	        				$scope.leave.record.studentId = student.id;
-	        			} else if ($scope.scope.user.isTeacher()) {
+	        			} else if ($scope.session.user.isTeacher()) {
 	        				$scope.leave.studentLabel = "学生姓名";
 	        			}
 	        		}

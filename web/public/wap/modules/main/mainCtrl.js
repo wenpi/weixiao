@@ -18,15 +18,15 @@ define(function (require, exports, module) {
                 var user = $scope.session.user;
                 if (user.hasWexClasses()) { // 管理员/老师身份
                     var wexClass = user.wexClasses[0]
-                    $scope.main.noticeUrl = '#/class/' + wexClass.classId + '/notice';
+                    $scope.main.noticeUrl = '#/class/' + wexClass.id + '/notice';
                     
-                    $scope.main.messageUrl = '#/class/' + wexClass.classId + '/message';
+                    $scope.main.messageUrl = '#/class/' + wexClass.id + '/message';
                     $scope.main.messageLabel = '班级留言';
                     
-                    $scope.main.leaveUrl = '#/class/' + wexClass.classId + '/message';
+                    $scope.main.leaveUrl = '#/class/' + wexClass.id + '/leave';
                     $scope.main.leaveLabel = '请假考勤';
                     
-                    $scope.main.studetnUrl = '#/class/' + wexClass.classId + '/student';
+                    $scope.main.studentUrl = '#/class/' + wexClass.id + '/student';
                     $scope.main.studentLabel = '学生资料';
                 } else if (user.hasStudents()) { // 家长身份
                     var student = $scope.session.user.students[0];

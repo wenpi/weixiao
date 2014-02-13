@@ -15,9 +15,26 @@ define(function (require, exports, module) {
     } else { // for debug
         window.WEXPATH = 'http://test.weexiao.com';
         $.fn.cookie("wexschool", "d28eefe9-db3b-4db5-a469-424ac5d187d8");
-        $.fn.cookie("wexuser", "02b3213c-c4ba-4b7b-be4b-8d751f8b305e");
-        $.fn.cookie("wexkey", "1392281355307");
+        
+        $.fn.cookie("wexuser", "3d6a1441-b4f5-445c-a27f-02a8667ad293");
+        $.fn.cookie("wexkey", "1392301167498");
+        $.fn.cookie("wextoken", "5b60b9357a28dd9a41626b7a3b2515fb");
+        /*
+        $.fn.cookie("wexuser", "3d6a1441-b4f5-445c-a27f-02a8667ad293");
+        $.fn.cookie("wexkey", "1392300051899");
         $.fn.cookie("wextoken", "5e1d3b28231421b5df8262b2301b84a1");
+        
+        $.fn.cookie("wexuser", "64edb1cc-54e1-4671-b2cb-cebe479a40d3");
+        $.fn.cookie("wexkey", "1392300176521");
+        $.fn.cookie("wextoken", "80cb95b56d291319e754c8df942a1ec7");
+        
+        
+        $.fn.cookie("wexuser", "dcc7e4d2-7124-445a-9145-e2254eccc435");
+        $.fn.cookie("wexkey", "1392299993728");
+        $.fn.cookie("wextoken", "7ee276844899ca180b6222cc33004d71");*/
+        
+        
+        
         isStatic = false;
     }
     
