@@ -9,11 +9,6 @@ define(function (require, exports, module) {
         app.config(['$routeProvider', function($routeProvider) {    
             //Step4: add `controllerUrl` to your route item config
             $routeProvider
-                .when('/student', {
-                    controller: 'studentCtrl',
-                    controllerUrl: 'modules/student/studentCtrl.js',
-                    templateUrl: 'modules/student/student.tpl.html'
-                })
                 .when('/class/:classId/student', {
                     controller: 'studentCtrl',
                     controllerUrl: 'modules/student/studentCtrl.js',

@@ -9,11 +9,6 @@ define(function (require, exports, module) {
         app.config(['$routeProvider', function($routeProvider) {    
             //Step4: add `controllerUrl` to your route item config
             $routeProvider
-                .when('/leave', {
-                    controller: 'leaveCtrl',
-                    controllerUrl: 'modules/leave/leaveCtrl.js',
-                    templateUrl: 'modules/leave/leave.tpl.html'
-                })
                 .when('/class/:classId/leave', {
                     controller: 'leaveCtrl',
                     controllerUrl: 'modules/leave/leaveCtrl.js',

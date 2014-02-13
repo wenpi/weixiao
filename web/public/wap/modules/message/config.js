@@ -9,11 +9,6 @@ define(function (require, exports, module) {
         app.config(['$routeProvider', function($routeProvider) {    
             //Step4: add `controllerUrl` to your route item config
             $routeProvider
-                .when('/notice', {
-                    controller: 'noticeCtrl',
-                    controllerUrl: 'modules/message/noticeCtrl.js',
-                    templateUrl: 'modules/message/notice.tpl.html'
-                })
                 .when('/class/:classId/notice', {
                     controller: 'noticeCtrl',
                     controllerUrl: 'modules/message/noticeCtrl.js',
@@ -28,11 +23,6 @@ define(function (require, exports, module) {
                     controller: 'noticeCtrl',
                     controllerUrl: 'modules/message/noticeCtrl.js',
                     templateUrl: 'modules/message/notice.tpl.html'
-                })
-                .when('/message', {
-                    controller: 'messageCtrl',
-                    controllerUrl: 'modules/message/messageCtrl.js',
-                    templateUrl: 'modules/message/message.tpl.html'
                 })
                 .when('/class/:classId/message', {
                     controller: 'messageCtrl',

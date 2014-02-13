@@ -27,7 +27,7 @@ define(function (require, exports, module) {
 	        		MessageService.save(record)
 	        		.then(function() {
 	        			alert("操作成功！");
-	        			$location.path("notice");
+	        			window.history.go(-1);
 	        		}, function() {
 	        			alert('抱歉，操作失败！');
 	        		});

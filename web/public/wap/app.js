@@ -13,11 +13,11 @@ define(function (require, exports, module) {
             isStatic = false;
         }
     } else { // for debug
-        window.WEXPATH = 'http://192.168.1.105';
+        window.WEXPATH = 'http://test.weexiao.com';
         $.fn.cookie("wexschool", "d28eefe9-db3b-4db5-a469-424ac5d187d8");
         $.fn.cookie("wexuser", "02b3213c-c4ba-4b7b-be4b-8d751f8b305e");
-        $.fn.cookie("wexkey", "1392121859050");
-        $.fn.cookie("wextoken", "2f2091276dce31bddd5ae49398e6c4ee");
+        $.fn.cookie("wexkey", "1392281355307");
+        $.fn.cookie("wextoken", "5e1d3b28231421b5df8262b2301b84a1");
         isStatic = false;
     }
     
@@ -87,6 +87,23 @@ define(function (require, exports, module) {
             }, 500);
 
             var schoolId = $.fn.cookie("wexschool");
+            $.extend(user, {
+                isParent: function() {
+                    return this.type == '0';
+                },
+                isTeacher: function() {
+                    return this.type == '1';
+                },
+                isAdmin: function() {
+                    return this.type == '1' && this.isAdmin == '1';
+                },
+                hasWexClasses: function() {
+                    return this.wexClasses && this.wexClasses.length > 0;
+                },
+                hasStudents: function() {
+                    return this.students && this.students.length > 0;
+                }
+            })
             switch(user.type) {
             case '0':
                 UserService.getParent(schoolId, user.id).then(function(parent) {

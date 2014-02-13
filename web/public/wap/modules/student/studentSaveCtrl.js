@@ -45,7 +45,7 @@ define(function (require, exports, module) {
 	        		var message = $scope.student.record.id ? '编辑学生基本信息成功！' : '新增学生成功！';
 	        		StudentService.save($scope.session.user.schoolId, $routeParams.classId, $scope.student.record).then(function() {
 	        			alert(message);
-	        			$location.path("student");
+	        			window.history.go(-1);
 	        		}, function() {
 	        			alert('抱歉，操作失败！');
 	        		});

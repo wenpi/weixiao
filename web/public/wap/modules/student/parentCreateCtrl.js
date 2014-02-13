@@ -42,7 +42,7 @@ define(function (require, exports, module) {
 	        		StudentService.saveParent(schoolId, studentId, $scope.student.record)
 	        		.then(function() {
 	        			alert('新增成功');
-	        			$location.path("class/" + classId + "/student/" + studentId);
+	        			window.history.go(-1);
 	        		}, function() {
 	        			alert('抱歉，操作失败！可能达到家长总数上限。');
 	        		});

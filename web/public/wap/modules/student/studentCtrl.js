@@ -45,27 +45,13 @@ define(function (require, exports, module) {
                     if (path.indexOf('class') >= 0) {
                         var classId = $scope.student.classId = $routeParams.classId;
                         uri += '/class/' + classId + '/student';
-                        if ($scope.session.user.type === '1') {
-                            $scope.student.view = 'tvs'; // teacher view student
-                        }
                         $($scope.session.user.wexClasses).each(function(i, wexClass) {
                             if (wexClass.id == classId) {
                                 $scope.student.title = wexClass.name;
                             }
                         });
                     } else {
-                        if ($scope.session.user.type === '1' && 
-                            $scope.session.user.wexClasses &&
-                            $scope.session.user.wexClasses.length > 0) {
-                            $location.path("class/" + $scope.session.user.wexClasses[0].id + '/student');
-                        } else if ($scope.session.user.type === '0' &&
-                            $scope.session.user.students &&
-                            $scope.session.user.students.length > 0) {
-                            var student = $scope.session.user.students[0], classId = student.classId;
-                            $location.path("class/" + classId + '/student/' + student.id);
-                        } else {
-                            alert('没有可以请假数据可查看');
-                        }
+                        alert("未支持的功能.");
                         return;
                     }
 

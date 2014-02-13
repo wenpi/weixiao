@@ -2,7 +2,7 @@
     <div class="header">
         <a href="#main" class="button button-left"><i class="fa fa-th"></i></a>
         <span class="title">{{message.title}}</span>
-        <a ng-show="session.user.type == '0'" ng-href="#/parent/{{session.user.id}}/message/new" class="button button-right">
+        <a ng-show="session.user.isParent()" ng-href="#/parent/{{session.user.id}}/message/new" class="button button-right">
             <i class="fa fa-plus"></i>
         </a>
     </div>
@@ -14,21 +14,21 @@
             <tr ng-repeat="record in message.records">
                 <!--td width="48px" valign="top"><img class="profile" src="images/profile.jpg"></td-->
                 <td class="wx-message-content" valign="top">
-                    <div ng-show="session.user.type == '0'">
+                    <div ng-show="session.user.isParent()">
                         <a href="javascript:void(0)"><strong>{{record.creator}}:</strong></a>
                     </div>
-                    <div ng-show="session.user.type == '1'">
+                    <div ng-show="session.user.isTeacher()">
                         <a href="javascript:void(0)"><strong>{{record.studentName}}:</strong></a>
                     </div>
                     <div>{{record.content}}</div>
                     <div>
                         <span class="time">{{record.updatedTime.substring(5, 16)}}</span>
-                        <a ng-click="message.remove(record)" ng-show="session.user.type == 0" href="javascript:void(0)" class="onright">
+                        <a ng-click="message.remove(record)" ng-show="session.user.isParent()" href="javascript:void(0)" class="onright">
                             <i class="fa fa-times"></i>删除
                         </a>
                         <a href="javascript:void(0)" class="onright"
                            ng-click="record.replying = true"
-                           ng-show="session.user.type == 1 && record.replies.length == 0 && !record.replying">
+                           ng-show="session.user.isTeacher() && record.replies.length == 0 && !record.replying">
                            <i class="fa fa-flickr"></i>回复
                         </a>
                     </div>

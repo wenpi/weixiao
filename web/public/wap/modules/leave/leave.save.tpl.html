@@ -16,7 +16,7 @@
                 <input id="student" type="text" ng-readonly="true" ng-required="true"
                        ng-click="leave.pickStudent()"
                        ng-model="leave.record.studentName" placeholder="请选择学生">
-                <i ng-show="$scope.session.user.type == '1'" class="fa fa-users" ng-click="leave.pickStudent()" ng-show="!leave.record.id"></i>
+                <i ng-show="$scope.session.user.isTeacher()" class="fa fa-users" ng-click="leave.pickStudent()" ng-show="!leave.record.id"></i>
                 </div>
                 
                 <label for="type">请假类型：</label>

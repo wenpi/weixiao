@@ -25,7 +25,6 @@ exports.getAuthoriedHeader = getToken;
 function getUserToken(userId) {
     var shasum = crypto.createHash('md5');
     var key = (new Date()).getTime();
-    console.info(userId);
     shasum.update(key + 'rest' + 'kinderg' + '1qw23er4' + userId);
     var token = shasum.digest('hex');
     return {

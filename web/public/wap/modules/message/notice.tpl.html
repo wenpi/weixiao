@@ -2,7 +2,7 @@
     <div class="header">
         <a href="#main" class="button button-left"><i class="fa fa-th"></i></a>
         <span class="title">班级通知</span>
-        <a ng-show="session.user.type == '1'" ng-href="#/class/{{notice.classId}}/notice/new" class="button button-right">
+        <a ng-show="session.user.isTeacher()" ng-href="#/class/{{notice.classId}}/notice/new" class="button button-right">
             <i class="fa fa-plus"></i>
         </a>
     </div>
@@ -24,13 +24,13 @@
                     <div>{{record.content}}</div>
                     <div>
                         <span class="time">{{record.updatedTime.substring(5, 16)}}<span>
-                        <a ng-click="notice.remove(record)" ng-show="session.user.type == 1" href="javascript:void(0)" class="onright">
+                        <a ng-click="notice.remove(record)" ng-show="session.user.isTeacher()" href="javascript:void(0)" class="onright">
                             <i class="fa fa-times"></i>删除
                         </a>
-                        <!--a ng-show="session.user.type == 1" href="javascript:void(0)" class="onright">
+                        <!--a ng-show="session.user.isTeacher()" href="javascript:void(0)" class="onright">
                             <i class="fa fa-tasks"></i>统计
                         </a-->
-                        <a ng-click="notice.top(record, 0)" ng-show="session.user.type == 1" href="javascript:void(0)" class="onright">
+                        <a ng-click="notice.top(record, 0)" ng-show="session.user.isTeacher()" href="javascript:void(0)" class="onright">
                             <i class="fa fa-arrow-circle-o-down"></i>取消置顶
                         </a>
                     </div>
@@ -49,13 +49,13 @@
                     <div>{{record.content}}</div>
                     <div>
                         <span class="time">{{record.createdTime.substring(5, 16)}}<span>
-                        <a ng-click="notice.remove(record)" ng-show="session.user.type == 1" href="javascript:void(0)" class="onright">
+                        <a ng-click="notice.remove(record)" ng-show="session.user.isTeacher()" href="javascript:void(0)" class="onright">
                             <i class="fa fa-times"></i>删除
                         </a>
-                        <!--a ng-show="session.user.type == 1" href="javascript:void(0)" class="onright">
+                        <!--a ng-show="session.user.isTeacher()" href="javascript:void(0)" class="onright">
                             <i class="fa fa-tasks"></i>统计
                         </a-->
-                        <a ng-click="notice.top(record, 1)" ng-show="session.user.type == 1" href="javascript:void(0)" class="onright">
+                        <a ng-click="notice.top(record, 1)" ng-show="session.user.isTeacher()" href="javascript:void(0)" class="onright">
                             <i class="fa fa-arrow-circle-o-up"></i>置顶
                         </a>
                     </div>

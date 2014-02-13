@@ -2,105 +2,62 @@
     <div class="header">
         <span class="title">快速导航</span>
     </div>
-    <div class="wx-nav-container">
-        <a href="#notice">
+    <div class="wx-nav-container" ng-show="main.inited">
+        <a ng-href="{{main.noticeUrl}}">
             <div class="icon">
                 <i class="fa fa-volume-up"></i>
             </div>
-            <div class="label">
-                班级通知
-            </div>
+            <div class="label">班级通知</div>
             <div class="badge">100</div>
         </a>
-        <a href="#message" ng-show="session.user && session.user.type == 0">
+        <a ng-href="{{main.messageUrl}}">
             <div class="icon">
                 <i class="fa fa-comment"></i>
             </div>
-            <div class="label">
-                我的留言
-            </div>
-            <div class="badge">100</div>
-        </a>
-        <a href="#message" ng-show="session.user && session.user.type == 1">
-            <div class="icon">
-                <i class="fa fa-comment"></i>
-            </div>
-            <div class="label">
-                家长留言
-            </div>
+            <div class="label" ng-bind="main.messageLabel"></div>
             <div class="badge">100</div>
         </a>
         <a href="#photo">
             <div class="icon">
                 <i class="fa fa-picture-o"></i>
             </div>
-            <div class="label">
-                班级相册
-            </div>
+            <div class="label">班级相册</div>
             <div class="badge">100</div>
         </a>
         <a href="javascript:void(0)">
             <div class="icon">
                 <i class="fa fa-pagelines"></i>
             </div>
-            <div class="label">
-                成长记录
-            </div>
+            <div class="label">成长记录</div>
             <div class="badge">100</div>
         </a>
-        <a href="#leave">
+        <a ng-href="{{main.leaveUrl}}">
             <div class="icon">
                 <i class="fa fa-calendar"></i>
             </div>
-            <div class="label">
-                请假考勤
-            </div>
+            <div class="label" ng-bind="main.leaveLabel">请假考勤</div>
             <div class="badge">100</div>
         </a>
         <!--a href="javascript:void(0)">
             <div class="icon">
                 <i class="fa fa-bell"></i>
             </div>
-            <div class="label">
-                提醒备忘
-            </div>
+            <div class="label">提醒备忘</div>
             <div class="badge">100</div>
         </a-->
-        <a href="#student" ng-show="session.user && session.user.type == 0">
+        <a ng-href="{{main.studentUrl}}">
             <div class="icon">
                 <i class="fa fa-users"></i>
             </div>
-            <div class="label">
-                家庭资料
-            </div>
-            <div class="badge">100</div>
-        </a>
-        <a href="#student" ng-show="session.user && session.user.type == 1">
-            <div class="icon">
-                <i class="fa fa-users"></i>
-            </div>
-            <div class="label">
-                学生资料
-            </div>
+            <div class="label" ng-bind="main.studentLabel">家庭资料</div>
             <div class="badge">100</div>
         </a>
         <a ng-href="#/user/{{session.user.id}}">
             <div class="icon">
                 <i class="fa fa-user"></i>
             </div>
-            <div class="label">
-                个人设置
-            </div>
+            <div class="label">个人设置</div>
             <div class="badge">100</div>
         </a>
-        <!--a href="javascript:void(0)">
-            <div class="icon">
-                <i class="fa fa-lock"></i>
-            </div>
-            <div class="label">
-                修改密码
-            </div>
-            <div class="badge">100</div>
-        </a-->
     </div>
 </div>

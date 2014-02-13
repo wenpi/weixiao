@@ -18,9 +18,7 @@ define(function (require, exports, module) {
 
         			$scope.message.record = {top: 0, type: 0, sendsms: 0};
         			$scope.message.record.createdBy = $scope.session.user.id;
-        			if ($scope.session.user.type === '0' &&
-                        $scope.session.user.students &&
-                        $scope.session.user.students.length > 0) {
+        			if ($scope.session.user.hasStudents()) {
                         var student = $scope.session.user.students[0];
                     	$scope.message.record.classId = student.classId;
                     	$scope.message.record.studentId = student.id;
@@ -33,7 +31,7 @@ define(function (require, exports, module) {
 	        		MessageService.save(record)
 	        		.then(function() {
 	        			alert("操作成功！");
-	        			$location.path("message");
+	        			window.history.go(-1);
 	        		}, function() {
 	        			alert('抱歉，操作失败！');
 	        		});

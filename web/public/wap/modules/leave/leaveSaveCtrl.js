@@ -31,20 +31,18 @@ define(function (require, exports, module) {
 	        		} else {
 	        			$scope.leave.record = {type: '1', days: '1', startDate: (new Date()).toYMD()};
 	        			$scope.leave.record.createdBy = $scope.session.user.id;
-	        			if ($scope.session.user.type === '0' &&
-                            $scope.session.user.students &&
-                            $scope.session.user.students.length > 0) {
+	        			if ($scope.session.user.hasStudents()) {
 	        				var student = $scope.session.user.students[0];
 	        				$scope.leave.record.studentName = student.name;
 	        				$scope.leave.record.studentId = student.id;
-	        			} else if ($scope.scope.user.type === '1') {
+	        			} else if ($scope.scope.user.isTeacher()) {
 	        				$scope.leave.studentLabel = "学生姓名";
 	        			}
 	        		}
 	        	});
 
 	        	$scope.leave.pickStudent = function() {
-	        		if ($scope.session.user.type == '0') { return; }
+	        		if ($scope.session.user.isParent()) { return; }
 	        		if ($scope.session.user.wexClasses.length == 0) {
 	        			alert('没有班级可选');
 	        			return;
@@ -86,7 +84,7 @@ define(function (require, exports, module) {
 	        		var message = $scope.leave.record.id ? '编辑请假记录成功！' : '新增请假记录成功！';
 	        		LeaveService.save($scope.session.user.schoolId, $scope.leave.record).then(function() {
 	        			alert(message);
-	        			$location.path("leave");
+	        			window.history.go(-1);
 	        		}, function() {
 	        			alert('操作失败，可能该段时间已经有请假记录。');
 	        		});

@@ -66,9 +66,6 @@ define(function (require, exports, module) {
         		if (path.indexOf('class') >= 0) {
         			var classId = $scope.notice.classId = $routeParams.classId;
         			uri += '/class/' + classId + '/message?type=1';
-        			if ($scope.session.user.type === '1') {
-        				$scope.notice.view = 'tvn'; // teacher view notice
-        			}
         			$($scope.session.user.wexClasses).each(function(i, wexClass) {
         				if (wexClass.id == classId) {
         					$scope.notice.title = wexClass.name;
@@ -78,29 +75,13 @@ define(function (require, exports, module) {
         			return; // not support yet
         			var teacherId = $routeParams.teacherId;
         			uri += '/teacher/' + teacherId + '/message';
-        			if ($scope.session.user.type === '1') {
-        				$scope.notice.view = 'tvt'; // teacher view teacher
-        			} else if ($scope.session.user.type === '0') {
-        				$scope.notice.view = 'pvt'; // parent view student
-        			}
         		} else if (path.indexOf('school') >= 0) {
         			var schoolId = $routeParams.schoolId;
         			uri += '/school/' + schoolId + '/notice';
         			return; //not support yet
         		} else {
-        			if ($scope.session.user.type === '1' && 
-	        			$scope.session.user.wexClasses &&
-	        			$scope.session.user.wexClasses.length > 0) {
-        				$location.path("class/" + $scope.session.user.wexClasses[0].id + '/notice');
-        			} else if ($scope.session.user.type === '0' &&
-                            $scope.session.user.students &&
-                            $scope.session.user.students.length > 0) {
-                        var student = $scope.session.user.students[0];
-        				$location.path("class/" + student.classId + '/notice');
-        			} else {
-        				alert('没有可以通知可查看');
-        			}
-        			return;
+        		    alert("未支持的功能.");
+                    return;
         		}
 
     			refresh();
