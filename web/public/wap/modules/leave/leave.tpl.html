@@ -1,12 +1,18 @@
 <div id="wx-leave" class="wx-page">
     <div class="header">
-        <a ng-show="session.user.isParent()" href="javascript:window.history.go(-1)" class="button button-left"><i class="fa fa-th"></i></a>
-        <a ng-show="session.user.isTeacher()" href="javascript:window.history.go(-1)" class="button button-left"><i class="fa fa-angle-left"></i></a>
-        <span class="title">{{leave.title}}请假考勤</span>
+        <a ng-show="leave.returnType == 'home'" href="#main" class="button button-left"><i class="fa fa-th"></i></a>
+        <a ng-show="leave.returnType == 'class'" href="javascript:window.history.go(-1)" class="button button-left"><i class="fa fa-angle-left"></i></a>
+        <span class="title">
+            <a href="javascript:void(0)" ng-click="leave.selectClass()">
+                {{leave.title}}请假考勤
+                <i ng-show="session.user.isAdministrator()" class="fa fa-angle-double-down"></i>
+            </a>
+        </span>
         <a href="#/leave/new" class="button button-right"><i class="fa fa-plus"></i></a>
     </div>
 
-    
+    <div wx-class-picker></div>
+
     <div ng-show="leave.records == null" class="wx-prompt">正在加载数据...</div>
     <div ng-show="leave.records && leave.records.length == 0" class="wx-prompt">没有请假记录。</div>
     

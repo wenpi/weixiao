@@ -6,6 +6,7 @@ define(function (require, exports, module) {
 
     module.exports = function(app){
         require('./datePickerCtrl.js')(app);
+        require('./classPickerCtrl.js')(app);
 
         //配置期
         app.config(['$routeProvider', function($routeProvider) {    
@@ -22,9 +23,20 @@ define(function (require, exports, module) {
         app.directive("wxDatePicker", [ '$location', function($location) {
             return {
                 restrict : 'A',
-                replace : false,
+                replace : true,
                 controller: 'datePickerCtrl',
                 templateUrl: 'modules/main/date.picker.tpl.html',
+                link : function($scope, $element, $attrs) {
+                }
+            };
+        }]);
+        
+        app.directive("wxClassPicker", [ '$location', function($location) {
+            return {
+                restrict : 'A',
+                replace : true,
+                controller: 'classPickerCtrl',
+                templateUrl: 'modules/main/class.picker.tpl.html',
                 link : function($scope, $element, $attrs) {
                 }
             };

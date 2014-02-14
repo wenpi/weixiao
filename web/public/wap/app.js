@@ -16,9 +16,9 @@ define(function (require, exports, module) {
         window.WEXPATH = 'http://test.weexiao.com';
         $.fn.cookie("wexschool", "d28eefe9-db3b-4db5-a469-424ac5d187d8");
         
-        $.fn.cookie("wexuser", "3d6a1441-b4f5-445c-a27f-02a8667ad293");
-        $.fn.cookie("wexkey", "1392301167498");
-        $.fn.cookie("wextoken", "5b60b9357a28dd9a41626b7a3b2515fb");
+        $.fn.cookie("wexuser", "dcc7e4d2-7124-445a-9145-e2254eccc435");
+        $.fn.cookie("wexkey", "1392299993728");
+        $.fn.cookie("wextoken", "7ee276844899ca180b6222cc33004d71");
         /*
         $.fn.cookie("wexuser", "3d6a1441-b4f5-445c-a27f-02a8667ad293");
         $.fn.cookie("wexkey", "1392300051899");
@@ -111,7 +111,7 @@ define(function (require, exports, module) {
                 isTeacher: function() {
                     return this.type == '1';
                 },
-                isAdmin: function() {
+                isAdministrator: function() {
                     return this.type == '1' && this.isAdmin == '1';
                 },
                 hasWexClasses: function() {

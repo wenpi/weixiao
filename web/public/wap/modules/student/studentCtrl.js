@@ -57,6 +57,23 @@ define(function (require, exports, module) {
 
                     refresh();
                 });
+                
+                $scope.student.selectClass = function() {
+                    if (!$scope.session.user.isAdministrator()) {
+                        return;
+                    }
+                    if (!$scope.common.classPicker.isShow) {
+                        $scope.common.classPicker.show({
+                            items: $scope.session.user.wexClasses,
+                            selected: $routeParams.classId,
+                            onSelect: function(wexClass) {
+                                $location.path('class/' + wexClass.id + '/student');
+                            }
+                        });
+                    } else {
+                        $scope.common.classPicker.hide();
+                    }
+                }
             }]
         );
     }

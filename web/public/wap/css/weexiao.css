@@ -19,7 +19,8 @@ a { text-decoration: none; color: #006699; font-weight: bold !important; font-si
 .header .button{position:absolute;z-index:10;font-size:24px;line-height:36px;color:#fff;top:7px}
 .header .button-left { left: 12px; }
 .header .button-right { right: 12px; }
-.header .fa { min-width: 24px;}
+.header a { color: #fff; }
+.header .fa { min-width: 24px; color: #fff; }
 
 .wx-nav-container { padding-top: 10px; padding-left: 5px;}
 .wx-nav-container a { width:29%;height:92px;display:inline-block;background:#F3F3F3;text-align:center;position:relative;margin:1% 1%;border-radius: 5px; border: 1px solid #eee;}
@@ -57,6 +58,7 @@ a { text-decoration: none; color: #006699; font-weight: bold !important; font-si
 
 .wx-picker { width: 100%; height: 100%; position: absolute; top: 0px; left: 0px; background-color: #fff; z-index: 300; display: none;}
 #wx-date-picker input { height:2em; line-height:2em; width: 4em; text-align: center;}
+.wx-class-picker { height:auto; position: static; background-color: #eee; }
 
 .wx-tab { background-color: #ccc; }
 .wx-tab td { padding: 10px; }

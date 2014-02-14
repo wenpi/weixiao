@@ -10,7 +10,7 @@ define(function (require, exports, module) {
 	        function($scope, $routeParams, $location, $http, LeaveService) {
 	        	$scope.leave = {};
 	        	$scope.leave.title = '';
-	        	$scope.leave.returnUrl = '';
+	        	$scope.leave.returnType = "home";
 	        	$scope.leave.records = null;
 
 	        	var uri;
@@ -43,7 +43,7 @@ define(function (require, exports, module) {
 	        		uri = '/api/school/' + $scope.session.user.schoolId;
 
 	        		if (path.indexOf('class') >= 0) {
-	        			$scope.leave.returnUrl = '#main';
+	        		    $scope.leave.returnType = 'home';
 	        			var classId = $routeParams.classId;
 	        			uri += '/class/' + classId + '/leave';
 	        			$($scope.session.user.wexClasses).each(function(i, wexClass) {
@@ -52,6 +52,7 @@ define(function (require, exports, module) {
 	        				}
 	        			});
 	        		} else if (path.indexOf('student') >= 0) {
+	        		    $scope.leave.returnType = 'class';
 	        			var studentId = $routeParams.studentId;
 	        			uri += '/student/' + studentId + '/leave';
 	        			$($scope.session.user.wexClasses).each(function(i, wexClass) {
@@ -72,6 +73,23 @@ define(function (require, exports, module) {
 
         			refresh();
 	        	});
+	        	
+	        	$scope.leave.selectClass = function() {
+                    if (!$scope.session.user.isAdministrator()) {
+                        return;
+                    }
+                    if (!$scope.common.classPicker.isShow) {
+                        $scope.common.classPicker.show({
+                            items: $scope.session.user.wexClasses,
+                            selected: $routeParams.classId,
+                            onSelect: function(wexClass) {
+                                $location.path('class/' + wexClass.id + '/leave');
+                            }
+                        });
+                    } else {
+                        $scope.common.classPicker.hide();
+                    }
+                }
 	        }]
 	    );
     }

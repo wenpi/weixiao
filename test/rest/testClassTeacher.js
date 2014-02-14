@@ -177,5 +177,8 @@ module.exports = function() {
                 done(err);
             });
         });
+
+        //TODO: 创建一个管理员/园长
+        //TODO: 能看到本园所有班级
     });
 }

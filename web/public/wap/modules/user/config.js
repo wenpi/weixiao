@@ -111,7 +111,7 @@ define(function (require, exports, module) {
         app.directive("wxUserPicker", [ '$location', function($location) {
             return {
                 restrict : 'A',
-                replace : false,
+                replace : true,
                 controller: 'userPickerCtrl',
                 templateUrl: 'modules/user/user.picker.tpl.html',
                 link : function($scope, $element, $attrs) {

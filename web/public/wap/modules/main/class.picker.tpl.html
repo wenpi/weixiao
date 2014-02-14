@@ -1,0 +1,9 @@
+<div class="wx-picker wx-class-picker">
+    <div class="wx-page-detail">
+        <button ng-repeat="item in common.classPicker.items"
+                class="pure-button-xsmall pure-button pure-button-active" style="width:21%;margin:5px 2%;padding:10px 0px;text-align:center;"
+                ng-click="common.classPicker.pick(item)"
+                ng-class="{'pure-button-primary': item.id == common.classPicker.selected.id}">
+                {{item.name}}</button>
+    </div>
+</div>

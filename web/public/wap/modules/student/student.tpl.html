@@ -1,12 +1,17 @@
 <div id="wx-photo" class="wx-page">
     <div class="header">
-        <!--a href="#main" class="button button-left"><i class="fa fa-th"></i></a-->
-        <a href="javascript:window.history.go(-1)" class="button button-left"><i class="fa fa-angle-left"></i></a>
-        <span class="title">{{student.title}}学生(共{{student.records.length}}名)</span>
-        <a href="#/class/{{student.classId}}/student/new" class="button button-right"><i class="fa fa-plus"></i></a>
+        <a href="#main" class="button button-left"><i class="fa fa-th"></i></a>
+        <span class="title">
+            <a href="javascript:void(0)" ng-click="student.selectClass()">
+	            {{student.title}}学生(共{{student.records.length}}名)
+	            <i ng-show="session.user.isAdministrator()" class="fa fa-angle-double-down"></i>
+            </a>
+        </span>
+        <a ng-show="!session.user.isAdministrator()" href="#/class/{{student.classId}}/student/new" class="button button-right"><i class="fa fa-plus"></i></a>
     </div>
 
-    
+    <div wx-class-picker></div>
+
     <div ng-show="student.records == null" class="wx-prompt">正在加载数据...</div>
     <div ng-show="student.records && student.records.length == 0" class="wx-prompt">没有学生记录。</div>
     

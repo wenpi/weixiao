@@ -47,7 +47,7 @@
             </fieldset>
         </form>
         <div class="wx-buttons">
-            <button class="pure-button full"
+            <button class="pure-button full pure-button-active"
                     ng-disabled="!saveStudentForm.$valid"
                     ng-class="{'pure-button-primary': saveStudentForm.$valid}" ng-click="student.saveRecord()">保存</button>
             <a href="javascript:window.history.go(-1)"><button class="pure-button full">返回</button></a>
@@ -78,7 +78,7 @@
         <div class="wx-buttons">
             <a ng-href="#/class/{{student.classId}}/student/{{student.record.id}}/newparent"
                ng-show="student.parents && student.parents.length < 4">
-                <button class="pure-button pure-button-primary full">添加家长</button>
+                <button class="pure-button pure-button-primary full pure-button-active">添加家长</button>
             </a>   
             <a href="javascript:window.history.go(-1)"><button class="pure-button full">返回</button></a>
         </div>
