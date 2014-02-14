@@ -67,16 +67,35 @@ module.exports = function() {
                 done(err);
             });
         });
-        return;
 
-        // 删除关系，无论成功与否
-        it('success to delete the reference between class and parent', function(done){
+        var studentId;
+        it('success to get the new student id', function(done){
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
-                    base.remove("/api/school/" + schoolId + "/class/" + classId + "/parent/" + parentId, {token: 'basic-valid'})
-                    .then(function() {
+                    base.queryAll("/api/school/" + schoolId + "/parent/" + parentId + "/student", {token: 'basic-valid'})
+                    .then(function(students) {
+                        assert.notEqual(0, students.length);
+                        studentId = students[0].id;
                         done();
+                    }, function(err) {
+                        callback(new Error("should get the student id"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+
+        // 有token也不能看本班其他家长的留言
+        it('failed to get the message list of the class with token', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/message?type=0", {user: parentId})
+                    .then(function(messages) {
+                        callback(err);
                     }, function(err) {
                         done();
                     });
@@ -85,18 +104,23 @@ module.exports = function() {
                 done(err);
             });
         });
+        
 
-        // 没有token,该家长无法向这个班级提交信息
-        it('failed to create message data without token', function(done){
+        // 获得通知的总数
+        var count = 0;
+
+        // TODO:不能查看非所在班级通知
+
+        // 能查看所在班级通知
+        it('success to get the notice of the class with basic token', function(done){
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
-                    base.create("/api/class/" + classId + '/parent/' + parentId + '/message', 
-                        {content: '测试消息'}, {token: 'basic-none'})
-                    .then(function() {
-                        callback(new Error("should not create a message"));
-                    }, function(err) {
+                    base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/message?type=1", {token: 'basic-valid'})
+                    .then(function(messages) {
                         done();
+                    }, function(err) {
+                        callback(err);
                     });
                 }
             }, function(err, results) {
@@ -104,46 +128,12 @@ module.exports = function() {
             });
         });
 
-        // 即使有token,该家长依然无法向这个班级提交信息
-        it('failed to create message data with token', function(done){
+        // 没有token无法获得孩子相关的留言列表
+        it('failed to get the total message of the student without token', function(done){
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
-                    base.create("/api/class/" + classId + '/parent/' + parentId + '/message', 
-                        {content: '测试消息', createdBy: parentId}, {token: 'basic-valid'})
-                    .then(function() {
-                        callback(new Error("should not create a message"));
-                    }, function(err) {
-                        done();
-                    });
-                }
-            }, function(err, results) {
-                done(err);
-            });
-        });
-
-        // 增加绑定
-        it('success to create the reference between class and parent', function(done){
-            async.series({
-                action: function(callback){
-                    base.create("/api/school/" + schoolId + "/class/" + classId + "/parent/" + parentId, {token: 'basic-valid'})
-                    .then(function() {
-                        done();
-                    }, function(err) {
-                        callback(new Error("should assgin a parent to a class"));
-                    });
-                }
-            }, function(err, results) {
-                done(err);
-            });
-        });
-
-        // 没有token无法获得消息列表
-        it('failed to get the total message of the class without token', function(done){
-            // an example using an object instead of an array
-            async.series({
-                action: function(callback){
-                    base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/message", {token: 'basic-none'})
+                    base.queryAll("/api/school/" + schoolId + "/student/" + studentId + "/message", {token: 'basic-none'})
                     .then(function(messages) {
                         callback(new Error("should not get the message"));
                     }, function(err) {
@@ -155,14 +145,14 @@ module.exports = function() {
             });
         });
 
-        // 获得通知的总数
-        var count = nCount = pCount = tCount = 0;
+        // TODO: 不能查看非本人孩子的留言
 
-        it('success to get the total message of the class with basic token', function(done){
+        // 能查看本人孩子的留言
+        it('success to get the message of the student with user token', function(done){
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
-                    base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/message", {token: 'basic-valid'})
+                    base.queryAll("/api/school/" + schoolId + "/student/" + studentId + "/message", {user: parentId})
                     .then(function(messages) {
                         count = messages.length;
                         done();
@@ -174,41 +164,11 @@ module.exports = function() {
                 done(err);
             });
         });
+        return;
 
-        it('success to get the notice of the class with basic token', function(done){
-            // an example using an object instead of an array
-            async.series({
-                action: function(callback){
-                    base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/message?type=1", {token: 'basic-valid'})
-                    .then(function(messages) {
-                        nCount = messages.length;
-                        done();
-                    }, function(err) {
-                        callback(err);
-                    });
-                }
-            }, function(err, results) {
-                done(err);
-            });
-        });
+        // TODO: 不能查看非本人提交的留言
 
-        it('success to get the message submitted by parent of the class with basic token', function(done){
-            // an example using an object instead of an array
-            async.series({
-                action: function(callback){
-                    base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/message?type=0", {token: 'basic-valid'})
-                    .then(function(messages) {
-                        pCount = messages.length;
-                        done();
-                    }, function(err) {
-                        callback(err);
-                    });
-                }
-            }, function(err, results) {
-                done(err);
-            });
-        });
-
+        // 能查看本人提交的留言
         it('success to get the message count of the parent with basic token', function(done){
             // an example using an object instead of an array
             async.series({
@@ -226,13 +186,13 @@ module.exports = function() {
             });
         });
 
-        // 能提交一条普通消息
+        // 能提交一条留言
         it('success to create message data with token', function(done){
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
                     base.create("/api/class/" + classId + '/parent/' + parentId + '/message', 
-                        {content: '普通消息', createdBy: parentId}, {token: 'basic-valid'})
+                        {content: '普通留言', createdBy: parentId}, {token: 'basic-valid'})
                     .then(function() {
                         done();
                     }, function(err) {
@@ -317,55 +277,19 @@ module.exports = function() {
             });
         });
 
-        // 能提交一条置顶消息
+        // 能提交一条置顶留言
         var messageId;
         it('success to create message data with token', function(done){
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
                     base.create("/api/class/" + classId + '/parent/' + parentId + '/message', 
-                        {content: '置顶消息', top: 1, createdBy: parentId}, {token: 'basic-valid'})
+                        {content: '置顶留言', top: 1, createdBy: parentId}, {token: 'basic-valid'})
                     .then(function(id) {
                         messageId = id;
                         done();
                     }, function(err) {
                         callback(new Error("should create a message"));
-                    });
-                }
-            }, function(err, results) {
-                done(err);
-            });
-        });
-
-        // 无法解除置顶
-        it('failed to untop the message with token', function(done){
-            // an example using an object instead of an array
-            async.series({
-                action: function(callback){
-                    base.update("/api/school/" + schoolId + '/message/' + messageId, 
-                        {top: 0, updatedBy: parentId}, {token: 'basic-none'})
-                    .then(function() {
-                        callback(new Error("should not untop a message"));
-                    }, function(err) {
-                        done();
-                    });
-                }
-            }, function(err, results) {
-                done(err);
-            });
-        });
-
-        // 解除置顶
-        it('success to untop the message with token', function(done){
-            // an example using an object instead of an array
-            async.series({
-                action: function(callback){
-                    base.update("/api/school/" + schoolId + '/message/' + messageId, 
-                        {top: 0, updatedBy: parentId}, {token: 'basic-valid'})
-                    .then(function() {
-                        done();
-                    }, function(err) {
-                        callback(new Error("should untop a message"));
                     });
                 }
             }, function(err, results) {
@@ -390,7 +314,7 @@ module.exports = function() {
             });
         });
 
-        // 添加一条回复，在GUI中公共类型消息是没有回复的，仅仅是为了测试API是否可用
+        // 添加一条回复，在GUI中公共类型留言是没有回复的，仅仅是为了测试API是否可用
         var replyId;
         it('success to create a reply with token', function(done){
             // an example using an object instead of an array
@@ -410,23 +334,8 @@ module.exports = function() {
             });
         });
 
-        it('failed to remove the reply without token', function(done){
-            // an example using an object instead of an array
-            async.series({
-                action: function(callback){
-                    base.remove("/api/school/" + schoolId + '/message/' + messageId + '/reply/' + replyId, {token: 'basic-none'})
-                    .then(function() {
-                        callback(new Error("should not remove a reply"));
-                    }, function(err) {
-                        done();
-                    });
-                }
-            }, function(err, results) {
-                done(err);
-            });
-        });
-
-        it('success to remove the reply with token', function(done){
+        // 回复不能被家长删除
+        it('failed to remove the reply with token', function(done){
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
@@ -442,8 +351,8 @@ module.exports = function() {
             });
         });
 
-        // 无法删除消息
-        it('success to remove the message with token', function(done){
+        // 没有token不能删除留言
+        it('failed to remove the message without token', function(done){
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
@@ -459,7 +368,7 @@ module.exports = function() {
             });
         });
 
-        // 删除消息
+        // 有token删除留言
         it('success to remove the message with token', function(done){
             // an example using an object instead of an array
             async.series({
