@@ -27,6 +27,20 @@ module.exports = function(webot) {
         }
     });
 
+	webot.set('houtai my test', {
+        pattern: /^mytest/i,
+        handler: function(info, next) {
+            var schoolId = info.session.school.id;
+            var user = info.session.teacher || info.session.parent;
+            var userurl = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, user.id);
+
+            var prompt = [
+                '<a href="' + userurl + '">' + user.name + '</a>',
+            ];
+            next(null, prompt.join("\n\n"));
+        }
+    });
+
 	// 默认欢迎词
 	webot.set('greeting', {
 		pattern: function() {
