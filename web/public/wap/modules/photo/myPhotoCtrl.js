@@ -16,7 +16,7 @@ define(function (require, exports, module) {
                 function refresh() {
                     PhotoService.getByUrl(uri)
                     .then(function(records) {
-                        records = [{path: 111}, {path: 222}];
+                        //records = [{path: 111}, {path: 222}];
                         $scope.photo.records = records.sort(function(a, b) { return a.startDate > b.startDate ? -1 : 1;});
                     });
                 }
