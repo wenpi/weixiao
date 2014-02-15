@@ -113,7 +113,7 @@ exports.create = function(url, record) {
     var options = {
         url: url,
         method: 'POST',
-        headers: BaseServices.getAuthoriedHeader(),
+        headers: getToken(),
         form: record
     };
 

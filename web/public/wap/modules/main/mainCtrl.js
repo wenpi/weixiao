@@ -23,6 +23,8 @@ define(function (require, exports, module) {
                     $scope.main.messageUrl = '#/class/' + wexClass.id + '/message';
                     $scope.main.messageLabel = '班级留言';
                     
+                    $scope.main.myPhotoUrl = '#/school/' + user.schoolId + '/teacher/' + user.id + '/photo';
+
                     $scope.main.leaveUrl = '#/class/' + wexClass.id + '/leave';
                     $scope.main.leaveLabel = '请假考勤';
                     
@@ -35,6 +37,8 @@ define(function (require, exports, module) {
                     $scope.main.messageUrl = '#/student/' + student.id + '/message';
                     $scope.main.messageLabel = '我的留言';
                     
+                    $scope.main.myPhotoUrl = '#/school/' + user.schoolId + '/parent/' + user.id + '/photo';
+
                     $scope.main.leaveUrl = '#/student/' + student.id + '/leave';
                     $scope.main.leaveLabel = '我的请假';
 

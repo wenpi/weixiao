@@ -10,9 +10,9 @@ module.exports.create = function(data) {
     var url = conf.site_root + '/api/class/' + data.classId;
 
     if (data.teacherId) {
-        url += '/teacher/' + data.teacherId + 'photo';
+        url += '/teacher/' + data.teacherId + '/photo';
     } else if (data.studentId) {
-        url += '/student/' + data.studentId + 'photo';
+        url += '/student/' + data.studentId + '/photo';
     }
 
     return BaseServices.create(url, data);
