@@ -29,14 +29,18 @@ module.exports = function(webot) {
 
 	webot.set('houtai my test', {
         pattern: /^mytest/i,
+        domain: "gateway",
         handler: function(info, next) {
             var schoolId = info.session.school.id;
             var user = info.session.teacher || info.session.parent;
+            console.info(user);
             var userurl = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, user.id);
 
+            console.info(userurl);
             var prompt = [
-                '<a href="' + userurl + '">' + user.name + '</a>',
+                '<a href="' + userurl + '">当前认证用户</a>'
             ];
+            console.info('here.');
             next(null, prompt.join("\n\n"));
         }
     });

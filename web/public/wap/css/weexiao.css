@@ -66,8 +66,8 @@ a { text-decoration: none; color: #006699; font-weight: bold !important; font-si
 .wx-tab td.selected { background-color: #fff; }
 .wx-tab td.selected a { color: #000; }
 
-#wx-myphoto .photo_c { width: 100px; max-width: 30%; height: 100px; float: left; position: relative; margin: 1%;}
-#wx-myphoto img.photo3 { width: 100%; clip: rect(0px 100px 100px 0px); position:absolute;}
+#wx-myphoto .photo_c { width: 90px; height: 90px; float: left; position: relative; margin: 4px; background-color: #000; }
+#wx-myphoto img.photo { width: 100%; clip: rect(0px 90px 90px 0px); position:absolute;}
 
 
 

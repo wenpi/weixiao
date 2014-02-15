@@ -36,12 +36,11 @@ module.exports = function(webot) {
 
                 data.path = filename;
                 data.createdBy = user.id;
-                path += '?';
 
                 PhotoServices.create(data).then(function() {
                     var text = ejs.render(
                         '您可以继续上传图片，或者点击<a href="<%- url%>">我的图库</a>进行后续操作', 
-                        {url: conf.site_root + '/webot/wap/index.html' + path + BaseServices.getAuthoriedParams(schoolId, user.id)}
+                        {url: conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, user.id) + path}
                     );
                     return next(null, text);
                 }, function() {
