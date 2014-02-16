@@ -107,7 +107,7 @@ module.exports = function() {
         
 
         // 获得通知的总数
-        var count = 0;
+        var count = pCount = 0;
 
         // TODO:不能查看非所在班级通知
 
@@ -164,7 +164,6 @@ module.exports = function() {
                 done(err);
             });
         });
-        return;
 
         // TODO: 不能查看非本人提交的留言
 
@@ -175,7 +174,7 @@ module.exports = function() {
                 action: function(callback){
                     base.queryAll("/api/school/" + schoolId + "/parent/" + parentId + "/message", {token: 'basic-valid'})
                     .then(function(messages) {
-                        tCount = messages.length;
+                        pCount = messages.length;
                         done();
                     }, function(err) {
                         callback(err);
@@ -187,13 +186,15 @@ module.exports = function() {
         });
 
         // 能提交一条留言
+        var messageId;
         it('success to create message data with token', function(done){
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
-                    base.create("/api/class/" + classId + '/parent/' + parentId + '/message', 
+                    base.create("/api/class/" + classId + '/student/' + studentId + '/message', 
                         {content: '普通留言', createdBy: parentId}, {token: 'basic-valid'})
-                    .then(function() {
+                    .then(function(id) {
+                        messageId = id;
                         done();
                     }, function(err) {
                         console.info(err);
@@ -206,11 +207,11 @@ module.exports = function() {
         });
 
         // 总数加一
-        it('success to get a newer total message of the class with basic token', function(done){
+        it('success to get a newer total message of the student with basic token', function(done){
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
-                    base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/message", {token: 'basic-valid'})
+                    base.queryAll("/api/school/" + schoolId + "/student/" + studentId + "/message", {token: 'basic-valid'})
                     .then(function(messages) {
                         assert.equal(count + 1, messages.length);
                         done();
@@ -224,126 +225,16 @@ module.exports = function() {
         });
 
         // 总数加一
-        it('success to get a newer count of the notice of the class with basic token', function(done){
-            // an example using an object instead of an array
-            async.series({
-                action: function(callback){
-                    base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/message?type=1", {token: 'basic-valid'})
-                    .then(function(messages) {
-                        assert.equal(nCount + 1, messages.length);
-                        done();
-                    }, function(err) {
-                        callback(err);
-                    });
-                }
-            }, function(err, results) {
-                done(err);
-            });
-        });
-
-        // 总数不变
-        it('success to get a newer count of the message submitted by parent in class with basic token', function(done){
-            // an example using an object instead of an array
-            async.series({
-                action: function(callback){
-                    base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/message?type=0", {token: 'basic-valid'})
-                    .then(function(messages) {
-                        assert.equal(pCount, messages.length);
-                        done();
-                    }, function(err) {
-                        callback(err);
-                    });
-                }
-            }, function(err, results) {
-                done(err);
-            });
-        });
-
-        // 总数加一
-        it('success to get a newer message count of the parent with basic token', function(done){
+        it('success to get a newer count of the message of the parent with basic token', function(done){
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
                     base.queryAll("/api/school/" + schoolId + "/parent/" + parentId + "/message", {token: 'basic-valid'})
                     .then(function(messages) {
-                        assert.equal(tCount + 1, messages.length);
+                        assert.equal(pCount + 1, messages.length);
                         done();
                     }, function(err) {
                         callback(err);
-                    });
-                }
-            }, function(err, results) {
-                done(err);
-            });
-        });
-
-        // 能提交一条置顶留言
-        var messageId;
-        it('success to create message data with token', function(done){
-            // an example using an object instead of an array
-            async.series({
-                action: function(callback){
-                    base.create("/api/class/" + classId + '/parent/' + parentId + '/message', 
-                        {content: '置顶留言', top: 1, createdBy: parentId}, {token: 'basic-valid'})
-                    .then(function(id) {
-                        messageId = id;
-                        done();
-                    }, function(err) {
-                        callback(new Error("should create a message"));
-                    });
-                }
-            }, function(err, results) {
-                done(err);
-            });
-        });
-
-        it('failed to create a reply without token', function(done){
-            // an example using an object instead of an array
-            async.series({
-                action: function(callback){
-                    base.create("/api/school/" + schoolId + '/message/' + messageId + '/reply', 
-                        {content: '回复', createdBy: parentId}, {token: 'basic-none'})
-                    .then(function(id) {
-                        callback(new Error("should not create a reply"));
-                    }, function(err) {
-                        done();
-                    });
-                }
-            }, function(err, results) {
-                done(err);
-            });
-        });
-
-        // 添加一条回复，在GUI中公共类型留言是没有回复的，仅仅是为了测试API是否可用
-        var replyId;
-        it('success to create a reply with token', function(done){
-            // an example using an object instead of an array
-            async.series({
-                action: function(callback){
-                    base.create("/api/school/" + schoolId + '/message/' + messageId + '/reply', 
-                        {content: '回复', createdBy: parentId}, {token: 'basic-valid'})
-                    .then(function(id) {
-                        replyId = id;
-                        done();
-                    }, function(err) {
-                        callback(new Error("should create a reply"));
-                    });
-                }
-            }, function(err, results) {
-                done(err);
-            });
-        });
-
-        // 回复不能被家长删除
-        it('failed to remove the reply with token', function(done){
-            // an example using an object instead of an array
-            async.series({
-                action: function(callback){
-                    base.remove("/api/school/" + schoolId + '/message/' + messageId + '/reply/' + replyId, {token: 'basic-valid'})
-                    .then(function() {
-                        done();
-                    }, function(err) {
-                        callback(new Error("should create a reply"));
                     });
                 }
             }, function(err, results) {
@@ -373,7 +264,7 @@ module.exports = function() {
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
-                    base.remove("/api/school/" + schoolId + '/message/' + messageId, {token: 'basic-valid'})
+                    base.remove("/api/school/" + schoolId + '/message/' + messageId, {user: parentId})
                     .then(function() {
                         done();
                     }, function(err) {
@@ -384,7 +275,6 @@ module.exports = function() {
                 done(err);
             });
         });
-
 
     });
 }
