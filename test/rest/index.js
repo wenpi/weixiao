@@ -2,6 +2,7 @@ var base = require("./base");
 module.exports = function() {
 	console.info(base.getBasicToken('basic-valid'));
 
+	/*
 	require("./testSchool")();
 	require("./testClass")();
 	require("./testTeacher")();
@@ -11,5 +12,6 @@ module.exports = function() {
 	require("./testParentMessage")();
 	require("./testTeacherLeave")();
 	require("./testTeacherPhoto")();
-	require("./testParentPhoto")();
+	require("./testParentPhoto")();*/
+	require("./testTeacherGallery")();
 }

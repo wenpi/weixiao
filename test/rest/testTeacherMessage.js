@@ -439,7 +439,7 @@ module.exports = function() {
         });
 
         // 无法删除消息
-        it('success to remove the message with token', function(done){
+        it('failed to remove the message without token', function(done){
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
