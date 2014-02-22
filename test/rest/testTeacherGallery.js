@@ -171,6 +171,26 @@ module.exports = function() {
             });
         });
 
+        // 获得photoId
+        var photoId
+        it('success to create photo data with token', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.create("/api/class/" + classId + '/teacher/' + teacherId + '/photo', 
+                        {path: 'teacherpic', createdBy: teacherId}, {token: 'basic-valid'})
+                    .then(function(id) {
+                        photoId = id;
+                        done();
+                    }, function(err) {
+                        callback(new Error("should create a photo"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
         // 能提交一条班级圈记录
         var galleryId;
         it('success to create gallery data with token', function(done){
@@ -178,7 +198,7 @@ module.exports = function() {
             async.series({
                 action: function(callback){
                     base.create("/api/school/" + schoolId + "/class/" + classId + "/gallery", 
-                        {title: '普通班级圈记录', createdBy: teacherId}, {user: teacherId})
+                        {title: '普通班级圈记录', 'photos[0]': photoId, createdBy: teacherId}, {user: teacherId})
                     .then(function(id) {
                         galleryId = id;
                         done();
@@ -192,7 +212,8 @@ module.exports = function() {
             });
         });
 
-        // 总数加一
+        // 总数加一 且附件数为1
+        var attachmentId;
         it('success to get a newer total gallery of the class with basic token', function(done){
             // an example using an object instead of an array
             async.series({
@@ -200,6 +221,63 @@ module.exports = function() {
                     base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/gallery", {token: 'basic-valid'})
                     .then(function(gallerys) {
                         assert.equal(count + 1, gallerys.length);
+                        var photos = gallerys[0].photos;
+                        assert.equal(1, photos.length);
+                        attachmentId = photos[0].id;
+                        done();
+                    }, function(err) {
+                        callback(err);
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 无法删除附件
+        it('failed to remove the attachment without token', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.remove("/api/school/" + schoolId + '/gallery/' + galleryId + '/attachment/' + attachmentId, {token: 'basic-none'})
+                    .then(function() {
+                        callback(new Error("should not remove a attachment"));
+                    }, function(err) {
+                        done();
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 删除附件成功
+        it('success to remove the gallery with token', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.remove("/api/school/" + schoolId + '/gallery/' + galleryId + '/attachment/' + attachmentId, {token: 'basic-valid'})
+                    .then(function() {
+                        done();
+                    }, function(err) {
+                        console.info(err);
+                        callback(new Error("should remove a attachment"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        it('success to get a newer attachment of the class with basic token', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/gallery", {token: 'basic-valid'})
+                    .then(function(gallerys) {
+                        assert.equal(count + 1, gallerys.length);
+                        var photos = gallerys[0].photos;
+                        assert.equal(0, photos.length);
                         done();
                     }, function(err) {
                         callback(err);
