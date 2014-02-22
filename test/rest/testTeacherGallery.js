@@ -152,7 +152,7 @@ module.exports = function() {
         });
 
         // 获得通知的总数
-        var count = 0;
+        var count = tCount = 0;
 
         it('success to get the total gallery of the class with basic token', function(done){
             // an example using an object instead of an array
@@ -161,6 +161,23 @@ module.exports = function() {
                     base.queryAll("/api/school/" + schoolId + "/class/" + classId + "/gallery", {token: 'basic-valid'})
                     .then(function(gallerys) {
                         count = gallerys.length;
+                        done();
+                    }, function(err) {
+                        callback(err);
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        it('success to get the total gallery of the class with basic token', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.queryAll("/api/school/" + schoolId + "/teacher/" + teacherId + "/gallery", {token: 'basic-valid'})
+                    .then(function(gallerys) {
+                        tCount = gallerys.length;
                         done();
                     }, function(err) {
                         callback(err);
@@ -224,6 +241,23 @@ module.exports = function() {
                         var photos = gallerys[0].photos;
                         assert.equal(1, photos.length);
                         attachmentId = photos[0].id;
+                        done();
+                    }, function(err) {
+                        callback(err);
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        it('success to get a newer total gallery of the teacher with basic token', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.queryAll("/api/school/" + schoolId + "/teacher/" + teacherId + "/gallery", {token: 'basic-valid'})
+                    .then(function(gallerys) {
+                        assert.equal(tCount + 1, gallerys.length);
                         done();
                     }, function(err) {
                         callback(err);
