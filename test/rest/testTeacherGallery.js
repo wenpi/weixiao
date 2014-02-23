@@ -229,6 +229,24 @@ module.exports = function() {
             });
         });
 
+        it('success to get gallery detail with token', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.get("/api/school/" + schoolId + "/gallery/" + galleryId, {user: teacherId})
+                    .then(function(gallery) {
+                        assert.equal(galleryId, gallery.id);
+                        done();
+                    }, function(err) {
+                        console.info(err);
+                        callback(new Error("should get a gallery"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
         // 总数加一 且附件数为1
         var attachmentId;
         it('success to get a newer total gallery of the class with basic token', function(done){

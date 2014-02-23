@@ -157,6 +157,7 @@ module.exports = function() {
         });
 
         // 能提交一条文字成长记录
+        var txtPathId;
         it('success to create text path data with token', function(done){
             // an example using an object instead of an array
             async.series({
@@ -164,10 +165,28 @@ module.exports = function() {
                     base.create("/api/school/" + schoolId + "/student/" + studentId + "/path", 
                         {content: '文字成长记录', createdBy: teacherId}, {user: teacherId})
                     .then(function(id) {
+                        txtPathId = id;
                         done();
                     }, function(err) {
                         console.info(err);
                         callback(new Error("should create a text path"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        it('success to get path detail with token', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.get("/api/school/" + schoolId + "/path/" + txtPathId, {user: teacherId})
+                    .then(function(path) {
+                        assert.equal(txtPathId, path.id);
+                        done();
+                    }, function(err) {
+                        callback(new Error("should get a path"));
                     });
                 }
             }, function(err, results) {
@@ -200,16 +219,17 @@ module.exports = function() {
         it('success to create photo path data with token', function(done){
             // an example using an object instead of an array
             async.series({
-                action: function(callback){
-                    base.create("/api/school/" + schoolId + "/student/" + studentId + "/path", 
-                        {content: '图文成长记录', 'photos[0]': photoId, createdBy: teacherId}, {user: teacherId})
-                    .then(function(id) {
-                        pathId = id;
-                        done();
-                    }, function(err) {
-                        console.info(err);
-                        callback(new Error("should create a photo path"));
-                    });
+                action: function(callback) {
+                    setTimeout(function() {
+                        base.create("/api/school/" + schoolId + "/student/" + studentId + "/path", 
+                            {content: '图文成长记录', 'photos[0]': photoId, createdBy: teacherId}, {user: teacherId})
+                        .then(function(id) {
+                            pathId = id;
+                            done();
+                        }, function(err) {
+                            callback(new Error("should create a photo path"));
+                        });
+                    }, 1000);
                 }
             }, function(err, results) {
                 done(err);
@@ -273,7 +293,7 @@ module.exports = function() {
         });
 
         // 删除附件成功
-        it('success to remove the path with token', function(done){
+        it('success to remove the attachment with token', function(done){
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
@@ -281,7 +301,6 @@ module.exports = function() {
                     .then(function() {
                         done();
                     }, function(err) {
-                        console.info(err);
                         callback(new Error("should remove a attachment"));
                     });
                 }
