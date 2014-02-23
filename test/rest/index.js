@@ -12,6 +12,7 @@ module.exports = function() {
 	require("./testParentMessage")();
 	require("./testTeacherLeave")();
 	require("./testTeacherPhoto")();
-	require("./testParentPhoto")();*/
-	require("./testTeacherGallery")();
+	require("./testParentPhoto")();
+	require("./testTeacherGallery")(); */
+	require("./testTeacherPath")();
 }
