@@ -200,14 +200,16 @@ module.exports = function() {
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
-                    base.create("/api/class/" + classId + '/teacher/' + teacherId + '/photo', 
-                        {path: 'teacherpic', createdBy: teacherId}, {token: 'basic-valid'})
-                    .then(function(id) {
-                        photoId = id;
-                        done();
-                    }, function(err) {
-                        callback(new Error("should create a photo"));
-                    });
+                    setTimeout(function() {
+                        base.create("/api/class/" + classId + '/teacher/' + teacherId + '/photo', 
+                            {path: 'teacherpic', createdBy: teacherId}, {token: 'basic-valid'})
+                        .then(function(id) {
+                            photoId = id;
+                            done();
+                        }, function(err) {
+                            callback(new Error("should create a photo"));
+                        });
+                    }, 500);
                 }
             }, function(err, results) {
                 done(err);
@@ -229,7 +231,7 @@ module.exports = function() {
                         }, function(err) {
                             callback(new Error("should create a photo path"));
                         });
-                    }, 1000);
+                    }, 500);
                 }
             }, function(err, results) {
                 done(err);
@@ -262,7 +264,7 @@ module.exports = function() {
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
-                    base.queryAll("/api/school/" + schoolId + "/teacher/" + teacherId + "/path", {token: 'basic-valid'})
+                    base.queryAll("/api/school/" + schoolId + "/student/" + studentId + "/path", {token: 'basic-valid'})
                     .then(function(paths) {
                         assert.equal(sCount + 2, paths.length);
                         done();
