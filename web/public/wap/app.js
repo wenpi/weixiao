@@ -13,12 +13,12 @@ define(function (require, exports, module) {
             isStatic = false;
         }
     } else { // for debug
-        window.WEXPATH = 'http://test.weexiao.com';
+        window.WEXPATH = 'http://192.168.1.105';
         $.fn.cookie("wexschool", "d28eefe9-db3b-4db5-a469-424ac5d187d8");
         
-        $.fn.cookie("wexuser", "dcc7e4d2-7124-445a-9145-e2254eccc435");
-        $.fn.cookie("wexkey", "1392299993728");
-        $.fn.cookie("wextoken", "7ee276844899ca180b6222cc33004d71");
+        $.fn.cookie("wexuser", "64edb1cc-54e1-4671-b2cb-cebe479a40d3");
+        $.fn.cookie("wexkey", "1392300176521");
+        $.fn.cookie("wextoken", "80cb95b56d291319e754c8df942a1ec7");
         /*
         $.fn.cookie("wexuser", "3d6a1441-b4f5-445c-a27f-02a8667ad293");
         $.fn.cookie("wexkey", "1392300051899");
@@ -47,6 +47,7 @@ define(function (require, exports, module) {
     require('./modules/message/config.js')(app);
     require('./modules/photo/config.js')(app);
     require('./modules/leave/config.js')(app);
+    require('./modules/path/config.js')(app);
 
     //配置期
     app.config(['$httpProvider', '$routeProvider', function($httpProvider, $routeProvider) {
@@ -106,13 +107,13 @@ define(function (require, exports, module) {
             var schoolId = $.fn.cookie("wexschool");
             $.extend(user, {
                 isParent: function() {
-                    return this.type == '0';
+                    return this.type === '0';
                 },
                 isTeacher: function() {
-                    return this.type == '1';
+                    return this.type === '1';
                 },
                 isAdministrator: function() {
-                    return this.type == '1' && this.isAdmin == '1';
+                    return this.type === '1' && this.isAdmin === '1';
                 },
                 hasWexClasses: function() {
                     return this.wexClasses && this.wexClasses.length > 0;

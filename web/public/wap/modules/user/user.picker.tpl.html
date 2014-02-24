@@ -10,7 +10,7 @@
     	<button ng-repeat="user in common.userPicker.users"
     			class="pure-button-xsmall pure-button" style="width:21%;margin:5px 2%;padding:10px 0px;text-align:center;"
                 ng-click="common.userPicker.pick(user)"
-                ng-class="{'pure-button-primary': leave.record.type == '0'}">
+                ng-class="{'pure-button-primary': user.picked}">
                 {{user.name}}</button>
 	</div>
 </div>

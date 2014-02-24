@@ -1,0 +1,38 @@
+<div id="wx-path" class="wx-page">
+    <div class="header">
+        <a href="#main" class="button button-left"><i class="fa fa-th"></i></a>
+        <span class="title">{{path.title}}</span>
+        <a ng-show="session.user.isTeacher()" ng-href="#/class/{{path.classId}}/path/new" class="button button-right">
+            <i class="fa fa-plus"></i>
+        </a>
+    </div>
+
+    <div ng-show="path.records == null" class="wx-prompt">正在加载数据...</div>
+    <div ng-show="path.records.length == 0" class="wx-prompt">没有成长记录。</div>
+
+    <table ng-show="path.records != null" class="pure-table pure-table-horizontal">
+        <tbody>
+            <tr ng-repeat="record in path.records">
+                <!--td width="48px" valign="top"><img class="profile" src="images/profile.jpg"></td-->
+                <td class="wx-message-content" valign="top">
+                    <div>
+                        <a href="javascript:void(0)"><strong>{{record.studentName}}</strong></a>
+                    </div>
+                    <div>{{record.content}}</div>
+                    <div class="clear">
+                        <div ng-repeat="photo in record.photos" class="photo3_c">
+                            <img class="photo3" ng-src="upload/{{photo.path}}">
+                        </div>
+                    </div>
+                    <div class="clear">
+                        <span class="time">{{record.creator}} {{record.createdTime.substring(5, 16)}}<span>
+                        <a ng-click="path.remove(record)" ng-show="session.user.id == record.createdBy"
+                           href="javascript:void(0)" class="onright">
+                            <i class="fa fa-times"></i>删除
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

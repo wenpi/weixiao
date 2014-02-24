@@ -15,14 +15,14 @@
                 <!--td width="48px" valign="top"><img class="profile" src="images/profile.jpg"></td-->
                 <td class="wx-message-content" valign="top">
                     <div ng-show="session.user.isParent()">
-                        <a href="javascript:void(0)"><strong>{{record.creator}}:</strong></a>
+                        <a href="javascript:void(0)"><strong>{{record.creator}}</strong></a>
                     </div>
                     <div ng-show="session.user.isTeacher()">
-                        <a href="javascript:void(0)"><strong>{{record.studentName}}:</strong></a>
+                        <a href="javascript:void(0)"><strong>{{record.studentName}}</strong></a>
                     </div>
                     <div>{{record.content}}</div>
                     <div>
-                        <span class="time">{{record.updatedTime.substring(5, 16)}}</span>
+                        <span class="time">{{record.creator}} {{record.updatedTime.substring(5, 16)}}</span>
                         <a ng-click="message.remove(record)" ng-show="session.user.isParent()" href="javascript:void(0)" class="onright">
                             <i class="fa fa-times"></i>删除
                         </a>

@@ -14,25 +14,45 @@ define(function (require, exports, module) {
 	            $scope.common.userPicker.users = [];
 
 	            function hide() {
+	            	$($scope.common.userPicker.users).each(function(i, user) {
+	            		delete user.picked;
+	            	});
 	            	$scope.common.userPicker.users = [];
 	            	$("#wx-user-picker").hide();
 	            }
 	            $scope.common.userPicker.hide = hide;
 
 	            $scope.common.userPicker.show = function(opts) {
-	            	var opts = opts || {};
+	            	var opts = $.extend({value: ''}, opts || {});
 	            	$scope.common.userPicker.title = opts.title || '请选择';
 	            	$scope.common.userPicker.users = opts.users || [];
+	            	$scope.common.userPicker.multi = opts.multi;
 	            	$scope.common.userPicker.onSelect = opts.onSelect || function() {};
+	            	console.info(opts.value);
+	            	$($scope.common.userPicker.users).each(function(i, user) {
+	            		if (opts.value.indexOf(user.id) >= 0) {
+	            			user.picked = true;
+	            		}
+	            	});
 	            	$("#wx-user-picker").show();
 	            };
 	            $scope.common.userPicker.confirm = function(opts) {
+	            	var selecteds = [];
+	            	$($scope.common.userPicker.users).each(function(i, user) {
+	            		if (user.picked) {
+	            			selecteds.push(user);
+	            		}
+	            	});
+	            	$scope.common.userPicker.onSelect(selecteds);
 	            	hide();
 	            };
 
 	            $scope.common.userPicker.pick = function(user) {
-	            	$scope.common.userPicker.onSelect([user]);
-	            	hide();
+	            	user.picked = true;
+	            	if (!$scope.common.userPicker.multi) {
+	            		$scope.common.userPicker.onSelect([user]);
+	            		hide();
+	            	}
 	            }
 	        }]
 	    );
