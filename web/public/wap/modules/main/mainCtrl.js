@@ -28,7 +28,7 @@ define(function (require, exports, module) {
                     $scope.main.leaveUrl = '#/class/' + wexClass.id + '/leave';
                     $scope.main.leaveLabel = '请假考勤';
                     
-                    $scope.main.studentUrl = '#/class/' + wexClass.id + '/path';
+                    $scope.main.studentUrl = '#/class/' + wexClass.id + '/student';
                     $scope.main.studentLabel = '学生资料';
 
                     $scope.main.pathUrl = '#/class/' + wexClass.id + '/path';
