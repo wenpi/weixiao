@@ -45,7 +45,7 @@ define(function (require, exports, module) {
                         value: $scope.path.record.studentIds || "",
                         onSelect: function(students) {
                             if (students.length > 9) {
-                                alert("您选了9个以上的孩子，建议在【班级圈】中发表。");
+                                alert("选择的孩子总数过多，建议在【班级圈】中发表。");
                                 return;
                             }
                             var names = [], ids = [];
