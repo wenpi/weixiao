@@ -24,11 +24,11 @@
                 </div>
                 <br/>
                 <label>以下文字及图片仅对学生家长及本班老师可见：</label>
-                <label for="content">文字记录：</label>
+                <label for="content">文字：</label>
                 <textarea id="content" ng-model="path.record.content" ng-maxlength="100" ng-required="true"
                           placeholder="请输入成长文字记录，字数100字以内" rows="6"></textarea>
 
-                <label for="imgs">映像记录：(可选)</label>
+                <label for="imgs">图片：(可选)</label>
                 <div class="photo-min-c" ng-repeat="record in path.record.photos">
                     <img class="photo-min" ng-click="common.photoPicker.remove(record)" ng-src="/upload{{sRecord.path}}">
                 </div>
