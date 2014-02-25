@@ -52,5 +52,17 @@ define(function (require, exports, module) {
                 }
             }
         });
+
+        require('./photoPickerCtrl.js')(app);
+        app.directive("wxPhotoPicker", [ '$location', function($location) {
+            return {
+                restrict : 'A',
+                replace : true,
+                controller: 'photoPickerCtrl',
+                templateUrl: 'modules/photo/photo.picker.tpl.html',
+                link : function($scope, $element, $attrs) {
+                }
+            };
+        }]);
     }
 });

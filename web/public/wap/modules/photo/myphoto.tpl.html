@@ -13,8 +13,8 @@
     <div ng-show="photo.records && photo.records.length == 0" class="wx-prompt">没有图片记录，请在微信对话框中上传图片。</div>
     
     <div class="wx-page-detail">
-        <div class="photo_c" ng-repeat="record in photo.records">
-            <a href="javascript:void(0)"><img class="photo" ng-src="/upload/{{record.path}}"></a>
+        <div class="photo-c" ng-repeat="record in photo.records">
+            <a href="javascript:void(0)"><img class="photo" ng-src="/upload{{record.path}}"></a>
         </div>
         <div class="clear"></div>
     </div>

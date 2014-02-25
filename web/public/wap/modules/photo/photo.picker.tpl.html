@@ -1,0 +1,24 @@
+<div id="wx-photo-picker" class="wx-page wx-picker wx-photo">
+    <div class="header">
+    	<a href="javascript:void(0)" class="button button-left" ng-click="common.photoPicker.hide()"><i class="fa fa-times"></i></a>
+        <span class="title">{{common.photoPicker.title}}</span>
+        <a href="javascript:void(0)" class="button button-right"
+           ng-show="common.photoPicker.multi"
+           ng-click="common.photoPicker.confirm()"><i class="fa fa-check"></i></a>
+    </div>
+    <div class="wx-page-detal">
+    	<div style="background-color: #ccc;">
+        <div class="photo-min-c" ng-repeat="record in common.photoPicker.selecteds">
+            <img class="photo-min" ng-click="common.photoPicker.remove(record)" ng-src="/upload{{sRecord.path}}">
+        </div>
+        <div class="clear"></div>
+        </div>
+        
+        <div ng-repeat="record in common.photoPicker.photos">
+            <a href="javascript:void(0)" class="photo-c"
+               ng-click="common.photoPicker.pick(record)"
+               ng-class="{'picked': record.picked}"><img class="photo" ng-src="/upload{{record.path}}"></a>
+        </div>
+        <div class="clear"></div>
+	</div>
+</div>

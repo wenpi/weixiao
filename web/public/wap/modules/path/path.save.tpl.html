@@ -1,4 +1,4 @@
-<div id="wx-path" class="wx-page">
+<div id="wx-path" class="wx-page wx-photo">
     <div class="header">
         <a href="javascript:window.history.go(-1)" class="button button-left"><i class="fa fa-angle-left"></i></a>
         <span class="title">添加成长记录</span>
@@ -18,7 +18,7 @@
                 <div ng-show="session.user.isTeacher()" >
                 <textarea id="student" ng-model="path.record.studentNames" ng-maxlength="100" ng-required="session.user.isTeacher()"
                     ng-readonly="true"
-                    ng-click="path.pickStudent()" placeholder="请选择学生，可选择多名" rows="2"></textarea>
+                    ng-click="path.pickStudent()" placeholder="请选择学生，可选择多名，最多9名" rows="2"></textarea>
                 </div>
                 <i ng-show="session.user.isTeacher()" class="fa fa-users" ng-click="path.pickStudent()"></i>
                 </div>
@@ -26,8 +26,16 @@
                 <label>以下文字及图片仅对学生家长及本班老师可见：</label>
                 <label for="content">文字记录：</label>
                 <textarea id="content" ng-model="path.record.content" ng-maxlength="100" ng-required="true"
-                          placeholder="请输入文字记录，字数100字以内" rows="6"></textarea>
+                          placeholder="请输入成长文字记录，字数100字以内" rows="6"></textarea>
 
+                <label for="imgs">映像记录：(可选)</label>
+                <div class="photo-min-c" ng-repeat="record in path.record.photos">
+                    <img class="photo-min" ng-click="common.photoPicker.remove(record)" ng-src="/upload{{sRecord.path}}">
+                </div>
+                <div class="clear"></div>
+                <div class="field-with-fa">
+                    <button type="button" class="pure-button pure-button-primary" ng-click="path.pickPhotos()">选择图片</button>
+                </div>
                 
             </fieldset>
         </form>

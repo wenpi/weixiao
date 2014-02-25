@@ -67,8 +67,11 @@ a { text-decoration: none; color: #006699; font-weight: bold !important; font-si
 .wx-tab td.selected a { color: #000; }
 
 
-#wx-myphoto .photo_c, #wx-path .photo_c { width: 90px; height: 90px; float: left; position: relative; margin: 4px; background-color: #000; }
-#wx-myphoto img.photo, #wx-path img.photo { width: 100%; clip: rect(0px 90px 90px 0px); position:absolute;}
+.wx-photo .photo-c { display: inline-block; width: 90px; height: 90px; float: left; position: relative; margin: 4px; background-color: #000; }
+.wx-photo .picked { border: 2px solid red; width: 86px; height: 86px;}
+.wx-photo img.photo { width: 98%; clip: rect(0px 90px 90px 0px); position:absolute;}
+.wx-photo .photo-min-c { width: 41px; height: 41px; float: left; position: relative; margin: 4px; background-color: #000; }
+.wx-photo img.photo-min { width: 98%; clip: rect(0px 41px 41px 0px); position:absolute;}
 
 
 
