@@ -1,0 +1,44 @@
+<div id="wx-gallery" class="wx-page wx-photo">
+    <div class="header">
+        <a href="javascript:window.history.go(-1)" class="button button-left"><i class="fa fa-angle-left"></i></a>
+        <span class="title">添加班级圈记录</span>
+    </div>
+    
+    <div ng-show="gallery.record == null" class="wx-prompt">正在加载用户数据...</div>
+    
+    <div ng-show="gallery.record" class="wx-page-detail">
+        <form name="saveGalleryForm" class="pure-form pure-form-stacked wex-form">
+            <fieldset>
+                <label>以下文字和图片可被<b style="color:red">本班所有家长及老师</b>访问</label>
+                <br/>
+
+                <div class="field-with-fa" ng-show="session.user.isParent()">
+                <label for="student">{{gallery.studentLabel}}：</label>
+                <input id="student" type="text" ng-readonly="true" ng-required="session.user.isParent()"
+                       ng-model="gallery.record.studentName" placeholder="孩子的名字">
+                </div>
+
+                <label for="title">文字：</label>
+                <textarea id="title" ng-model="gallery.record.title" ng-maxlength="100" ng-required="true"
+                          placeholder="请输入成长文字记录，字数100字以内" rows="6"></textarea>
+
+                <label for="imgs">图片：(可选)</label>
+                <div class="photo-min-c" ng-repeat="record in gallery.record.photos">
+                    <img class="photo-min" ng-click="common.photoPicker.remove(record)" ng-src="/upload{{sRecord.gallery}}">
+                </div>
+                <div class="clear"></div>
+                <div class="field-with-fa">
+                    <button type="button" class="pure-button pure-button-primary" ng-click="gallery.pickPhotos()">选择图片</button>
+                </div>
+                
+            </fieldset>
+        </form>
+        <div class="wx-buttons">
+            <button class="pure-button full" type="button"
+                    ng-disabled="!saveGalleryForm.$valid"
+                    ng-class="{'pure-button-primary': saveGalleryForm.$valid}" ng-click="gallery.saveRecord()">保存</button>
+            <a href="javascript:window.history.go(-1)"><button type="button" class="pure-button full">返回</button></a>
+        </div>
+    </div>
+    
+</div>

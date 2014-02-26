@@ -7,8 +7,11 @@
     <div ng-show="path.record == null" class="wx-prompt">正在加载用户数据...</div>
     
     <div ng-show="path.record" class="wx-page-detail">
-        <form name="saveNoticeForm" class="pure-form pure-form-stacked wex-form">
+        <form name="savePathForm" class="pure-form pure-form-stacked wex-form">
             <fieldset>
+                <label>以下文字及图片<b style="color:red">仅允许</b>学生家长及本班老师访问：</label>
+                <br/>
+
                 <div class="field-with-fa">
                 <label for="student">{{path.studentLabel}}：</label>
                 <div ng-show="session.user.isParent()" >
@@ -22,8 +25,7 @@
                 </div>
                 <i ng-show="session.user.isTeacher()" class="fa fa-users" ng-click="path.pickStudent()"></i>
                 </div>
-                <br/>
-                <label>以下文字及图片仅对学生家长及本班老师可见：</label>
+                
                 <label for="content">文字：</label>
                 <textarea id="content" ng-model="path.record.content" ng-maxlength="100" ng-required="true"
                           placeholder="请输入成长文字记录，字数100字以内" rows="6"></textarea>
@@ -40,10 +42,10 @@
             </fieldset>
         </form>
         <div class="wx-buttons">
-            <button class="pure-button full"
-                    ng-disabled="!saveNoticeForm.$valid"
-                    ng-class="{'pure-button-primary': saveNoticeForm.$valid}" ng-click="path.saveRecord()">保存</button>
-            <a href="javascript:window.history.go(-1)"><button class="pure-button full">返回</button></a>
+            <button class="pure-button full" type="button"
+                    ng-disabled="!savePathForm.$valid"
+                    ng-class="{'pure-button-primary': savePathForm.$valid}" ng-click="path.saveRecord()">保存</button>
+            <a href="javascript:window.history.go(-1)"><button type="button" class="pure-button full">返回</button></a>
         </div>
     </div>
     

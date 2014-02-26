@@ -6,44 +6,46 @@ define(function (require, exports, module) {
 
     module.exports = function(app){
 
-        app.register.controller('pathSaveCtrl', ['$scope', '$q', '$routeParams', '$location', '$http', 'PathService',
-            function($scope, $q, $routeParams, $location, $http, PathService) {
-                $scope.path = {};
-                $scope.path.record = null;
-                $scope.path.studentLabel = '孩子姓名';
-                $scope.path.refreshPhotos = true;
+        app.register.controller('gallerySaveCtrl', ['$scope', '$q', '$routeParams', '$location', '$http', 'GalleryService',
+            function($scope, $q, $routeParams, $location, $http, GalleryService) {
+                $scope.gallery = {};
+                $scope.gallery.record = null;
+                $scope.gallery.studentLabel = '孩子姓名';
+                $scope.gallery.refreshPhotos = true;
 
                 $scope.$watch("session.user", function() {
                     if (!$scope.session.user) {
                         return;
                     }
 
-                    $scope.path.record = {};
-                    $scope.path.record.schoolId = $scope.session.user.schoolId;
-                    $scope.path.record.createdBy = $scope.session.user.id;
-                    if ($scope.session.user.hasStudents()) {
+                    $scope.gallery.record = {};
+                    $scope.gallery.record.schoolId = $scope.session.user.schoolId;
+                    $scope.gallery.record.createdBy = $scope.session.user.id;
+                    
+                    if ($scope.session.user.isParent() && $scope.session.user.hasStudents()) {
                         var student = $scope.session.user.students[0];
-                        $scope.path.record.classId = student.classId;
-                        $scope.path.record.studentId = student.id;
-                        $scope.path.record.studentName = student.name
+                        $scope.gallery.record.classId = student.classId;
+                        $scope.gallery.record.studentId = student.id;
+                        $scope.gallery.record.studentName = student.name
                     } else if ($scope.session.user.isTeacher()) {
-                        $scope.path.studentLabel = "学生姓名";
+                        //$scope.gallery.studentLabel = "学生姓名";
+                        $scope.gallery.record.classId = $scope.session.user.wexClasses[0].id;
                     }
                 });
 
-                $scope.path.pickStudent = function() {
+                $scope.gallery.pickStudent = function() {
                     if ($scope.session.user.isParent()) { return; }
                     if ($scope.session.user.wexClasses.length == 0) {
                         alert('没有班级可选');
                         return;
                     }
-                    if ($scope.path.record.id) { return; }
+                    if ($scope.gallery.record.id) { return; }
 
                     $scope.common.userPicker.show({
                         title: "选择多名学生",
                         users: $scope.session.user.wexClasses[0].students,
                         multi: true,
-                        value: $scope.path.record.studentIds || "",
+                        value: $scope.gallery.record.studentIds || "",
                         onSelect: function(students) {
                             if (students.length > 9) {
                                 alert("选择的孩子总数过多，建议在【班级圈】中发表。");
@@ -54,44 +56,39 @@ define(function (require, exports, module) {
                                 names.push(student.name);
                                 ids.push(student.id);
                             });
-                            $scope.path.record.studentNames = names.join();
-                            $scope.path.record.studentIds = ids.join();
-                            $scope.path.record.students = students;
+                            $scope.gallery.record.studentNames = names.join();
+                            $scope.gallery.record.studentIds = ids.join();
+                            $scope.gallery.record.students = students;
                         }
                     });
                 };
 
-                $scope.path.pickPhotos = function() {
+                $scope.gallery.pickPhotos = function() {
                     $scope.common.photoPicker.show({
                         title: "选择图片(最多9张)",
                         multi: true,
                         user: $scope.session.user,
-                        refresh: $scope.path.refreshPhotos,
+                        refresh: $scope.gallery.refreshPhotos,
                         onSelect: function(photos) {
-                            $scope.path.record.photos = photos;
+                            $scope.gallery.record.photos = photos;
                         }
                     });
-                    if ($scope.path.refreshPhotos) {
-                        $scope.path.refreshPhotos = false;
+                    if ($scope.gallery.refreshPhotos) {
+                        $scope.gallery.refreshPhotos = false;
                     }
                 };
 
-                $scope.path.saveRecord = function() {
-                    var promises = [];
-                    if ($scope.path.record.students) {
-                        $($scope.path.record.students).each(function(i, student) {
-                            var record = $.extend({}, $scope.path.record), photosIds = [];
-                            record.studentId = student.id;
-                            $(record.photos).each(function(i, photo) {
-                                photosIds.push(photo.id);
-                            });
-                            record.photos = photosIds;
+                $scope.gallery.saveRecord = function() {
+                    var promises = [],
+                        record = $.extend({}, $scope.gallery.record), photosIds = [];
 
-                            promises.push(PathService.save(record));
-                        });
-                    } else {
-                        promises.push(PathService.save($scope.path.record));
-                    }
+                    $(record.photos).each(function(i, photo) {
+                        photosIds.push(photo.id);
+                    });
+                    record.photos = photosIds;
+
+                    promises.push(GalleryService.save(record));
+
                     $q.all(promises).then(function(results) {
                         var allDone = true, failed = 0;
                         $(results).each(function(i, result) {

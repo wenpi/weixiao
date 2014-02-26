@@ -9,11 +9,6 @@ define(function (require, exports, module) {
         app.config(['$routeProvider', function($routeProvider) {    
             //Step4: add `controllerUrl` to your route item config
             $routeProvider
-                .when('/photo', {
-                    controller: 'photoCtrl',
-                    controllerUrl: 'modules/photo/photoCtrl.js',
-                    templateUrl: 'modules/photo/photo.tpl.html'
-                })
                 .when('/school/:schoolId/teacher/:teacherId/photo', {
                     controller: 'myPhotoCtrl',
                     controllerUrl: 'modules/photo/myPhotoCtrl.js',

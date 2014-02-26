@@ -27,11 +27,13 @@ define(function (require, exports, module) {
 
                     $scope.main.leaveUrl = '#/class/' + wexClass.id + '/leave';
                     $scope.main.leaveLabel = '请假考勤';
-                    
+
                     $scope.main.studentUrl = '#/class/' + wexClass.id + '/student';
                     $scope.main.studentLabel = '学生资料';
 
                     $scope.main.pathUrl = '#/class/' + wexClass.id + '/path';
+
+                    $scope.main.galleryUrl = '#/class/' + wexClass.id + '/gallery';
                 } else if (user.hasStudents()) { // 家长身份
                     var student = $scope.session.user.students[0];
                     $scope.main.noticeUrl = '#/class/' + student.classId + '/notice';
@@ -47,7 +49,9 @@ define(function (require, exports, module) {
                     $scope.main.studentUrl = '#/class/' + student.classId + '/student/' + student.id;
                     $scope.main.studentLabel = '家庭资料';
 
-                    $scope.main.pathUrl = '#/class/' + student.classId + '/student/' + student.id + '/path';
+                    $scope.main.pathUrl = '#/student/' + student.id + '/path';
+
+                    $scope.main.galleryUrl = '#/class/' + student.classId + '/gallery';
                 } else {
                     alert("当前用户数据异常，无法初始化导航页面。");
                     $scope.main.inited = false;

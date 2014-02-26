@@ -6,8 +6,8 @@ define(function (require, exports, module) {
 
     module.exports = function(app){
 
-	    app.register.controller('leaveCtrl', ['$scope', '$routeParams', '$location', '$http', 'LeaveService',
-	        function($scope, $routeParams, $location, $http, LeaveService) {
+	    app.register.controller('leaveCtrl', ['$scope', '$routeParams', '$location', '$http', 'LeaveService', 'StudentService',
+	        function($scope, $routeParams, $location, $http, LeaveService, StudentService) {
 	        	$scope.leave = {};
 	        	$scope.leave.title = '';
 	        	$scope.leave.returnType = "home";
@@ -43,7 +43,6 @@ define(function (require, exports, module) {
 	        		uri = '/api/school/' + $scope.session.user.schoolId;
 
 	        		if (path.indexOf('class') >= 0) {
-	        		    $scope.leave.returnType = 'home';
 	        			var classId = $routeParams.classId;
 	        			uri += '/class/' + classId + '/leave';
 	        			$($scope.session.user.wexClasses).each(function(i, wexClass) {
@@ -52,16 +51,16 @@ define(function (require, exports, module) {
 	        				}
 	        			});
 	        		} else if (path.indexOf('student') >= 0) {
-	        		    $scope.leave.returnType = 'class';
 	        			var studentId = $routeParams.studentId;
 	        			uri += '/student/' + studentId + '/leave';
-	        			$($scope.session.user.wexClasses).each(function(i, wexClass) {
-        					$(wexClass.students).each(function(j, student) {
-		        				if (student.id == studentId) {
-		        					$scope.leave.title = student.name;
-		        				}
-		        			});
-	        			});
+	        			
+	        			StudentService.get($scope.session.user.schoolId, studentId).then(function(student) {
+	                        $scope.leave.title = student.name;
+	                    });
+
+	                    if ($scope.session.user.isTeacher()) {
+	                    	$scope.leave.returnType = 'class';
+	                    }
 	        		} else if (path.indexOf('school') >= 0) {
 	        			var schoolId = $routeParams.schoolId;
 	        			uri += '/school/' + schoolId + '/leave';

@@ -1,0 +1,47 @@
+<div id="wx-gallery" class="wx-page">
+    <div class="header">
+        <a ng-show="gallery.returnType == 'home'" href="#main" class="button button-left"><i class="fa fa-th"></i></a>
+        <a ng-show="gallery.returnType == 'class'" href="javascript:window.history.go(-1)" class="button button-left">
+            <i class="fa fa-angle-left"></i>
+        </a>
+        <span class="title">{{gallery.title}}</span>
+        <a ng-show="session.user.isTeacher()" ng-href="#/class/{{gallery.classId}}/gallery/new" class="button button-right">
+            <i class="fa fa-plus"></i>
+        </a>
+        <a ng-show="session.user.isParent()" ng-href="#/student/{{gallery.studentId}}/gallery/new" class="button button-right">
+            <i class="fa fa-plus"></i>
+        </a>
+    </div>
+
+    <div ng-show="gallery.records == null" class="wx-prompt">正在加载数据...</div>
+    <div ng-show="gallery.records.length == 0" class="wx-prompt">没有班级圈记录。</div>
+
+    <table ng-show="gallery.records != null" class="pure-table pure-table-horizontal">
+        <tbody>
+            <tr ng-repeat="record in gallery.records">
+                <!--td width="48px" valign="top"><img class="profile" src="images/profile.jpg"></td-->
+                <td class="wx-message-content" valign="top">
+                    <div ng-show="record.studentId">
+                        <a href="#/student/{{record.studentId}}/gallery"><strong>{{record.studentName}}</strong></a>
+                    </div>
+                    <div ng-show="!record.studentId">
+                        <a href="#/class/{{gallery.classId}}/teacher/{{record.createdBy}}/gallery"><strong>{{record.creator}}</strong></a>
+                    </div>
+                    <div>{{record.title}}</div>
+                    <div class="clear">
+                        <div ng-repeat="photo in record.photos" class="photo3_c">
+                            <img class="photo3" ng-src="/upload{{photo.gallery}}">
+                        </div>
+                    </div>
+                    <div class="clear">
+                        <span class="time">{{record.createdTime.substring(5, 16)}}<span>
+                        <a ng-click="gallery.remove(record)" ng-show="session.user.id == record.createdBy"
+                           href="javascript:void(0)" class="onright">
+                            <i class="fa fa-times"></i>删除
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

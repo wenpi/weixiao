@@ -6,11 +6,12 @@ define(function (require, exports, module) {
 
     module.exports = function(app){
     //Step6: use `app.register` to register controller/service/directive/filter
-    app.register.controller('pathCtrl', ['$scope', '$routeParams', '$location', '$http', 'PathService',
-        function($scope, $routeParams, $location, $http, PathService){
+    app.register.controller('pathCtrl', ['$scope', '$routeParams', '$location', '$http', 'PathService', 'StudentService',
+        function($scope, $routeParams, $location, $http, PathService, StudentService){
             $scope.path = {};
         	$scope.path.view = '';
         	$scope.path.title = '';
+            $scope.path.returnType = "home";
         	$scope.path.records = null; // top record
 
         	var uri;
@@ -54,9 +55,14 @@ define(function (require, exports, module) {
         				}
         			});
         		} else if (path.indexOf('student') >= 0) {
-                    var studentId = $routeParams.studentId;
-                    uri += '/student/' + studentId + '/path?type=0';
-                    $scope.path.title = "我的成长记录";
+                    var studentId = $scope.path.studentId = $routeParams.studentId;
+                    uri += '/student/' + studentId + '/path';
+                    if ($scope.session.user.isTeacher()) {
+                        $scope.path.returnType = "class";
+                    }
+                    StudentService.get($scope.session.user.schoolId, studentId).then(function(student) {
+                        $scope.path.title = student.name + '的成长记录';
+                    });
                 } else if (path.indexOf('teacher') >= 0) {
         			return; // not support yet
         			var teacherId = $routeParams.teacherId;

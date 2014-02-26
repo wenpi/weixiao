@@ -1,8 +1,14 @@
 <div id="wx-path" class="wx-page">
     <div class="header">
-        <a href="#main" class="button button-left"><i class="fa fa-th"></i></a>
+        <a ng-show="path.returnType == 'home'" href="#main" class="button button-left"><i class="fa fa-th"></i></a>
+        <a ng-show="path.returnType == 'class'" href="javascript:window.history.go(-1)" class="button button-left">
+            <i class="fa fa-angle-left"></i>
+        </a>
         <span class="title">{{path.title}}</span>
         <a ng-show="session.user.isTeacher()" ng-href="#/class/{{path.classId}}/path/new" class="button button-right">
+            <i class="fa fa-plus"></i>
+        </a>
+        <a ng-show="session.user.isParent()" ng-href="#/student/{{path.studentId}}/path/new" class="button button-right">
             <i class="fa fa-plus"></i>
         </a>
     </div>
@@ -16,7 +22,7 @@
                 <!--td width="48px" valign="top"><img class="profile" src="images/profile.jpg"></td-->
                 <td class="wx-message-content" valign="top">
                     <div>
-                        <a href="javascript:void(0)"><strong>{{record.studentName}}</strong></a>
+                        <a href="#/student/{{record.studentId}}/path"><strong>{{record.studentName}}</strong></a>
                     </div>
                     <div>{{record.content}}</div>
                     <div class="clear">

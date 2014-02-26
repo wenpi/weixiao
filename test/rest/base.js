@@ -49,6 +49,7 @@ function getToken(opts) {
     return opts.user ? getUserToken(opts.user) : getBasicToken(opts.token);
 }
 module.exports.getBasicToken = getBasicToken;
+module.exports.getToken = getToken;
 
 var SERVER = "http://192.168.1.105";
 module.exports.config = function() {

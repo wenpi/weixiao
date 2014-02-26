@@ -9,39 +9,47 @@ define(function (require, exports, module) {
         app.config(['$routeProvider', function($routeProvider) {    
             //Step4: add `controllerUrl` to your route item config
             $routeProvider
-                .when('/class/:classId/path', {
-                    controller: 'pathCtrl',
-                    controllerUrl: 'modules/path/pathCtrl.js',
-                    templateUrl: 'modules/path/path.tpl.html'
+                .when('/class/:classId/gallery', {
+                    controller: 'galleryCtrl',
+                    controllerUrl: 'modules/gallery/galleryCtrl.js',
+                    templateUrl: 'modules/gallery/gallery.tpl.html'
                 })
-                .when('/class/:classId/path/new', {
-                    controller: 'pathSaveCtrl',
-                    controllerUrl: 'modules/path/pathSaveCtrl.js',
-                    templateUrl: 'modules/path/path.save.tpl.html'
+                .when('/class/:classId/gallery/new', {
+                    controller: 'gallerySaveCtrl',
+                    controllerUrl: 'modules/gallery/gallerySaveCtrl.js',
+                    templateUrl: 'modules/gallery/gallery.save.tpl.html'
                 })
-                .when('/student/:studentId/path', {
-                    controller: 'pathCtrl',
-                    controllerUrl: 'modules/path/pathCtrl.js',
-                    templateUrl: 'modules/path/path.tpl.html'
+                .when('/student/:studentId/gallery', {
+                    controller: 'galleryCtrl',
+                    controllerUrl: 'modules/gallery/galleryCtrl.js',
+                    templateUrl: 'modules/gallery/gallery.tpl.html'
                 })
-                .when('/student/:studentId/path/new', {
-                    controller: 'pathSaveCtrl',
-                    controllerUrl: 'modules/path/pathSaveCtrl.js',
-                    templateUrl: 'modules/path/path.save.tpl.html'
+                .when('/student/:studentId/gallery/new', {
+                    controller: 'gallerySaveCtrl',
+                    controllerUrl: 'modules/gallery/gallerySaveCtrl.js',
+                    templateUrl: 'modules/gallery/gallery.save.tpl.html'
+                })
+                .when('/class/:classId/teacher/:teacherId/gallery', {
+                    controller: 'galleryCtrl',
+                    controllerUrl: 'modules/gallery/galleryCtrl.js',
+                    templateUrl: 'modules/gallery/gallery.tpl.html'
                 });
             }
         ]);
 
-        app.factory('PathService', function($rootScope, $http){
+        app.factory('GalleryService', function($rootScope, $http){
             return {
                 save: function(record) {
                     var successCode = 201, method = 'POST', uri;
                     var schoolId = record.schoolId,
                         classId = record.classId,
-                        teacherId = record.teacherId,
                         studentId = record.studentId;
 
-                    uri =  WEXPATH + '/api/school/' + schoolId + '/student/' + studentId + '/path';
+                    if (studentId) {
+                        uri =  WEXPATH + '/api/school/' + schoolId + '/student/' + studentId + '/gallery';
+                    } else {
+                        uri =  WEXPATH + '/api/school/' + schoolId + '/class/' + classId + '/gallery';
+                    }
                     
                     return $http({
                         method: method,
@@ -60,18 +68,18 @@ define(function (require, exports, module) {
                 },
                 remove: function(record) {
                     var schoolId = record.schoolId;
-                    var pathId = record.id;
+                    var galleryId = record.id;
                     return $http({
                         method: 'DELETE',
                         cache: false,
-                        url: WEXPATH + '/api/school/' + schoolId + '/path/' + pathId
+                        url: WEXPATH + '/api/school/' + schoolId + '/gallery/' + galleryId
                     }).then(function(res) {
                         return true;
                     }, function(err) {
                         throw err;
                     });
                 },
-                getPathsByUri: function(uri) {
+                getGallerysByUri: function(uri) {
                     return $http({
                         method: 'GET',
                         cache: false,

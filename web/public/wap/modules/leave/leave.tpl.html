@@ -1,7 +1,9 @@
 <div id="wx-leave" class="wx-page">
     <div class="header">
         <a ng-show="leave.returnType == 'home'" href="#main" class="button button-left"><i class="fa fa-th"></i></a>
-        <a ng-show="leave.returnType == 'class'" href="javascript:window.history.go(-1)" class="button button-left"><i class="fa fa-angle-left"></i></a>
+        <a ng-show="leave.returnType == 'class'" href="javascript:window.history.go(-1)" class="button button-left">
+            <i class="fa fa-angle-left"></i>
+        </a>
         <span class="title">
             <a href="javascript:void(0)" ng-click="leave.selectClass()">
                 {{leave.title}}请假考勤

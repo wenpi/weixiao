@@ -1,10 +1,14 @@
 <div id="wx-photo" class="wx-page">
     <div class="header">
-        <a href="javascript:window.history.go(-1)" class="button button-left">
+        <a ng-show="session.user.isTeacher()" href="javascript:window.history.go(-1)" class="button button-left">
             <i class="fa fa-angle-left"></i>
         </a>
+        <a ng-show="session.user.isParent()" href="#/main" class="button button-left">
+            <i class="fa fa-th"></i>
+        </a>
         <span class="title">{{student.record.name}}</span>
-        <a ng-show="student.record.id && session.user.hasWexClasses()" href="javascript:void(0)" class="button button-right" ng-click="student.remove()">
+        <a ng-show="session.user.isTeacher()" 
+           href="javascript:void(0)" class="button button-right" ng-click="student.remove()">
             <i class="fa fa-times"></i>
         </a>
     </div>

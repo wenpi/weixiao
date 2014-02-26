@@ -16,19 +16,21 @@ define(function (require, exports, module) {
         window.WEXPATH = 'http://192.168.1.105';
         $.fn.cookie("wexschool", "d28eefe9-db3b-4db5-a469-424ac5d187d8");
         
-        $.fn.cookie("wexuser", "64edb1cc-54e1-4671-b2cb-cebe479a40d3");
-        $.fn.cookie("wexkey", "1392300176521");
-        $.fn.cookie("wextoken", "80cb95b56d291319e754c8df942a1ec7");
-        /*
         $.fn.cookie("wexuser", "3d6a1441-b4f5-445c-a27f-02a8667ad293");
-        $.fn.cookie("wexkey", "1392300051899");
-        $.fn.cookie("wextoken", "5e1d3b28231421b5df8262b2301b84a1");
+        $.fn.cookie("wexkey", "1393418591535");
+        $.fn.cookie("wextoken", "6deb2b138f0606bc5b52fd6ca156ad95");
+        /*
+        // parent
+        $.fn.cookie("wexuser", "3d6a1441-b4f5-445c-a27f-02a8667ad293");
+        $.fn.cookie("wexkey", "1393418591535");
+        $.fn.cookie("wextoken", "6deb2b138f0606bc5b52fd6ca156ad95");
         
+        // teacher
         $.fn.cookie("wexuser", "64edb1cc-54e1-4671-b2cb-cebe479a40d3");
         $.fn.cookie("wexkey", "1392300176521");
         $.fn.cookie("wextoken", "80cb95b56d291319e754c8df942a1ec7");
         
-        
+        // admin
         $.fn.cookie("wexuser", "dcc7e4d2-7124-445a-9145-e2254eccc435");
         $.fn.cookie("wexkey", "1392299993728");
         $.fn.cookie("wextoken", "7ee276844899ca180b6222cc33004d71");*/
@@ -48,6 +50,7 @@ define(function (require, exports, module) {
     require('./modules/photo/config.js')(app);
     require('./modules/leave/config.js')(app);
     require('./modules/path/config.js')(app);
+    require('./modules/gallery/config.js')(app);
 
     //配置期
     app.config(['$httpProvider', '$routeProvider', function($httpProvider, $routeProvider) {

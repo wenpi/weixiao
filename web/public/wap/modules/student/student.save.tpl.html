@@ -1,6 +1,8 @@
 <div id="wx-photo" class="wx-page">
     <div class="header">
-        <a ng-show="session.user.isTeacher()" href="javascript:window.history.go(-1)" class="button button-left"><i class="fa fa-angle-left"></i></a>
+        <a ng-show="session.user.isTeacher()" href="javascript:window.history.go(-1)" class="button button-left">
+            <i class="fa fa-angle-left"></i>
+        </a>
         <span class="title">{{student.title}}</span>
     </div>
     
@@ -23,11 +25,11 @@
 
                 <label for="gender">学生性别：</label>
                 <div>
-                <button class="pure-button-xsmall pure-button"
+                <button class="pure-button-xsmall pure-button" type="button"
                         ng-click="student.record.gender = 1"
                         ng-class="{'pure-button-primary': student.record.gender == 1}">
                         男</button>
-                <button class="pure-button-xsmall pure-button"
+                <button class="pure-button-xsmall pure-button" type="button"
                         ng-click="student.record.gender = 0"
                         ng-class="{'pure-button-primary': student.record.gender == 0}">
                         女</button>
@@ -36,7 +38,7 @@
             </fieldset>
         </form>
         <div class="wx-buttons">
-            <button class="pure-button full"
+            <button class="pure-button full" type="button"
                     ng-disabled="!saveStudentForm.$valid"
                     ng-class="{'pure-button-primary': saveStudentForm.$valid}" ng-click="student.saveRecord()">保存</button>
             <a ng-show="session.user.isTeacher()" href="javascript:window.history.go(-1)"><button class="pure-button full">返回</button></a>

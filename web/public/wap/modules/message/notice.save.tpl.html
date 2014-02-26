@@ -15,11 +15,11 @@
                 
                 <label for="top">是否置顶：</label>
                 <div>
-                <button class="pure-button-xsmall pure-button"
+                <button class="pure-button-xsmall pure-button" type="button"
                         ng-click="notice.record.top = 1"
                         ng-class="{'pure-button-primary': notice.record.top == 1}">
                         是</button>
-                <button class="pure-button-xsmall pure-button"
+                <button class="pure-button-xsmall pure-button" type="button"
                         ng-click="notice.record.top = 0"
                         ng-class="{'pure-button-primary': notice.record.top == 0}">
                         否</button>
@@ -27,11 +27,11 @@
 
                 <label for="sendsms">是否发送短信通知：</label>
                 <div>
-                <button class="pure-button-xsmall pure-button"
+                <button class="pure-button-xsmall pure-button" type="button"
                         ng-click="notice.record.sendsms = 1"
                         ng-class="{'pure-button-primary': notice.record.sendsms == 1}">
                         是</button>
-                <button class="pure-button-xsmall pure-button"
+                <button class="pure-button-xsmall pure-button" type="button"
                         ng-click="notice.record.sendsms = 0"
                         ng-class="{'pure-button-primary': notice.record.sendsms == 0}">
                         否</button>
@@ -40,7 +40,7 @@
             </fieldset>
         </form>
         <div class="wx-buttons">
-            <button class="pure-button full"
+            <button class="pure-button full" type="button"
                     ng-disabled="!saveNoticeForm.$valid"
                     ng-class="{'pure-button-primary': saveNoticeForm.$valid}" ng-click="notice.saveRecord()">保存</button>
             <a href="javascript:window.history.go(-1)"><button class="pure-button full">返回</button></a>
