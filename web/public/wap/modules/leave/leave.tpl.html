@@ -25,7 +25,9 @@
                     <a ng-href="#/student/{{record.studentId}}/leave"><img class="profile" src="images/profile.jpg"></a>
                 </td-->
                 <td class="wx-message-content" valign="top">
-                    <div><a ng-href="#/student/{{record.studentId}}/leave"><strong>{{record.studentName}}</strong></a></div>
+                    <div ng-show="session.user.isTeacher()">
+                        <a ng-href="#/student/{{record.studentId}}/leave"><strong>{{record.studentName}}</strong></a>
+                    </div>
                     <div>
                         <span class="strong">{{record.startDate.substring(5)}}</span>
                         <span ng-show="record.days > 0">至</span>

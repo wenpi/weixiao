@@ -60,6 +60,7 @@ define(function (require, exports, module) {
                         });    
                     } else {
                         $scope.gallery.title = '班级圈';
+                        $scope.gallery.studentId = $scope.session.user.students[0].id;
                     }
                     
                 } else if (path.indexOf('student') >= 0) {

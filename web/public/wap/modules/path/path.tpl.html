@@ -21,7 +21,7 @@
             <tr ng-repeat="record in path.records">
                 <!--td width="48px" valign="top"><img class="profile" src="images/profile.jpg"></td-->
                 <td class="wx-message-content" valign="top">
-                    <div>
+                    <div ng-show="session.user.isTeacher()">
                         <a href="#/student/{{record.studentId}}/path"><strong>{{record.studentName}}</strong></a>
                     </div>
                     <div>{{record.content}}</div>
@@ -31,7 +31,9 @@
                         </div>
                     </div>
                     <div class="clear">
-                        <span class="time">{{record.creator}} {{record.createdTime.substring(5, 16)}}<span>
+                        <span class="time">
+                            <b>{{record.creator}}</b> {{record.createdTime.substring(5, 16)}}
+                        <span>
                         <a ng-click="path.remove(record)" ng-show="session.user.id == record.createdBy"
                            href="javascript:void(0)" class="onright">
                             <i class="fa fa-times"></i>删除

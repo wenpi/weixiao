@@ -22,7 +22,9 @@
                     </div>
                     <div>{{record.content}}</div>
                     <div>
-                        <span class="time">{{record.creator}} {{record.updatedTime.substring(5, 16)}}</span>
+                        <span class="time">
+                            <b ng-show="session.user.isTeacher()">{{record.creator}}</b> {{record.updatedTime.substring(5, 16)}}
+                        </span>
                         <a ng-click="message.remove(record)" ng-show="session.user.isParent()" href="javascript:void(0)" class="onright">
                             <i class="fa fa-times"></i>删除
                         </a>
