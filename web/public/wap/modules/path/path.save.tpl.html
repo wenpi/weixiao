@@ -32,7 +32,7 @@
 
                 <label for="imgs">图片：(可选)</label>
                 <div class="photo-min-c" ng-repeat="record in path.record.photos">
-                    <img class="photo-min" ng-click="common.photoPicker.remove(record)" ng-src="/upload{{sRecord.path}}">
+                    <img class="photo-min" ng-click="common.photoPicker.remove(record)" ng-src="/upload{{record.path}}">
                 </div>
                 <div class="clear"></div>
                 <div class="field-with-fa">

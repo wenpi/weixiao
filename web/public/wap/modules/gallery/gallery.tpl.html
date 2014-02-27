@@ -30,7 +30,9 @@
                     <div>{{record.title}}</div>
                     <div class="clear">
                         <div ng-repeat="photo in record.photos" class="photo3_c">
-                            <img class="photo3" ng-src="/upload{{photo.gallery}}">
+                            <a ng-href="/upload{{photo.path}}" target="_blank">
+                                <img class="photo3" ng-src="/upload{{photo.path}}">
+                            </a>
                         </div>
                     </div>
                     <div class="clear">
