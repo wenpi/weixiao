@@ -43,7 +43,7 @@ function ensure_user_is_register (info, next) {
 
     UserServices.queryByOpenId({
     	schoolId: info.session.school.id,
-		openId: info.uid
+		openId: 'o1hCbuE27tAn148us8g8tZBKoWTg' //info.uid
     }).then(function(user) {
     	if ((user.archived + '') === '0') {
     		info.ended = true;
@@ -107,7 +107,8 @@ function ensure_user_is_register (info, next) {
             return mobile_input_prompt(info, next);
         break;
         }
-    }, function() {
+    }, function(err) {
+        console.info(err);
         return mobile_input_prompt(info, next);
     });
 }

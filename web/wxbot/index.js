@@ -11,7 +11,7 @@ module.exports = function(webot) {
         handler: function(info, next) {
             var schoolId = 'd28eefe9-db3b-4db5-a469-424ac5d187d8';
             var userurl = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, '3d6a1441-b4f5-445c-a27f-02a8667ad293');
-            var teacherurl = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, '64edb1cc-54e1-4671-b2cb-cebe479a40d3');
+            var teacherurl = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, '85ba34be-7dad-42c4-8a0f-3e21e9c295ed');
             var adminurl = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, 'dcc7e4d2-7124-445a-9145-e2254eccc435');
 
             /*

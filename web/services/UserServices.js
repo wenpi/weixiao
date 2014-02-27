@@ -12,6 +12,7 @@ function query(conditions){
         extra += '&' + prop + '=' + conditions[prop];
     }
     var url = conf.site_root + '/api/user' + extra;
+    console.info(url);
     return BaseServices.queryPagingList(url);
 };
 exports.query = query;
