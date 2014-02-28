@@ -12,7 +12,6 @@ function query(conditions){
         extra += '&' + prop + '=' + conditions[prop];
     }
     var url = conf.site_root + '/api/user' + extra;
-    console.info(url);
     return BaseServices.queryPagingList(url);
 };
 exports.query = query;
@@ -63,7 +62,6 @@ exports.queryUnread = function(data) {
     var url = conf.site_root + '/api/user/' + data.userId + '/unread';
     return BaseServices.queryAll(url);
 }
-
 /*
  * 更新profile image
  */
@@ -73,4 +71,12 @@ exports.updateProfileImage = function(user) {
         'userid': user.id,
         'profileImage': user.profileImage 
     });
+};
+
+/*
+ * 更新profile image
+ */
+exports.update = function(shoolId, userId, parms) {
+    var url = conf.site_root + '/api/school/' + shoolId + '/user/' + userId';
+    return BaseServices.update(url, parms);
 };
