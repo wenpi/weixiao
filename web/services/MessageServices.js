@@ -11,18 +11,20 @@ var BaseServices = require("./BaseServices");
 /*
  * 插入消息 默认为老师提交,如果message含有studentId,则是家长提交
  */
-module.exports.create = function(schoolId, user, message) {
-    var url = conf.site_root + '/api/school/' + schoolId + '/teacher/' + user.teacherId + '/message',
+module.exports.create = function(classId, message) {
+    var url,
         data = {
             'title': message.title || '',
             'content': message.content || '',
             'top:': message.top || '0',
-            'createdBy': user.id,
+            'createdBy': message.createdBy,
             'sendsms': message.sms || '0'
         };
 
     if (message.studentId) {
-        url = conf.site_root + '/api/school/' + schoolId + '/student/' + message.studentId + '/message';
+        url = conf.site_root + '/api/class/' + classId + '/student/' + message.studentId + '/message';
+    } else if (message.teacherId) {
+        url = conf.site_root + '/api/class/' + classId + '/teacher/' + message.teacherId + '/message';
     }
 
     return BaseServices.create(url, data);

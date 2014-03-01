@@ -11,6 +11,7 @@ var wxconst = require("../const");
 var MessageServices = require("../../services/MessageServices");
 
 module.exports = function(webot) {
+    /*
     // 等待留言输入
     webot.waitRule('parent message input', function(info, next) {
         if (info.is("event")) {
@@ -66,4 +67,5 @@ module.exports = function(webot) {
             return next(null, "抱歉，您不是认证家长，无法使用该功能。");
         }
     });
+    */
 }

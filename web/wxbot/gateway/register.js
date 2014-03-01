@@ -1,12 +1,11 @@
 /**
  * Usage:
  * -激活家长/老师
- * Author:
- * - hopesfish at 163.com
  */
-var ejs = require('ejs');
 var Q = require("q");
+var ejs = require('ejs');
 var conf = require('../../conf');
+var BaseServices = require("../../services/BaseServices");
 var UserServices = require("../../services/UserServices");
 var utils = require("../utils");
 
@@ -60,9 +59,9 @@ module.exports = function(webot) {
                      ));
                 }
                 // 判断当前用户是否已经激活
-                if (results[0].length > 0) {
+                if (results[1].length > 0) {
                     return next(null, ejs.render(
-                       '您已经通过认证。',
+                       '该手机已经激活。',
                         {mobile: mobile}
                     ));
                 }
@@ -77,35 +76,6 @@ module.exports = function(webot) {
                 info.wait("user register password type");
                 return next(null, '请输入您的初始化密码：');
             });
-            /*
-            .then(function(user) {
-                if (user) {
-                    var usertype = user.type + '';
-                    var prompt = "请上传孩子照片作为头像图片：";
-                    if (usertype === '1') {
-                        prompt = '请上传一张您的个人照片作为头像：';
-                    }
-                    // 如果查到相关信息,则是已经认证,否则需要继续认证流程
-                    UserServices.queryByOpenId({
-                        schoolId: info.session.school.id,
-                        openId: info.uid
-                    }).then(function(user) {
-                        var text = ejs.render(
-                            registered,
-                            {mobile: user.mobile}
-                        );
-                        return next(null, text);
-                    }, function(err) {
-                        info.session.mobile = mobile;
-                        info.wait("user register profile image");
-                        return next(null, prompt);
-                    });
-                } else {
-                    return next(null, failed);
-                }
-            }, function() {
-                return next(null, failed);
-            });*/
         }
     });
 
@@ -120,7 +90,7 @@ module.exports = function(webot) {
             info.wait("user register profile image");
             if (type === '1') {
                 return next(null, '请上传一张您的个人照片作为头像：');
-            } else (type === '0') {
+            } else if (type === '0') {
                 return next(null, '请上传孩子照片作为头像图片：');
             }
         }
@@ -136,45 +106,23 @@ module.exports = function(webot) {
             utils.download_image(info.param.picUrl, filename, function() {
                 UserServices.update(info.session.school.id, info.session.reguid, {
                     photo: filename,
-                    open_id: info.session.uid
+                    openId: info.uid,
+                    password: info.session.password
                 }).then(function() {
+                    var userId = info.session.reguid;
                     delete info.session.reguid;
                     delete info.session.type;
                     delete info.session.password;
+                    return next(null, ejs.render(
+                        '激活成功。<a href="<%- url%>">点击这里</a>进入【快速导航】页', 
+                        {
+                            url: conf.site_root + '/webot/wap/index.html?' + 
+                                    BaseServices.getAuthoriedParams(info.session.school.id, userId)
+                        }
+                    ));
                 }, function(err) {
                     return next(null, "激活失败，请联系管理员。");
                 });
-            });
-            /*
-            var mobile = info.session.mobile;
-            UserServices.queryByMobile(mobile).then(function(user) {
-                if (user) {
-                    // 如果查到相关信息,则是已经认证,否则需要保存头像并返回激活链接
-                    UserServices.queryByOpenId({
-                        schoolId: info.session.school.id,
-                        openId: info.uid
-                    }).then(function(user) {
-                        var text = ejs.render(
-                            registered,
-                            {mobile: user.mobile}
-                        );
-                        return next(null, text);
-                    }, function(err) {
-                        var filename = 'user/' + mobile + '/profile/' + (new Date()).getTime();
-                        utils.download_image(info.param.picUrl, filename, function() {
-                            delete info.session.mobile;
-                            var text = ejs.render(
-                                '请点击<a href="<%- url%>">认证链接</a>完成用户认证操作。', 
-                                {url: conf.site_root + '/user/mobileRegister?mobile=' + mobile + '&openId=' + info.uid + '&profileImage=' + filename}
-                            );
-                            return next(null, text);
-                        });
-                    });
-                } else {
-                    return next(null, failed);
-                }*/
-            }, function() {
-                return next(null, failed);
             });
         }
     });

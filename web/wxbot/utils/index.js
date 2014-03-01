@@ -41,14 +41,22 @@ function mobile_input_prompt(info, next) {
 function ensure_user_is_register (info, next) {
     if (info.session.parent || info.session.teacher) { return next(); }
 
-    UserServices.queryByOpenId({
-    	schoolId: info.session.school.id,
-		openId: 'o1hCbuE27tAn148us8g8tZBKoWTg' //info.uid
-    }).then(function(user) {
-    	if ((user.archived + '') === '0') {
-    		info.ended = true;
-    		return next(null, "抱歉！您已经离园，无法继续使用本园功能。");
-    	}
+    UserServices.query({
+        schoolId: info.session.school.id,
+        openId: info.uid
+    }).then(function(users) {
+        var user;
+
+        if (users.length == 0) {
+            info.ended = true;
+            return mobile_input_prompt(info, next);
+        } else if (users.length > 1) {
+            info.ended = true;
+            return next(null, "微信识别重复，请联系管理员。");
+        } else {
+            user = users[0];
+        }
+
         switch(user.type + '') {
         case '0':
             info.session.parent = user;
@@ -68,7 +76,7 @@ function ensure_user_is_register (info, next) {
                 return next();
             } else {
                 TeacherServices.queryByUserId({
-                	schoolId: info.session.school.id,
+                    schoolId: info.session.school.id,
                     userId: info.session.teacher.id
                 }).then(function(teacher) {
                     info.session.teacher.teacherId = teacher.id;
@@ -108,8 +116,8 @@ function ensure_user_is_register (info, next) {
         break;
         }
     }, function(err) {
-        console.info(err);
-        return mobile_input_prompt(info, next);
+        info.ended = true;
+        return next(null, "检查用户权限出错，请联系管理员。");
     });
 }
 
@@ -171,9 +179,9 @@ module.exports.ensure_parent_is_register = function (info, next) {
     if (info.session.school && info.session.parent) { return next(); }
 
     if (!info.session.school) {
-	    ensure_school_is_bind(info, next);
+        ensure_school_is_bind(info, next);
     } else {
-    	ensure_parent_is_register(info, next);
+        ensure_parent_is_register(info, next);
     }
 }
 

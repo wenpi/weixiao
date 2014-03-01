@@ -281,41 +281,6 @@ module.exports = function() {
             });
         });
 
-        it('success to bind teacher with open id', function(done){
-            // an example using an object instead of an array
-            async.series({
-                action: function(callback){
-                    base.update("/api/school/" + schoolId + "/teacher/" + teacherId, 
-                        {openId: 'openId' + mobile}, {token: 'basic-valid'})
-                    .then(function() {
-                        done();
-                    }, function(err) {
-                        console.info(err);
-                        callback(new Error("should update the teacher"));
-                    });
-                }
-            }, function(err, results) {
-                done(err);
-            });
-        });
-
-        it('failed to bind another open id', function(done){
-            // an example using an object instead of an array
-            async.series({
-                action: function(callback){
-                    base.update("/api/school/" + schoolId + "/teacher/" + teacherId, 
-                        {openId: 'badopenId' + mobile}, {token: 'basic-valid'})
-                    .then(function() {
-                        callback(new Error("should not bind the teacher"));
-                    }, function(err) {
-                        done();
-                    });
-                }
-            }, function(err, results) {
-                done(err);
-            });
-        });
-
         var newMobile = '12' + (new Date()).getTime().toString().substring(4, 13);
         var secTeacherId;
         // 能创建一个教师
@@ -331,23 +296,6 @@ module.exports = function() {
                         done();
                     }, function(err) {
                         callback(new Error("should create a test teacher"));
-                    });
-                }
-            }, function(err, results) {
-                done(err);
-            });
-        });
-
-        it('failed to bind the second teacher with first teacher open id', function(done){
-            // an example using an object instead of an array
-            async.series({
-                action: function(callback){
-                    base.update("/api/school/" + schoolId + "/teacher/" + secTeacherId, 
-                        {openId: 'openId' + mobile}, {token: 'basic-valid'})
-                    .then(function() {
-                        callback(new Error("should not update the teacher"));
-                    }, function(err) {
-                        done();
                     });
                 }
             }, function(err, results) {
@@ -404,6 +352,97 @@ module.exports = function() {
                         done();
                     }, function(err) {
                         callback(new Error("should able to update password"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 教师没有密码不能能更新openId
+        it('failed to update user open id wo/ password', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.update("/api/school/" + schoolId + "/user/" + teacherId, 
+                            {openId: 'openId' + teacherId, photo: 'photo' + teacherId}, {token: 'basic-valid'})
+                    .then(function() {
+                        callback(new Error("should not able to register user from weixin without password"));
+                    }, function(err) {
+                        done();
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 教师密码不对不能能更新openId
+        it('failed to update user open id w/ wrong password', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.update("/api/school/" + schoolId + "/user/" + teacherId, 
+                            {openId: 'openId' + teacherId, photo: 'photo' + teacherId, password: 'password'}, {token: 'basic-valid'})
+                        .then(function() {
+                            callback(new Error("should not able to register user from weixin without password"));
+                        }, function(err) {
+                            done();
+                        });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 教师密码正确才能更新openId
+        it('success to update user open id', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.update("/api/school/" + schoolId + "/user/" + teacherId, 
+                            {openId: 'openId' + teacherId, photo: 'photo' + teacherId, password: 'passw0rd'}, {token: 'basic-valid'})
+                    .then(function() {
+                        done();
+                    }, function(err) {
+                        console.info(err);
+                        callback(new Error("should able to register user from weixin"));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+        
+        // openId不能重复
+        it('success to update user open id', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.update("/api/school/" + schoolId + "/user/" + secTeacherId, 
+                            {openId: 'openId' + teacherId, photo: 'photo' + teacherId, password: newMobile.substring(7)}, {token: 'basic-valid'})
+                    .then(function() {
+                        callback(new Error("should not able to register another user w/ a same open id"));
+                    }, function(err) {
+                        done();
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 不能重复更新openId
+        it('failed to update user open id again', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.update("/api/school/" + schoolId + "/user/" + teacherId, 
+                            {openId: 'openId' + teacherId, photo: 'photo' + teacherId, password: 'passw0rd'}, {token: 'basic-valid'})
+                    .then(function() {
+                        callback(new Error("should not able to register user from weixin for twice"));
+                    }, function(err) {
+                        done();
                     });
                 }
             }, function(err, results) {

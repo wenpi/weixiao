@@ -121,7 +121,7 @@ exports.create = function(url, record) {
         if (!error && response.statusCode == 201) {
             deferred.resolve();
         } else {
-            deferred.reject();
+            deferred.reject(error || body || new Error('unkown'));
         }
     }
 
@@ -146,7 +146,7 @@ exports.update = function(url, record) {
         if (!error && response.statusCode == 200) {
             deferred.resolve();
         } else {
-            deferred.reject();
+            deferred.reject(error || body || new Error('unknown'));
         }
     }
     

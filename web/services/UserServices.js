@@ -77,6 +77,6 @@ exports.updateProfileImage = function(user) {
  * 更新profile image
  */
 exports.update = function(shoolId, userId, parms) {
-    var url = conf.site_root + '/api/school/' + shoolId + '/user/' + userId';
+    var url = conf.site_root + '/api/school/' + shoolId + '/user/' + userId;
     return BaseServices.update(url, parms);
 };

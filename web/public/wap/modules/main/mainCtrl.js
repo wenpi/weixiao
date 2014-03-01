@@ -16,7 +16,7 @@ define(function (require, exports, module) {
                     return;
                 }
                 var user = $scope.session.user;
-                if (user.hasWexClasses()) { // 管理员/老师身份
+                if (user.isTeacher() && user.hasWexClasses()) { // 管理员/老师身份
                     var wexClass = user.wexClasses[0]
                     $scope.main.noticeUrl = '#/class/' + wexClass.id + '/notice';
                     
@@ -34,13 +34,13 @@ define(function (require, exports, module) {
                     $scope.main.pathUrl = '#/class/' + wexClass.id + '/path';
 
                     $scope.main.galleryUrl = '#/class/' + wexClass.id + '/gallery';
-                } else if (user.hasStudents()) { // 家长身份
+                } else if (user.isParent() && user.hasStudents()) { // 家长身份
                     var student = $scope.session.user.students[0];
                     $scope.main.noticeUrl = '#/class/' + student.classId + '/notice';
-                    
+
                     $scope.main.messageUrl = '#/student/' + student.id + '/message';
                     $scope.main.messageLabel = '我的留言';
-                    
+
                     $scope.main.myPhotoUrl = '#/school/' + user.schoolId + '/parent/' + user.id + '/photo';
 
                     $scope.main.leaveUrl = '#/student/' + student.id + '/leave';

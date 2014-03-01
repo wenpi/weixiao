@@ -16,9 +16,10 @@ module.exports = {
       passwd: 'passw0rd'
     }
   },
-  site_root: 'http://test.weexiao.com',
-  upload_root: '/var/www/html/weexiao/upload',
-  //upload_root: 'C:/upload/images',
+  //site_root: 'http://test.weexiao.com',
+  site_root: 'http://192.168.1.105',
+  //upload_root: '/var/www/html/weexiao/upload',
+  upload_root: '/Users/panwei/dev/workspace/workspace.weexiao/upload',
   salt: 'weexiao',
   weixin: 'weexiao'
 };
