@@ -111,7 +111,7 @@ module.exports = function() {
             async.series({
                 action: function(callback){
                     base.create("/api/school/" + schoolId + "/class/" + classId + "/parent", 
-                        {name: "孩子1", gender: 1, mobile: mobile, photo: 'none', createdBy: 'creator'}, {token: 'basic-valid'})
+                        {name: "孩子1", mobile: mobile, photo: 'none', createdBy: 'creator'}, {token: 'basic-valid'})
                     .then(function(id) {
                         parentId = id;
                         done();
@@ -211,11 +211,12 @@ module.exports = function() {
             async.series({
                 action: function(callback){
                     base.create("/api/school/" + schoolId + "/student/" + studentId + "/parent", 
-                        {name: '家长2', mobile: newMobile, photo: "none"}, {token: 'basic-valid'})
+                        {name: '家长2', mobile: newMobile, photo: "none", createdBy: 'creator'}, {token: 'basic-valid'})
                     .then(function(id) {
                         secParentId = id;
                         done();
                     }, function(err) {
+                        console.info(err);
                         callback(new Error("should create the second parent"));
                     });
                 }
@@ -485,10 +486,11 @@ module.exports = function() {
             async.series({
                 action: function(callback){
                     base.create("/api/school/" + schoolId + "/student/" + studentId + "/parent", 
-                        {name: '家长3', mobile: mobile3, photo: "none"}, {token: 'basic-valid'})
+                        {name: '家长3', mobile: mobile3, photo: "none", createdBy: 'creator'}, {token: 'basic-valid'})
                     .then(function(id) {
                         done();
                     }, function(err) {
+                        console.info(err);
                         callback(new Error("should create the third parent"));
                     });
                 }

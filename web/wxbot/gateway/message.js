@@ -50,7 +50,7 @@ function add_message_start(info, next) {
 function view_message(info, next) {
     var user = info.session.parent || info.session.teacher;
     return next(null, ejs.render(
-        '微信对话框内的【查看消息】功能暂未开放，请<a href="<%- url%>">点击这里</a>使用网页版查看。', 
+        '请<a href="<%- url%>">点击这里</a>查看', 
         {
             url: conf.site_root + '/webot/wap/index.html?' + 
                     BaseServices.getAuthoriedParams(info.session.school.id, user.id)

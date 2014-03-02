@@ -7,13 +7,46 @@ webot send --des http://localhost:3000/weixin/api --token weexiao t 6353
 
 webot send --des http://localhost:3000/weixin/api --token weexiao i https://www.google.com.hk/images/srpr/logo11w.png
 
+
 webot send --des http://localhost:3000/weixin/api --token weexiao t '查看消息'
+
 
 webot send --des http://localhost:3000/weixin/api --token weexiao t '添加消息'
 
 webot send --des http://localhost:3000/weixin/api --token weexiao t 'add'
 
 webot send --des http://localhost:3000/weixin/api --token weexiao t 'message'
+
+
+webot send --des http://localhost:3000/weixin/api --token weexiao t '个人资料'
+
+webot send --des http://localhost:3000/weixin/api --token weexiao t 1
+
+
+webot send --des http://localhost:3000/weixin/api --token weexiao t '个人资料'
+
+webot send --des http://localhost:3000/weixin/api --token weexiao t 2
+
+webot send --des http://localhost:3000/weixin/api --token weexiao i http://www.baidu.com/img/bdlogo.gif
+
+
+webot send --des http://localhost:3000/weixin/api --token weexiao t '个人资料'
+
+webot send --des http://localhost:3000/weixin/api --token weexiao t 4
+
+
+
+webot send --des http://localhost:3000/weixin/api --token weexiao t '发布班级圈记录'
+
+webot send --des http://localhost:3000/weixin/api --token weexiao t '班级圈'
+
+
+
+
+
+
+
+
 
 
 
