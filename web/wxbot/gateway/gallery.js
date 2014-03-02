@@ -13,14 +13,6 @@ var GalleryServices = require("../../services/GalleryServices");
 
 module.exports = function(webot) {
     function add_gallery_start(info, next) {
-        /*
-        var prompt = [
-            "向班级圈分享文字、图片，仅本班所有家长及老师可见。",
-            "上传照片前，请先输入主题文字，简单描述一下您要发布的照片内容。",
-            "例如“和孩子一起读书” “集体户外游戏小青蛙跳荷叶”等，需在",
-            conf.timeout.desc + "内完成该项操作。",
-            "请点击左下侧键盘图标后输入照片主题："].join("\n");*/
-
         var user = info.session.parent || info.session.teacher;
         if (!user) {
             return next(null, "抱歉，您不是认证用户！");
