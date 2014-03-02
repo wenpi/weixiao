@@ -9,16 +9,25 @@ var request = require('request');
  * get auth header
  */
 
-function getToken() {
-    var today = Date.today();
+function getToken(userId) {
     var shasum = crypto.createHash('md5');
     var key = (new Date()).getTime();
-    shasum.update(key + 'rest' + 'kinderg' + '1qw23er4' + today.toFormat('YYYYMMDD'));
-    var token = shasum.digest('hex');
-    return {
-        'wexkey': key,
-        'wextoken': token,
+    
+    if (!userId) {
+        var today = Date.today();
+        shasum.update(key + 'rest' + 'kinderg' + '1qw23er4' + today.toFormat('YYYYMMDD'));
+    } else {
+        shasum.update(key + 'rest' + 'kinderg' + '1qw23er4' + userId);
     }
+    
+    var token = {
+        'wexkey': key,
+        'wextoken': shasum.digest('hex'),
+    }
+    if (userId) {
+        token.wexuser = userId;
+    }
+    return token;
 }
 exports.getAuthoriedHeader = getToken;
 
@@ -107,13 +116,13 @@ exports.queryAll = function(url) {
 /**
  * create object
  */
-exports.create = function(url, record) {
+exports.create = function(url, record, userId) {
     var deferred = Q.defer();
 
     var options = {
         url: url,
         method: 'POST',
-        headers: getToken(),
+        headers: getToken(userId),
         form: record
     };
 

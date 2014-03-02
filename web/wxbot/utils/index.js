@@ -65,6 +65,10 @@ function ensure_user_is_register (info, next) {
                 parentId: info.session.parent.id
             }).then(function(students) {
                 info.session.parent.students = students;
+                if (students.length != 1) {
+                    info.ended = true;
+                    return next(null, "孩子数不为1，暂时无法使用微信客户端。");
+                }
                 return next();
             }, function(err) {
                 return next(null, err);
@@ -95,9 +99,9 @@ function ensure_user_is_register (info, next) {
                             schoolId: info.session.school.id,
                             teacherId: teacher.id
                         }).then(function(wxclasses) {
-                            if (wxclasses.length == 0) {
+                            if (wxclasses.length != 1) {
                                 info.ended = true;
-                                return next(null, "抱歉，您还没有班级可以管理");
+                                return next(null, "抱歉，您只能管理一个班级。");
                             }
                             info.session.teacher.wxclasses = wxclasses;
                             return next();
