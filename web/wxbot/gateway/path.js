@@ -15,7 +15,7 @@ module.exports = function(webot) {
             return next(null, "点击左下侧键盘图标后输入数字：\n回复【1】发布文字记录\n回复【2】发布照片记录");
         } else if (info.session.teacher) {
             var classId = info.session.teacher.wexClasses[0].id;
-            var route = '/class/' + classId + '/path';
+            var route = '#/class/' + classId + '/leave';
 
             return next(null, ejs.render(
                 '请<a href="<%- url%>">点击这里</a>使用网页版添加', 

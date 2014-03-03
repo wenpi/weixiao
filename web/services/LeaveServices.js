@@ -14,8 +14,8 @@ exports.queryLeavesByStudentId = function(data) {
 /*
  * 创建请假请求
  */
-exports.addLeave = function(data) {
-	var url = conf.site_root + '/api/school/' + data.schoolId + '/student/' + data.studentId + '/leave';
+exports.create = function(schoolId, studentId, data) {
+	var url = conf.site_root + '/api/school/' + schoolId + '/student/' + studentId + '/leave';
 
 	return BaseServices.create(url, {
         startDate: data.startDate,
