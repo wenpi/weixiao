@@ -12,8 +12,6 @@ function setParms(data) {
 }
 exports.create = function(schoolId, studentId, data) {
     var url = conf.site_root + '/api/school/' + schoolId + '/student/' + studentId + '/path';
-    console.info(url);
-    console.info(data);
 
     setParms(data);
     return BaseServices.create(url, data, data.createdBy);
