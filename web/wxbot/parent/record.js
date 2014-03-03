@@ -96,7 +96,7 @@ module.exports = function(webot) {
         }
         info.session.parent.records.push(info.text);
         info.wait("parent kid record input text");
-        return next(null, "已存成草稿，您可继续输入文字。\n\n发送【" + wxconst.YES + "】提交文字记录\n发送【" + wxconst.NO + "】取消");
+        return next(null, "已存成草稿，您可继续输入文字。\n\n回复【" + wxconst.YES + "】提交文字记录\n回复【" + wxconst.NO + "】取消");
     });
 
 	// 等待图片记录的主题输入
@@ -175,7 +175,7 @@ module.exports = function(webot) {
 			}
 			info.wait("parent kid record image upload");
 			var len = info.session.parent.imageRecord.photos.length;
-			return next(null, "已存草稿图片" + len + "张，您可继续上传图片。\n\n发送【" + wxconst.YES + "】发布图片记录\n发送【" + wxconst.NO + "】取消");
+			return next(null, "已存草稿图片" + len + "张，您可继续上传图片。\n\n回复【" + wxconst.YES + "】发布图片记录\n回复【" + wxconst.NO + "】取消");
 		}
 	});
 }

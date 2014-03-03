@@ -79,7 +79,7 @@ module.exports = function(webot) {
 			}
 			info.wait("teacher image input image");
 			var len = info.session.teacher.publishImage.photos.length;
-			return next(null, "已存草稿图片" + len + "张，您可继续上传图片。\n发送【" + wxconst.YES + "】发布图片\n发送【" + wxconst.NO + "】取消");
+			return next(null, "已存草稿图片" + len + "张，您可继续上传图片。\n回复【" + wxconst.YES + "】发布图片\n回复【" + wxconst.NO + "】取消");
 		}
 	});
 }

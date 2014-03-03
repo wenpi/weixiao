@@ -93,7 +93,7 @@ module.exports = function(webot) {
                 "请确认新家长的信息：\n",
                 "手机号码：" + info.session.parent.addparent.mobile,
                 "家长姓名：" + info.session.parent.addparent.name,
-                "\n发送【" + wxconst.YES + "】确认\n发送【" + wxconst.NO + "】取消"
+                "\n回复【" + wxconst.YES + "】确认\n回复【" + wxconst.NO + "】取消"
             ];
             return next(null, pompt.join("\n"));
         } else {

@@ -62,7 +62,7 @@ module.exports = function(webot) {
             }
             info.session.parent.messages.push(info.text);
             info.rewait("parent message input");
-            return next(null, "已存成草稿，您可继续输入文字。\n\n发送【" + wxconst.YES + "】提交留言\n发送【" + wxconst.NO + "】取消");
+            return next(null, "已存成草稿，您可继续输入文字。\n\n回复【" + wxconst.YES + "】提交留言\n回复【" + wxconst.NO + "】取消");
         } else {
             return next(null, "抱歉，您不是认证家长，无法使用该功能。");
         }

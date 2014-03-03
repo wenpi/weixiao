@@ -150,7 +150,7 @@ module.exports = function(webot) {
         }
         info.session.messages.push(info.text);
         info.rewait("user message input");
-        return next(null, "已存成草稿，您可继续输入文字。\n\n发送【" + wxconst.YES + "】提交留言\n发送【" + wxconst.NO + "】取消");
+        return next(null, "已存成草稿，您可继续输入文字。\n\n回复【" + wxconst.YES + "】提交留言\n回复【" + wxconst.NO + "】取消");
     });
 
     // 查看消息

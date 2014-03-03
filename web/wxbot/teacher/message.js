@@ -44,7 +44,7 @@ module.exports = function(webot) {
             }
             info.session.teacher.messages.push(info.text);
             info.wait("teacher message input");
-            return next(null, "已存成草稿，您可继续输入文字。\n发送【" + wxconst.YES + "】完成文字输入，发送【" + wxconst.NO + "】取消发布");
+            return next(null, "已存成草稿，您可继续输入文字。\n回复【" + wxconst.YES + "】完成文字输入，回复【" + wxconst.NO + "】取消发布");
         } else {
             return next(null, "后台异常，请重新发起操作。");
         }
@@ -73,7 +73,7 @@ module.exports = function(webot) {
             }
             info.session.teacher.topmessage = top;
             info.wait("teacher message sms");
-            return next(null, "您是否需要发送手机短信通知家长？\n回复【1】代表是\n回复【2】代表否");
+            return next(null, "您是否需要回复手机短信通知家长？\n回复【1】代表是\n回复【2】代表否");
         } else {
             return next(null, "后台异常，请重新发起操作。");
         }
@@ -97,7 +97,7 @@ module.exports = function(webot) {
         }
         if (info.session.teacher) {
             var sms = '0', smstext = '';
-            if (info.text === '1') { // 发送
+            if (info.text === '1') { // 回复
                 sms = '1';
                 smstext = '家长将收到手机短信通知。';
             }

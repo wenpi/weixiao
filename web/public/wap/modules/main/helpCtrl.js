@@ -37,7 +37,7 @@ define(function (require, exports, module) {
                 
                 contents.push('<strong>发布留言到留言板</strong>');
                 contents.push('第一步：选择菜单“家园互动”-“发布留言” （点击左下角键盘图标可以随时切换菜单和输入框），会收到消息提示进一步操作。');
-                contents.push('第二步：点击左下角键盘图标，出现输入框后，在输入框里直接输入你想对老师说的话。发送文字后会收到消息提示进一步操作。');
+                contents.push('第二步：点击左下角键盘图标，出现输入框后，在输入框里直接输入你想对老师说的话。回复文字后会收到消息提示进一步操作。');
                 contents.push('第三步：在输入框里输入数字“1”确认发布。输入“2”取消发布。');
                 contents.push('第四步：消息上传成功后。根据消息提示中“点击查看”字样，进入留言板可以查看自己的发布留言和本班老师发布的留言。留言仅你和本班老师可见。');
                 contents.push('<img src="images/help/message1.jpeg">');
@@ -45,7 +45,7 @@ define(function (require, exports, module) {
                 contents.push('<strong>发布照片到班级相册</strong>');
                 contents.push('第一步：选择菜单“家园互动”-“发布照片”，会收到消息提示进一步操作。');
                 contents.push('第二步：发布照片前需要为你所发布的照片添加主题。点击左下角键盘图标，输入照片主题文字。输入主题文字后会收到消息提示进一步操作。');
-                contents.push('第三步：点击右下角“+”号后，点击照片，从相册中选择你要上传的照片。如你想发送多张照片可以从相册进行多选。');
+                contents.push('第三步：点击右下角“+”号后，点击照片，从相册中选择你要上传的照片。如你想回复多张照片可以从相册进行多选。');
                 contents.push('第四步：图片上传成功后，根据消息引导，在输入框中回复“1”确认发布。输入“2”取消发布。');
                 contents.push('第五步：点击消息提示中“点击查看”字样，跳转到班级相册查看你及本班其他家长和教师上传的照片。');
                 contents.push('<img src="images/help/photo.jpeg">');
@@ -62,7 +62,7 @@ define(function (require, exports, module) {
                 contents.push('第一步：选择菜单“家园互动”-“我要请假”，会收到消息提示引导选择或输入请假开始日期。');
                 contents.push('第二步：选择或输入请假开始日期之后，再会收到消息提示，输入请假天数。');
                 contents.push('第三步：输入请假天数之后，根据消息提示选择请假事由并做具体说明。');
-                contents.push('第四步：根据消息提示发送“1”确认提交，老师会及时收到消息推送提醒。');
+                contents.push('第四步：根据消息提示回复回复“1”确认提交，老师会及时收到消息推送提醒。');
                 contents.push('<img src="images/help/leave.jpeg">');
             break;
             case 'profile':

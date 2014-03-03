@@ -44,7 +44,7 @@ module.exports = function(webot) {
         info.session.gallery.title = info.text;
 
         info.wait("gallery type image or confirm");
-        return next(null, "如需立即发布文字记录：\n回复【" + wxconst.YES + "】提交\n回复【" + wxconst.NO + "】取消\n\n如需继续发送图片记录，请选择上传图片。");
+        return next(null, "如需立即发布文字记录：\n回复【" + wxconst.YES + "】提交\n回复【" + wxconst.NO + "】取消\n\n如需继续回复图片记录，请上传图片。");
     });
 
     webot.waitRule('gallery type image or confirm', function(info, next) {
@@ -103,7 +103,7 @@ module.exports = function(webot) {
             } else {
                 utils.operation_is_failed(info, next);
                 info.rewait("gallery type image or confirm");
-                return next(null, "只能【" + wxconst.YES + "】或者【" + wxconst.NO + "】，或者选择上传图片。");
+                return next(null, "只能回复【" + wxconst.YES + "】或者【" + wxconst.NO + "】，或者上传图片。");
             }
         } else if (info.is("image")) {
             // 构造image
@@ -112,11 +112,11 @@ module.exports = function(webot) {
             }
             info.rewait("gallery type image or confirm");
             var len = info.session.gallery.photos.length;
-            return next(null, "已存草稿图片" + len + "张，您可继续上传图片。\n\n发送【" + wxconst.YES + "】发布\n发送【" + wxconst.NO + "】取消");
+            return next(null, "已存草稿图片" + len + "张，您可继续上传图片。\n\n回复【" + wxconst.YES + "】发布\n回复【" + wxconst.NO + "】取消");
         } else {
             utils.operation_is_failed(info, next);
             info.rewait("gallery type image or confirm");
-            return next(null, "抱歉，只能上传图片。");
+            return next(null, "只能回复【" + wxconst.YES + "】或者【" + wxconst.NO + "】，或者上传图片。");
         }
     });
 

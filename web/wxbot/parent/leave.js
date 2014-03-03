@@ -194,8 +194,8 @@ module.exports = function(webot) {
                 "离园天数：" + info.session.parent.addleave.days,
                 "离园理由：" + (info.session.parent.addleave.type === 1 ? '事假' : '病假'),
                 descLabel + "：" + info.session.parent.addleave.reason,
-                "\n发送【" + wxconst.YES + "】提交",
-                "发送【" + wxconst.NO + "】取消"
+                "\n回复【" + wxconst.YES + "】提交",
+                "回复【" + wxconst.NO + "】取消"
             ];
             info.wait("add leave parent confirm");
             return next(null, prompt.join("\n"));
@@ -248,7 +248,7 @@ module.exports = function(webot) {
                     info.session.parent.mobile
                 ];
                 
-                // 发送SMS
+                // 回复SMS
                 TeacherServices.queryByStudentId({
                     schoolId: info.session.school.id,
                     studentId: info.session.parent.addleave.studentId
