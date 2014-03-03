@@ -17,7 +17,17 @@ function add_leave_start(info, next) {
     if (info.session.parent) {
         info.session.parent.leave = {dates: []};
 
-        var prompt = ["请回复数字选择【开始日期】或者直接回复【开始日期】，如6月1日则回复四位数字0601（备注：四位数字所表示的日期为当年日期）："];
+        var studentId = info.session.parent.students[0].id;
+        var route = '#/student/' + studentId + '/leave';
+        var url = ejs.render(
+            '<a href="<%- url%>">点击这里</a>使用网页版提交请假申请\n', 
+            {
+                url: conf.site_root + '/webot/wap/index.html?' + 
+                        BaseServices.getAuthoriedParams(info.session.school.id, info.session.parent.id) +
+                        route
+            }
+        );
+        var prompt = [url + "您也可以回复数字选择【开始日期】或者直接回复【开始日期】，如6月1日则回复四位数字0601（备注：四位数字所表示的日期为当年日期）："];
 
         var date = Date.today();
         while (prompt.length < 6) {
