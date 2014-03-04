@@ -74,7 +74,11 @@ module.exports = function(webot) {
                 //info.session.mobile = mobile;
                 info.session.type = type;
                 info.wait("user register password type");
-                return next(null, '请输入初始密码：');
+                if (type == '0') {
+                    return next(null, '请输入老师提供的初始密码：');
+                } else {
+                    return next(null, '请输入运营商提供的初始密码：');
+                }
             });
         }
     });
@@ -83,7 +87,7 @@ module.exports = function(webot) {
         if (!info.is("text")) {
             utils.operation_is_failed(info, next);
             info.rewait("user register password type");
-            return next(null, "请输入初始密码：");
+            return next(null, "请输入老师提供的初始密码：");
         } else {
             info.session.password = info.text;
             var type = info.session.type;
