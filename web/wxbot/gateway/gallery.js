@@ -44,7 +44,7 @@ module.exports = function(webot) {
         info.session.gallery.title = info.text;
 
         info.wait("gallery type image or confirm");
-        return next(null, "如何发布文字记录：\n回复【" + wxconst.YES + "】提交\n回复【" + wxconst.NO + "】取消\n\n如需发布图文记录，请上传图片。");
+        return next(null, "如需发布文字记录：\n回复【" + wxconst.YES + "】提交\n回复【" + wxconst.NO + "】取消\n\n如需发布图文记录，请上传图片。");
     });
 
     webot.waitRule('gallery type image or confirm', function(info, next) {
