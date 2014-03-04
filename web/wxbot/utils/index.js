@@ -24,12 +24,19 @@ function ensure_school_is_bind (info, next) {
         return next();
     }
 
-    SchoolServices.queryByOpenId(info.sp).then(function(school) {
-        info.session.school = school;
+    SchoolServices.query({openId: info.sp})
+    .then(function(schools) {
+        if (schools.length == 0) {
+            return next("抱歉，该幼儿园的微信服务尚未激活。");
+        } else if (schools.length > 1) {
+            return next("幼儿园的Open ID重复。");
+        }
+
+        info.session.school = schools[0];
         return next();
     }, function() {
         info.ended = true;
-        return next("抱歉，该幼儿园的微信服务尚未激活。");
+        return next("查询幼儿园数据异常。");
     });
 }
 

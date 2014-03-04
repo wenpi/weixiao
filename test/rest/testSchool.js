@@ -226,6 +226,26 @@ module.exports = function() {
             });
         });
 
+        // 能获得数据
+        it('success to get school data with open id', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.queryPagingList("/api/school?_t=1&openId=" + 'openId' + schoolId, {token: 'basic-valid'})
+                    .then(function(schools) {
+                        console.info(schools);
+                        assert.equal(true, Array.isArray(schools));
+                        assert.equal(1, schools.length);
+                        done();
+                    }, function(err) {
+                        callback(err);
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
         // 没有token不能删除学校
         it('failed to remove school without token', function(done){
             // an example using an object instead of an array

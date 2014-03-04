@@ -19,23 +19,6 @@ function query(conditions){
 exports.query = query;
 
 /*
- * 返回绑定的场所
- */
-exports.queryByOpenId = function(openId) {
-    var deferred = Q.defer();
-
-    query({openId: openId}).then(function(schools) {
-        if (schools.length == 1) {
-            deferred.resolve(schools[0]);
-        } else {
-            deferred.reject({status: 500, message: "该微信账号未绑定幼儿园。"});
-        }
-    })
-
-    return deferred.promise;
-};
-
-/*
  * 更新数据 主要用于激活学校
  */
 function bind(schoolId, data) {

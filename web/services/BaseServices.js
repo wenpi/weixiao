@@ -72,7 +72,7 @@ exports.queryPagingList = function(url) {
             if (jsondata.result) {
                 deferred.resolve(jsondata.result);
             } else {
-                deferred.resolve([]);
+                deferred.reject(new Error("result is missed"));
             }
         } else {
             deferred.reject(error || body || new Error("unknown"));

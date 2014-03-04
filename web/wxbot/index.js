@@ -1,43 +1,35 @@
+var Q = require("q");
 var utils = require("./utils");
 var conf = require('../conf');
 var BaseServices = require("../services/BaseServices");
+var ParentServices = require("../services/ParentServices");
+var TeacherServices = require("../services/TeacherServices");
 
 module.exports = function(webot) {
     webot.loads("weexiao", "school", "gateway");
 
     // 默认欢迎词
-    webot.set('houtai test', {
-        pattern: /^test/i,
+    webot.set('weexiao demo', {
+        pattern: /^demo/i,
         handler: function(info, next) {
-            var schoolId = 'd28eefe9-db3b-4db5-a469-424ac5d187d8';
-            var userurl = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, '3d6a1441-b4f5-445c-a27f-02a8667ad293');
-            var teacherurl = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, '85ba34be-7dad-42c4-8a0f-3e21e9c295ed');
-            var adminurl = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, 'dcc7e4d2-7124-445a-9145-e2254eccc435');
+            if (conf.online) { next(); }
 
-            var prompt = [
-                '<a href="' + userurl + '">家长</a>',
-                '<a href="' + teacherurl + '">老师</a>',
-                '<a href="' + adminurl + '">园长</a>'
-            ];
-            next(null, prompt.join("\n\n"));
-        }
-    });
-
-    webot.set('houtai my test', {
-        pattern: /^mytest/i,
-        domain: "gateway",
-        handler: function(info, next) {
             var schoolId = info.session.school.id;
-            var user = info.session.teacher || info.session.parent;
-            console.info(user);
-            var userurl = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, user.id);
-
-            console.info(userurl);
-            var prompt = [
-                '<a href="' + userurl + '">当前认证用户</a>'
-            ];
-            console.info('here.');
-            next(null, prompt.join("\n\n"));
+            Q.all([
+               ParentServices.query(schoolId, {}),
+               TeacherServices.query(schoolId, {isAdmin: 0}),
+               TeacherServices.query(schoolId, {isAdmin: 1}),
+            ]).then(function(results) {
+                var prompts = [], names = ['家长', '老师', '园长'];
+                for (var i=0; i<results.length; i++) {
+                    var users = results[i];
+                    if (users.length > 0) {
+                        var url = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, users[0].id);
+                        prompts.push('<a href="' + url + '">' + names[i] + '</a>');
+                    }
+                }
+                next(null, prompts.join("\n\n"));
+            });
         }
     });
 

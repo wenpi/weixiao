@@ -46,6 +46,25 @@ module.exports = function() {
             });
         });
 
+        // 仅仅测试API是否工作,和场景测试无关
+        it('success to get the parent in a school', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.queryAll("/api/school/" + schoolId + "/parent", 
+                        {token: 'basic-valid'})
+                    .then(function(parents) {
+                        done();
+                    }, function(err) {
+                        console.info(err);
+                        callback(new Error("should get the parents."));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
         // 获得某班家长总数
         var count = 0;
         it('success to get the current count of parent in this class', function(done){
