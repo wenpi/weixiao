@@ -90,7 +90,13 @@ define(function (require, exports, module) {
                             promises.push(PathService.save(record));
                         });
                     } else {
-                        promises.push(PathService.save($scope.path.record));
+                        var record = $.extend({}, $scope.path.record), photosIds = [];
+                        $(record.photos).each(function(i, photo) {
+                            photosIds.push(photo.id);
+                        });
+                        record.photos = photosIds;
+
+                        promises.push(PathService.save(record));
                     }
                     $q.all(promises).then(function(results) {
                         var allDone = true, failed = 0;
