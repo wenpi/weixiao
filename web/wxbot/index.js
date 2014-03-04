@@ -25,7 +25,7 @@ module.exports = function(webot) {
                     var users = results[i];
                     if (users.length > 0) {
                         var url = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, users[0].id);
-                        prompts.push('<a href="' + url + '">' + names[i] + '</a>');
+                        prompts.push('<a href="' + url + '">' + names[i] + ':' + users[0].name + '</a>');
                     }
                 }
                 next(null, prompts.join("\n\n"));
