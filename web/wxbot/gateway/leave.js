@@ -20,14 +20,14 @@ function add_leave_start(info, next) {
         var studentId = info.session.parent.students[0].id;
         var route = '#/student/' + studentId + '/leave';
         var url = ejs.render(
-            '<a href="<%- url%>">点击这里</a>使用网页版提交请假申请\n', 
+            '<a href="<%- url%>">点击这里</a>使用网页版提交。\n', 
             {
                 url: conf.site_root + '/webot/wap/index.html?' + 
                         BaseServices.getAuthoriedParams(info.session.school.id, info.session.parent.id) +
                         route
             }
         );
-        var prompt = [url + "您也可以回复数字选择【开始日期】或者直接回复【开始日期】，如6月1日则回复四位数字0601（备注：四位数字所表示的日期为当年日期）："];
+        var prompt = [url + "使用微信对话框请回复数字选择【开始日期】或者直接回复当年【开始日期】，如6月1日则回复四位数字0601："];
 
         var date = Date.today();
         while (prompt.length < 6) {
@@ -214,11 +214,12 @@ module.exports = function(webot) {
 
         info.session.parent.leave.reason = info.text;
 
-        var descLabel = info.session.parent.leave.type === 1 ? '备注信息' : '病情信息';
+        var descLabel = info.session.parent.leave.type === 1 ? '请假备注' : '病情说明';
         var prompt = [
             "请您确认请假信息：\n",
-            "开始日期：" + info.session.parent.leave.startDate,
-            "结束日期：" + info.session.parent.leave.endDate,
+            info.session.parent.leave.startDate,
+            "至",
+            info.session.parent.leave.endDate,
             "离园天数：" + info.session.parent.leave.days,
             "离园理由：" + (info.session.parent.leave.type === 1 ? '事假' : '病假'),
             descLabel + "：" + info.session.parent.leave.reason,
@@ -264,7 +265,7 @@ module.exports = function(webot) {
                 var route = '#/student/' + studentId + '/leave';
 
                 return next(null, ejs.render(
-                    '操作成功！请<a href="<%- url%>">点击这里</a>使用查看考勤历史', 
+                    '操作成功！请<a href="<%- url%>">点击这里</a>查看考勤历史', 
                     {
                         url: conf.site_root + '/webot/wap/index.html?' + 
                                 BaseServices.getAuthoriedParams(info.session.school.id, info.session.parent.id) +

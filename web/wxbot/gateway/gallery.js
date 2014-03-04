@@ -20,9 +20,9 @@ module.exports = function(webot) {
 
         info.wait("gallery type text");
         return next(null, ejs.render(
-            ["分享孩子成长点滴到班级圈，仅供本班所有家长及老师访问。",
-             '使用网页版，请<a href="<%- url%>">点击这里</a>',
-             "如果使用微信对话框，请点击左下侧键盘图标后输入文字"].join("\n"), 
+            ["分享孩子成长点滴到班级圈，仅供本班所有家长及老师访问。\n",
+             '<a href="<%- url%>">点击这里</a>使用网页版分享',
+             "使用微信对话框分享，请点击左下侧键盘图标后输入文字"].join("\n"), 
             {
                 url: conf.site_root + '/webot/wap/index.html?' + 
                     BaseServices.getAuthoriedParams(info.session.school.id, user.id)
@@ -44,7 +44,7 @@ module.exports = function(webot) {
         info.session.gallery.title = info.text;
 
         info.wait("gallery type image or confirm");
-        return next(null, "如需立即发布文字记录：\n回复【" + wxconst.YES + "】提交\n回复【" + wxconst.NO + "】取消\n\n如需继续回复图片记录，请上传图片。");
+        return next(null, "如何发布文字记录：\n回复【" + wxconst.YES + "】提交\n回复【" + wxconst.NO + "】取消\n\n如需发布图文记录，请上传图片。");
     });
 
     webot.waitRule('gallery type image or confirm', function(info, next) {
@@ -86,7 +86,7 @@ module.exports = function(webot) {
                     delete info.session.gallery;
 
                     return next(null, ejs.render(
-                        '发布成功！请<a href="<%- url%>">点击这里</a>查看', 
+                        '发布成功！\n请<a href="<%- url%>">点击这里</a>查看', 
                         {
                             url: conf.site_root + '/webot/wap/index.html?' + 
                                     BaseServices.getAuthoriedParams(info.session.school.id, user.id) +
