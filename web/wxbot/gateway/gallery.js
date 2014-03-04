@@ -27,7 +27,7 @@ module.exports = function(webot) {
         return next(null, ejs.render(
             ["分享孩子成长点滴到班级圈，仅供本班所有家长及老师访问。",
              '使用网页版分享请\n<a href="<%- url%>">点击这里</a>',
-             "使用微信对话框分享，请回复数字：\n【1】发布文字\n【2】发布图文"].join("\n\n"), 
+             "使用微信对话框分享，请回复数字：\n【1】分享文字\n【2】分享图文"].join("\n\n"), 
             {
                 url: conf.site_root + '/webot/wap/index.html?' + 
                     BaseServices.getAuthoriedParams(info.session.school.id, user.id) +
@@ -63,7 +63,7 @@ module.exports = function(webot) {
         case "2":
             info.wait("kid gallery image text");
             info.session.gallery = {title: [], photos: [], type: 'image'};
-            return next(null, "通过这里上传的图文本班所有家长和老师可见。\n\n上传照片前，请先输入主题文字，简单描述一下您要发布的照片内容。例如“和孩子一起读书” “集体户外游戏小青蛙跳荷叶”等。\n\n请输入主题：");
+            return next(null, "通过这里上传的图文本班所有家长和老师可见。\n\n上传照片前，请先输入主题文字，简单描述一下您要分享的照片内容。例如“和孩子一起读书” “集体户外游戏小青蛙跳荷叶”等。\n\n请输入主题：");
         default:
             return next(null, "未知选项，操作终止。");
         }
@@ -110,7 +110,7 @@ module.exports = function(webot) {
                 delete info.session.gallery;
 
                 return next(null, ejs.render(
-                    '发布成功!\n<a href="<%- url%>">点击这里</a>查看。',
+                    '分享成功!\n<a href="<%- url%>">点击这里</a>查看。',
                     {
                         url: conf.site_root + '/webot/wap/index.html?' + 
                                 BaseServices.getAuthoriedParams(info.session.school.id, user.id) +
@@ -197,7 +197,7 @@ module.exports = function(webot) {
                     delete info.session.gallery;
 
                     return next(null, ejs.render(
-                        '发布成功!\n<a href="<%- url%>">点击这里</a>查看。',
+                        '分享成功!\n<a href="<%- url%>">点击这里</a>查看。',
                         {
                             url: conf.site_root + '/webot/wap/index.html?' + 
                                     BaseServices.getAuthoriedParams(info.session.school.id, user.id) +
@@ -217,7 +217,7 @@ module.exports = function(webot) {
         } else if (info.is("image")) {
             if (info.session.gallery.photos.length == 9) {
                 info.rewait("kid gallery image upload");
-                return next(null, "已经上传9张图片！\n回复【" + wxconst.YES + "】发布\n回复【" + wxconst.NO + "】取消。");
+                return next(null, "已经上传9张图片！\n回复【" + wxconst.YES + "】分享\n回复【" + wxconst.NO + "】取消。");
             }
             // 构造image
             if (info.session.gallery) {
@@ -225,7 +225,7 @@ module.exports = function(webot) {
             }
             info.wait("kid gallery image upload");
             var len = info.session.gallery.photos.length;
-            return next(null, "已存草稿图片" + len + "张，您可继续上传图片。\n\n回复【" + wxconst.YES + "】发布\n回复【" + wxconst.NO + "】取消");
+            return next(null, "已存草稿图片" + len + "张，您可继续上传图片。\n\n回复【" + wxconst.YES + "】分享\n回复【" + wxconst.NO + "】取消");
         } else {
             utils.operation_is_failed(info, next);
             info.wait("kid gallery image upload");

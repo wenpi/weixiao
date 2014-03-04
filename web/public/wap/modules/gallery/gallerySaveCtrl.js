@@ -48,7 +48,7 @@ define(function (require, exports, module) {
                         value: $scope.gallery.record.studentIds || "",
                         onSelect: function(students) {
                             if (students.length > 9) {
-                                alert("选择的孩子总数过多，建议在【班级圈】中发表。");
+                                alert("选择的孩子总数过多。");
                                 return;
                             }
                             var names = [], ids = [];

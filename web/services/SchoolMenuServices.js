@@ -40,7 +40,7 @@ function initMenuBak(schoolId) {
                 "key": "MESSAGE_ADD"
             }, {
                 "type": "click",
-                "name": "发布照片",
+                "name": "发布班级圈",
                 "key":"IMAGE_ADD"
             }, {  
                 "type": "click",
@@ -111,7 +111,7 @@ function initMenu() {
                 "key": "MESSAGE_ADD"
             }, {
                 "type": "click",
-                "name": "发布照片",
+                "name": "添加班级圈分享",
                 "key":"IMAGE_ADD"
             }, {  
                 "type": "click",
