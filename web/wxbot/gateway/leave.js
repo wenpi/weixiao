@@ -20,7 +20,7 @@ function add_leave_start(info, next) {
         var studentId = info.session.parent.students[0].id;
         var route = '#/student/' + studentId + '/leave';
         var url = ejs.render(
-            '<a href="<%- url%>">点击这里</a>使用网页版提交。\n', 
+            '使用网页版提交请<a href="<%- url%>">点击这里</a>。\n\n', 
             {
                 url: conf.site_root + '/webot/wap/index.html?' + 
                         BaseServices.getAuthoriedParams(info.session.school.id, info.session.parent.id) +
@@ -219,6 +219,7 @@ module.exports = function(webot) {
             "请您确认请假信息：\n",
             info.session.parent.leave.startDate,
             "至",
+            " ",
             info.session.parent.leave.endDate,
             "离园天数：" + info.session.parent.leave.days,
             "离园理由：" + (info.session.parent.leave.type === 1 ? '事假' : '病假'),

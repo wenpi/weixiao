@@ -18,7 +18,7 @@ module.exports = function(webot) {
             var schoolId = info.session.school.id;
             var user = info.session.teacher || info.session.parent;
 
-            var filename = 'school/' + schoolId + '/user/' + user.id + '/photo/' + (new Date()).getTime();
+            var filename = '/school/' + schoolId + '/user/' + user.id + '/photo/' + (new Date()).getTime();
             utils.download_image(info.param.picUrl, filename, function() {
                 var path = '#/school/' + schoolId;
                 var data = {schoolId: schoolId};
@@ -39,7 +39,7 @@ module.exports = function(webot) {
 
                 PhotoServices.create(data).then(function() {
                     var text = ejs.render(
-                        '您可以继续上传图片，或点击<a href="<%- url%>">我的图库</a>查看。', //进行后续操作', 
+                        '您可以继续上传图片，或<a href="<%- url%>">点击这里</a>查看图库。', //进行后续操作', 
                         {url: conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, user.id) + path}
                     );
                     return next(null, text);
