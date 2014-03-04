@@ -26,8 +26,8 @@ module.exports = function(webot) {
 
         return next(null, ejs.render(
             ["分享孩子成长点滴到班级圈，仅供本班所有家长及老师访问。",
-             '使用网页版分享请\n<a href="<%- url%>">点击这里</a>',
-             "使用微信对话框分享，请回复数字：\n【1】分享文字\n【2】分享图文"].join("\n\n"), 
+             '使用网页版分享\n请<a href="<%- url%>">点击这里</a>',
+             "使用微信对话框分享\n请回复数字：\n【1】分享文字\n【2】分享图文"].join("\n\n"), 
             {
                 url: conf.site_root + '/webot/wap/index.html?' + 
                     BaseServices.getAuthoriedParams(info.session.school.id, user.id) +

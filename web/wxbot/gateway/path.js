@@ -13,7 +13,7 @@ module.exports = function(webot) {
         if (info.session.parent) {
             info.wait("kid path select type");
             return next(null, ejs.render(
-                '使用网页版添加请\n<a href="<%- url%>">点击这里</a>\n\n使用微信对话框添加，请回复数字：\n【1】发布文字记录\n【2】发布图文记录', 
+                '使用网页版添加\n请<a href="<%- url%>">点击这里</a>\n\n使用微信对话框添加\n请回复数字：\n【1】发布文字记录\n【2】发布图文记录', 
                 {
                     url: conf.site_root + '/webot/wap/index.html?' + 
                             BaseServices.getAuthoriedParams(info.session.school.id, info.session.parent.id) +
