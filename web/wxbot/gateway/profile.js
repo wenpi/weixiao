@@ -15,9 +15,14 @@ var ParentServices = require("../../services/ParentServices");
 module.exports = function(webot) {
     // 个人资料的网关
     function profile_gateway(info, next) {
+        var user = info.session.parent || info.session.teacher;
+        var url = conf.site_root + '/webot/wap/index.html?' + 
+            BaseServices.getAuthoriedParams(info.session.school.id, user.id);
+
         info.wait("user profile action");
         return next(null, [
-                "请回复数字选择您要进行的操作：",
+                '使用网页版设置请\n<a href="' + url + ''">点击这里</a>\n',
+                "使用微信对话框设置请回复数字：",
                 "【1】修改个人资料",
                 "【2】修改头像",
                 "【3】修改密码",

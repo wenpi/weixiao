@@ -123,7 +123,7 @@ function initMenu() {
                 "key": "LEAVE_ADD"
             }, {
                 "type": "click",
-                "name": "个人资料",
+                "name": "个人设置",
                 "key": "PROFILE_GATEWAY"
             }]
         }]
