@@ -44,7 +44,7 @@ module.exports = function(webot) {
                 // 判断该手机是否存在和是否激活
                 if (users.length == 0) {
                     return next(null, ejs.render(
-                       '手机号: <%- mobile%>，不存在。',
+                       '手机号: <%- mobile%>不存在。',
                         {mobile: mobile}
                     ));
                 } else if (users.length > 1) {

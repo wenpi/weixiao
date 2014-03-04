@@ -337,9 +337,30 @@ module.exports = function() {
             // an example using an object instead of an array
             async.series({
                 action: function(callback){
-                    base.queryAll("/api/user?_t=1&schoolId=" + schoolId + '&openId=' + 'openId' + mobile, 
+                    base.queryPagingList("/api/user?_t=1&schoolId=" + schoolId + '&openId=' + 'openId' + mobile, 
                         {token: 'basic-valid'})
                     .then(function(parents) {
+                        assert.equal(1, parents.length);
+                        done();
+                    }, function(err) {
+                        console.info(err);
+                        callback(new Error("should get the parents."));
+                    });
+                }
+            }, function(err, results) {
+                done(err);
+            });
+        });
+
+        // 微信端能查询到该用户
+        it('success to get the parent from wexin', function(done){
+            // an example using an object instead of an array
+            async.series({
+                action: function(callback){
+                    base.queryPagingList("/api/user?_t=1&schoolId=" + schoolId + '&mobile=' + mobile, 
+                        {token: 'basic-valid'})
+                    .then(function(parents) {
+                        assert.equal(1, parents.length);
                         done();
                     }, function(err) {
                         console.info(err);
