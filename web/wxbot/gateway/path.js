@@ -100,7 +100,7 @@ module.exports = function(webot) {
                 ));
             }, function(err) {
                 delete info.session.parent.path;
-                next(null, "抱歉，后台异常，无法发布成长记录。");
+                next(null, "抱歉，服务器异常，无法发布成长记录。");
             });
         } else if (info.text === wxconst.NO) {
             delete info.session.parent.path;
@@ -177,7 +177,7 @@ module.exports = function(webot) {
                     ));
                 }, function() {
                     delete info.session.parent.path;
-                    next(null, "抱歉，后台异常，无法发布成长记录。");
+                    next(null, "抱歉，服务器异常，无法发布成长记录。");
                 });
             } else if (info.text === wxconst.NO) {
                 delete info.session.parent.path;

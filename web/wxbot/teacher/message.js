@@ -46,7 +46,7 @@ module.exports = function(webot) {
             info.wait("teacher message input");
             return next(null, "已存成草稿，您可继续输入文字。\n回复【" + wxconst.YES + "】完成文字输入，回复【" + wxconst.NO + "】取消发布");
         } else {
-            return next(null, "后台异常，请重新发起操作。");
+            return next(null, "服务器异常，请重新发起操作。");
         }
     });
 
@@ -75,7 +75,7 @@ module.exports = function(webot) {
             info.wait("teacher message sms");
             return next(null, "您是否需要回复手机短信通知家长？\n回复【1】代表是\n回复【2】代表否");
         } else {
-            return next(null, "后台异常，请重新发起操作。");
+            return next(null, "服务器异常，请重新发起操作。");
         }
     });
     // 是否发短信
@@ -116,13 +116,13 @@ module.exports = function(webot) {
                 );
                 return next(null, text);
             }, function() {
-                next(null, "抱歉，后台异常，无法提交留言。");
+                next(null, "抱歉，服务器异常，无法提交留言。");
             });
             delete info.session.teacher.topmessage;
             delete info.session.teacher.messages;
             return;
         } else {
-            return next(null, "后台异常，请重新发起操作。");
+            return next(null, "服务器异常，请重新发起操作。");
         }
     });
 }

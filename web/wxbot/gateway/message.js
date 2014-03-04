@@ -19,20 +19,22 @@ function add_message_start(info, next) {
     if (info.session.parent) {
         info.wait("user message input");
         return next(null, ejs.render(
-            '请点击左下侧键盘图标后输入您想对老师说的话，仅有您的家庭成员和本班老师可见。如需使用网页版，请<a href="<%- url%>">点击这里</a>：', 
+            '如需使用网页版，请<a href="<%- url%>">点击这里</a>。或在微信对话框内点击左下侧键盘图标后输入您想对老师说的话，该留言仅有您的家庭成员和本班老师可见：', 
             {
                 url: conf.site_root + '/webot/wap/index.html?' + 
-                        BaseServices.getAuthoriedParams(info.session.school.id, info.session.parent.id)
+                        BaseServices.getAuthoriedParams(info.session.school.id, info.session.parent.id) +
+                        '#/student/' + info.session.parent.students[0].id + '/message'
             }
         ));
     } else if (info.session.teacher) {
         if (info.session.teacher.isAdmin === 0) {
             info.wait("user message input");
             return next(null, ejs.render(
-                '请点击左下侧键盘图标后输入通知内容。如需使用网页版，请<a href="<%- url%>">点击这里</a>：', 
+                '如需使用网页版，请<a href="<%- url%>">点击这里</a>，或者在微信对话框内点击左下侧键盘图标后输入通知内容。：', 
                 {
                     url: conf.site_root + '/webot/wap/index.html?' + 
-                            BaseServices.getAuthoriedParams(info.session.school.id, info.session.teacher.id)
+                            BaseServices.getAuthoriedParams(info.session.school.id, info.session.teacher.id) +
+                            '#/class/' + info.session.teacher.wexClasses[0].id + '/message'
                 }
             ));
         } else if (info.session.teacher.isAdmin === 1){
@@ -40,7 +42,8 @@ function add_message_start(info, next) {
                 '园长，管理员用户请<a href="<%- url%>">点击这里</a>使用网页版。', 
                 {
                     url: conf.site_root + '/webot/wap/index.html?' + 
-                            BaseServices.getAuthoriedParams(info.session.school.id, info.session.teacher.id)
+                            BaseServices.getAuthoriedParams(info.session.school.id, info.session.teacher.id) +
+                            '#/class/' + info.session.teacher.wexClasses[0].id + '/message'
                 }
             ));
         }
@@ -126,20 +129,20 @@ module.exports = function(webot) {
             if (info.session.parent) {
                 data.studentId = info.session.parent.students[0].id;
                 url = conf.site_root + '/webot/wap/index.html?' + 
-                    BaseServices.getAuthoriedParams(info.session.parent.students[0].classId, info.session.parent.id) +
+                    BaseServices.getAuthoriedParams(info.session.school.id, info.session.parent.id) +
                     '#/student/' + info.session.parent.students[0].id + '/message'
             }
 
             MessageServices.create(info.session.parent.students[0].classId, data).then(function() {
                 return next(null, ejs.render(
-                    '成功提交留言，请<a href="<%- url%>">点击这里</a>查看我的留言。', 
+                    '成功提交留言，请<a href="<%- url%>">点击这里</a>查看留言。', 
                     {
                         url: url
                     }
                 ));
             }, function(err) {
                 console.info(err);
-                return next(null, "抱歉，后台异常，无法提交留言。");
+                return next(null, "抱歉，服务器异常，无法提交留言。");
             });
             return clear();
         }
@@ -150,7 +153,7 @@ module.exports = function(webot) {
         }
         info.session.messages.push(info.text);
         info.rewait("user message input");
-        return next(null, "已存成草稿，您可继续输入文字。\n\n回复【" + wxconst.YES + "】提交留言\n回复【" + wxconst.NO + "】取消");
+        return next(null, "已存成草稿，您可继续输入文字。\n\n回复【" + wxconst.YES + "】提交\n回复【" + wxconst.NO + "】取消");
     });
 
     // 查看消息

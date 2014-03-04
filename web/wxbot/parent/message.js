@@ -46,7 +46,7 @@ module.exports = function(webot) {
                     );
                     return next(null, text);
                 }, function() {
-                    next(null, "抱歉，后台异常，无法提交留言。");
+                    next(null, "抱歉，服务器异常，无法提交留言。");
                 });
                 delete info.session.parent.messages;
                 return;

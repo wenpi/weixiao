@@ -95,7 +95,7 @@ module.exports = function(webot) {
                     ));
                 }, function(err) {
                     delete info.session.gallery;
-                    next(null, "抱歉，后台异常，无法提交。");
+                    next(null, "抱歉，服务器异常，无法提交。");
                 });
             } else if (info.text === wxconst.NO) {
                 delete info.session.gallery;

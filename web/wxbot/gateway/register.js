@@ -74,7 +74,7 @@ module.exports = function(webot) {
                 //info.session.mobile = mobile;
                 info.session.type = type;
                 info.wait("user register password type");
-                return next(null, '请输入您的初始化密码：');
+                return next(null, '请输入初始密码：');
             });
         }
     });

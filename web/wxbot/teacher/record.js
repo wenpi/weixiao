@@ -182,7 +182,7 @@ module.exports = function(webot) {
                     return next(null, response);
                 }, function() {
                     delete info.session.teacher.records;
-                    next(null, "抱歉，后台异常，无法发布成长记录。");
+                    next(null, "抱歉，服务器异常，无法发布成长记录。");
                 });
                 return;
             }
@@ -258,7 +258,7 @@ module.exports = function(webot) {
             }, function() {
                 delete info.session.students;
                 delete info.session.teacher.imageRecord;
-                next(null, "抱歉，后台异常，无法发布成长记录。");
+                next(null, "抱歉，服务器异常，无法发布成长记录。");
             });
             return;
 		}

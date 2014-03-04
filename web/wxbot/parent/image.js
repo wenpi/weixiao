@@ -59,7 +59,7 @@ module.exports = function(webot) {
                 return next(null, text);
             }, function() {
             	delete info.session.parent.publishImage;
-                next(null, "抱歉，后台异常，无法发布图片。");
+                next(null, "抱歉，服务器异常，无法发布图片。");
             });
             return;
 		}
