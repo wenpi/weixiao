@@ -86,7 +86,7 @@ module.exports = function(webot) {
                     delete info.session.gallery;
 
                     return next(null, ejs.render(
-                        '发布成功！\n请<a href="<%- url%>">点击这里</a>查看', 
+                        '成功提交!\n<a href="<%- url%>">点击这里</a>查看。',
                         {
                             url: conf.site_root + '/webot/wap/index.html?' + 
                                     BaseServices.getAuthoriedParams(info.session.school.id, user.id) +

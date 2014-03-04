@@ -175,7 +175,7 @@ module.exports = function(webot) {
                     var route = '#/student/' + info.session.parent.students[0].id + '/path';
 
                     next(null, ejs.render(
-                        '发布成功，请<a href="<%- url%>">点击这里</a>查看', 
+                        '成功提交!\n<a href="<%- url%>">点击这里</a>查看。',
                         {
                             url: conf.site_root + '/webot/wap/index.html?' + 
                                     BaseServices.getAuthoriedParams(info.session.school.id, info.session.parent.id) +

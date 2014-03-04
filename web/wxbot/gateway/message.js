@@ -19,7 +19,7 @@ function add_message_start(info, next) {
     if (info.session.parent) {
         info.wait("user message input");
         return next(null, ejs.render(
-            '<a href="<%- url%>">点击这里</a>使用网页版留言。使用微信对话框留言请点击左下侧键盘图标后输入您想对老师说的话，该留言仅有您的家庭成员和本班老师可见：', 
+            '<a href="<%- url%>">点击这里</a>使用网页版留言。\n使用微信对话框留言请点击左下侧键盘图标后输入您想对老师说的话，该留言仅有您的家庭成员和本班老师可见：', 
             {
                 url: conf.site_root + '/webot/wap/index.html?' + 
                         BaseServices.getAuthoriedParams(info.session.school.id, info.session.parent.id) +
@@ -135,7 +135,7 @@ module.exports = function(webot) {
 
             MessageServices.create(info.session.parent.students[0].classId, data).then(function() {
                 return next(null, ejs.render(
-                    '成功提交留言，请<a href="<%- url%>">点击这里</a>查看留言。', 
+                    '成功提交!\n<a href="<%- url%>">点击这里</a>查看。', 
                     {
                         url: url
                     }
