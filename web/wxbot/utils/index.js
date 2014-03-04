@@ -170,12 +170,15 @@ function createFolder(path) {
     }
 }
 function download_image(picUrl, localFile, callback) {
+    
     createFolder(localFile);
+    
+    var absLocalFile = conf.upload_root + localFile;
     request.head(picUrl, function(err, res, body){
-        var r = request(picUrl).pipe(fs.createWriteStream(conf.upload_root + '/' + localFile));
+        var r = request(picUrl).pipe(fs.createWriteStream(absLocalFile));
         r.on('finish', function () {
-            fs.chmodSync(conf.upload_root + '/' + localFile, 0755);
-            fs.chownSync(conf.upload_root + '/' + localFile, 48, 48)
+            fs.chmodSync(absLocalFile, 0755);
+            fs.chownSync(absLocalFile, 48, 48)
             if (callback) { callback(); }
         });
     });

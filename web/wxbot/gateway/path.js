@@ -13,7 +13,7 @@ module.exports = function(webot) {
         if (info.session.parent) {
             info.wait("kid path select type");
             return next(null, ejs.render(
-                '使用网页版添加请\n<a href="<%- url%>">点击这里</a>\n\n使用微信对话框添加请回复数字：\n回复【1】发布文字记录\n回复【2】发布图文记录', 
+                '使用网页版添加请\n<a href="<%- url%>">点击这里</a>\n\n使用微信对话框添加，请回复数字：\n【1】发布文字记录\n【2】发布图文记录', 
                 {
                     url: conf.site_root + '/webot/wap/index.html?' + 
                             BaseServices.getAuthoriedParams(info.session.school.id, info.session.parent.id) +
@@ -133,7 +133,7 @@ module.exports = function(webot) {
         // 构造image
         info.session.parent.path.content.push(info.text);
         info.wait("kid path image upload");
-        return next(null, "请选择您要上传的图片：");
+        return next(null, "请选择您要上传的图片（最多9张）：");
     });
 
     // 等待图片记录
@@ -175,7 +175,7 @@ module.exports = function(webot) {
                     var route = '#/student/' + info.session.parent.students[0].id + '/path';
 
                     next(null, ejs.render(
-                        '成功提交!\n<a href="<%- url%>">点击这里</a>查看。',
+                        '发布成功!\n<a href="<%- url%>">点击这里</a>查看。',
                         {
                             url: conf.site_root + '/webot/wap/index.html?' + 
                                     BaseServices.getAuthoriedParams(info.session.school.id, info.session.parent.id) +
@@ -193,6 +193,10 @@ module.exports = function(webot) {
                 return next(null, "只能回复【" + wxconst.YES + "】或【" + wxconst.NO + "】,也可以继续上传图片。");
             }
         } else if (info.is("image")) {
+            if (info.session.path.photos.length == 9) {
+                info.rewait("kid path image upload");
+                return next(null, "已经上传9张图片！\n回复【" + wxconst.YES + "】发布\n回复【" + wxconst.NO + "】取消。");
+            }
             // 构造image
             if (info.session.parent.path) {
                 info.session.parent.path.photos.push(info.param.picUrl);

@@ -266,7 +266,7 @@ module.exports = function(webot) {
                 var route = '#/student/' + studentId + '/leave';
 
                 return next(null, ejs.render(
-                    '成功提交!\n<a href="<%- url%>">点击这里</a>查看。', 
+                    '提交成功!\n<a href="<%- url%>">点击这里</a>查看。', 
                     {
                         url: conf.site_root + '/webot/wap/index.html?' + 
                                 BaseServices.getAuthoriedParams(info.session.school.id, info.session.parent.id) +

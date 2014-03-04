@@ -135,13 +135,12 @@ module.exports = function(webot) {
 
             MessageServices.create(info.session.parent.students[0].classId, data).then(function() {
                 return next(null, ejs.render(
-                    '成功提交!\n<a href="<%- url%>">点击这里</a>查看。', 
+                    '提交成功!\n<a href="<%- url%>">点击这里</a>查看。', 
                     {
                         url: url
                     }
                 ));
             }, function(err) {
-                console.info(err);
                 return next(null, "抱歉，服务器异常，无法提交留言。");
             });
             return clear();
