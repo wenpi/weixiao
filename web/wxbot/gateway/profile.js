@@ -21,7 +21,7 @@ module.exports = function(webot) {
 
         info.wait("user profile action");
         return next(null, [
-                '使用网页版设置请\n<a href="' + url + ''">点击这里</a>\n',
+                '使用网页版设置请\n<a href="' + url + '">点击这里</a>\n',
                 "使用微信对话框设置请回复数字：",
                 "【1】修改个人资料",
                 "【2】修改头像",
