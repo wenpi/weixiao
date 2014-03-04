@@ -20,7 +20,7 @@ function add_leave_start(info, next) {
         var studentId = info.session.parent.students[0].id;
         var route = '#/student/' + studentId + '/leave';
         var url = ejs.render(
-            '使用网页版提交请<a href="<%- url%>">点击这里</a>\n\n', 
+            '使用网页版提交请\n<a href="<%- url%>">点击这里</a>\n\n', 
             {
                 url: conf.site_root + '/webot/wap/index.html?' + 
                         BaseServices.getAuthoriedParams(info.session.school.id, info.session.parent.id) +
