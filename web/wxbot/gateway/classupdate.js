@@ -59,27 +59,27 @@ function send_update(info, next) {
         var links = [{
             title: '班级通知' + messageUnread,
             url: noticeUrl,
-            picUrl: conf.site_root + '/webot/wap/images/webot/message.png?t=' + t,
+            picUrl: conf.site_root + '/webot/wap/images/webot/notice.png?t=' + t,
             description: '通知' + messageUnread
         }, {
             title: '留言板',
             url: messageUrl,
-            picUrl: conf.site_root + '/webot/wap/images/webot/index_1.jpg?t=' + t,
+            picUrl: conf.site_root + '/webot/wap/images/webot/message.png?t=' + t,
             description: '家长与老师的一对一沟通' + photoUnread
         }, {
             title: '班级圈' + photoUnread,
             url: galleryUrl,
-            picUrl: conf.site_root + '/webot/wap/images/webot/index_2.jpg?t=' + t,
+            picUrl: conf.site_root + '/webot/wap/images/webot/gallery.png?t=' + t,
             description: '班级圈' + photoUnread
         }, {
             title: '成长记录' + photoUnread,
             url: pathUrl,
-            picUrl: conf.site_root + '/webot/wap/images/webot/index_1.jpg?t=' + t,
+            picUrl: conf.site_root + '/webot/wap/images/webot/path.png?t=' + t,
             description: '班级相册' + photoUnread
         }, {
             title: leaveTitle,
             url: leaveUrl,
-            picUrl: conf.site_root + '/webot/wap/images/webot/index_2.jpg?t=' + t,
+            picUrl: conf.site_root + '/webot/wap/images/webot/leave.png?t=' + t,
             description: '请假考勤'
         }];
 
@@ -87,7 +87,7 @@ function send_update(info, next) {
         links.push({
             title: '课程计划',
             url: conf.site_root + '/front/course',
-            picUrl: conf.site_root + '/webot/wap/images/webot/index_3.jpg?t=' + t,
+            picUrl: conf.site_root + '/webot/wap/images/webot/course.png?t=' + t,
             description: '课程计划'
         });
 
