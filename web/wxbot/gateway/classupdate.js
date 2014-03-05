@@ -5,10 +5,13 @@
  * - hopesfish at 163.com
  */
 var conf = require('../../conf');
+var BaseServices = require("../../services/BaseServices");
 var UserServices = require("../../services/UserServices");
 
 function send_update(info, next) {
     var t = conf.online ? '' : (new Date()).getTime();
+
+    var user = info.session.parent || info.session.teacher;
 
     // 发送信息
     function sendLinks(unread) {
@@ -24,9 +27,8 @@ function send_update(info, next) {
             //pathUnread = ' ' + unread.path + '条新记录';
         }*/
         
-        var user = info.session.parent || info.session.teacher;
         var schoolId = info.session.school.id;
-        var rootUrl = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, users[0].id),
+        var rootUrl = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, user.id),
             messageUrl = rootUrl,
             noticeUrl = rootUrl,
             galleryUrl = rootUrl,
@@ -92,15 +94,7 @@ function send_update(info, next) {
         return next(null, links);
     }
 
-    var userId = '';
-    if (info.session.teacher) {
-        userId = info.session.teacher.id;
-    } else if (info.session.parent) {
-        userId = info.session.parent.id;
-    } else {
-        return next(null, "当前用户不是家长或者老师。");
-    }
-    UserServices.queryUnread({userId: userId}).then(function(unread) {
+    UserServices.queryUnread({userId: user.id}).then(function(unread) {
         sendLinks(unread);
     }, function() {
         console.info("failed to get unread info.");
