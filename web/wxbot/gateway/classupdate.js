@@ -9,62 +9,83 @@ var UserServices = require("../../services/UserServices");
 
 function send_update(info, next) {
     var t = conf.online ? '' : (new Date()).getTime();
-    if (info.session.teacher) {
-        if (info.session.teacher.isAdmin === 1) {
-            return next(null, "抱歉！园长，管理员暂时需通过PC端使用！");
-        }
-    }
+
     // 发送信息
     function sendLinks(unread) {
         var messageUnread = '', photoUnread = '', pathUnread = '';
+        /*
         if (unread.message !== undefined && unread.message > 0) {
-            messageUnread = ' ' + unread.message + '条未读';
+            //messageUnread = ' ' + unread.message + '条未读';
         }
         if (unread.photo !== undefined && unread.photo > 0) {
-            photoUnread = ' ' + unread.photo + '张新图片';
+            //photoUnread = ' ' + unread.photo + '张新图片';
         }
         if (unread.path !== undefined && unread.path > 0) {
-            pathUnread = ' ' + unread.path + '条新记录';
-        }
+            //pathUnread = ' ' + unread.path + '条新记录';
+        }*/
+        
+        var user = info.session.parent || info.session.teacher;
+        var schoolId = info.session.school.id;
+        var rootUrl = conf.site_root + '/webot/wap/index.html?' + BaseServices.getAuthoriedParams(schoolId, users[0].id),
+            messageUrl = rootUrl,
+            noticeUrl = rootUrl,
+            galleryUrl = rootUrl,
+            pathUrl = rootUrl,
+            leaveUrl = rootUrl,
+            studentId, classId, leaveTitle = '我要请假';
+    
+        if (info.session.parent) {
+            studentId = info.session.parent.students[0].id
+            classId = info.session.parent.students[0].classId;
 
+            messageUrl += '#/student/' + studentId + '/message';
+            noticeUrl += '#/class/' + classId + '/notice';
+            galleryUrl += '#/class/' + classId + '/gallery';
+            pathUrl += '#/student/' + studentId + '/path';
+            leaveUrl += '#/student/' + studentId + '/leave';
+        } else if (info.session.teacher) {
+            classId = info.session.teacher.wexClasses[0].classId;
+ 
+            messageUrl += '#/class/' + classId + '/message';
+            noticeUrl += '#/class/' + classId + '/notice';
+            galleryUrl += '#/class/' + classId + '/gallery';
+            pathUrl += '#/class/' + classId + '/path';
+            leaveUrl += '#/class/' + classId + '/leave';
+            leaveTitle = '请假考勤';
+        }
+        
         var links = [{
-            title: '留言板' + messageUnread,
-            url: conf.site_root + '/front/message',
+            title: '班级通知' + messageUnread,
+            url: noticeUrl,
             picUrl: conf.site_root + '/webot/wap/images/webot/message.png?t=' + t,
-            description: '留言板' + messageUnread
+            description: '通知' + messageUnread
         }, {
-            title: '班级相册' + photoUnread,
-            url: conf.site_root + '/classPhoto/mobileview',
-            picUrl: conf.site_root + '/webot/wap/images/webot/photo.png?t=' + t,
+            title: '留言板',
+            url: messageUrl,
+            picUrl: conf.site_root + '/webot/wap/images/webot/index_1.jpg?t=' + t,
+            description: '家长与老师的一对一沟通' + photoUnread
+        }, {
+            title: '班级圈' + photoUnread,
+            url: galleryUrl,
+            picUrl: conf.site_root + '/webot/wap/images/webot/index_2.jpg?t=' + t,
+            description: '班级圈' + photoUnread
+        }, {
+            title: '成长记录' + photoUnread,
+            url: pathUrl,
+            picUrl: conf.site_root + '/webot/wap/images/webot/index_1.jpg?t=' + t,
             description: '班级相册' + photoUnread
+        }, {
+            title: leaveTitle,
+            url: leaveUrl,
+            picUrl: conf.site_root + '/webot/wap/images/webot/index_2.jpg?t=' + t,
+            description: '请假考勤'
         }];
 
-        if (info.session.parent) {
-            if (info.session.parent.students && info.session.parent.students.length > 0) {
-                links.push({
-                    title: '成长记录' + pathUnread,
-                    url: conf.site_root + '/studentPath/mobileView?student_id=' + info.session.parent.students[0].id,
-                    picUrl: conf.site_root + '/webot/wap/images/webot/record.png?t=' + t,
-                    description: '成长记录' + pathUnread
-                });
-            }
-        } else if (info.session.teacher) {
-            if (info.session.teacher.isAdmin === 0 &&
-                info.session.teacher.wxclasses &&
-                info.session.teacher.wxclasses.length > 0) {
-                links.push({
-                    title: '成长记录' + pathUnread,
-                    url: conf.site_root + '/webot/wap/school/' + info.session.school.id + "/class/" + info.session.teacher.wxclasses[0].id + "/record/entry",
-                    picUrl: conf.site_root + '/webot/wap/images/webot/record.png?t=' + t,
-                    description: '查看学生们的成长记录' + pathUnread
-                });
-            }
-        }
-
+        
         links.push({
             title: '课程计划',
             url: conf.site_root + '/front/course',
-            picUrl: conf.site_root + '/webot/wap/images/webot/course.png?t=' + t,
+            picUrl: conf.site_root + '/webot/wap/images/webot/index_3.jpg?t=' + t,
             description: '课程计划'
         });
 
