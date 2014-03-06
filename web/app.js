@@ -24,7 +24,7 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session({
-	secret: 'weexiao',
+	secret: 'keyboardcat123',
 	store: new express.session.MemoryStore(),
     expires: new Date(Date.now() + conf.timeout.val)
 }));
@@ -45,7 +45,7 @@ require("./wxbot")(webot);
 webot.watch(app, { token: conf.weixin, path: '/weixin/api' });
 
 // 启动express
-var port = conf.port || 3000;
+var port = conf.port || 3001;
 var hostname = conf.hostname || '127.0.0.1';
 app.listen(port, function() {
   console.info('listening on ', hostname, port);

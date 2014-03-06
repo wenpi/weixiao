@@ -1,6 +1,6 @@
 module.exports = {
   online: false,
-  port: 3000,
+  port: 3001,
   hostname: '127.0.0.1',
   timeout: {
     desc: '十分钟',
@@ -13,13 +13,13 @@ module.exports = {
   },
   users: {
     admin: {
-      passwd: 'passw0rd'
+      passwd: ''
     }
   },
-  site_root: 'http://test.weexiao.com',
+  site_root: 'http://pi.lxztx.com',
   //site_root: 'http://192.168.1.105',
   upload_root: '/var/www/html/weexiao/upload',
   //upload_root: '/Users/panwei/dev/workspace/workspace.weexiao/upload',
-  salt: 'weexiao',
-  weixin: 'weexiao'
+  salt: 'keyboardcat123',
+  weixin: 'keyboardcat123'
 };
