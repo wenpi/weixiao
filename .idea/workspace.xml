@@ -1,75 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="79727b75-a9dc-4ac1-a69c-380dca9dc0b3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/weixiao.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/sass_stdlib.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/d3/d3.v3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/d3/d3.v3.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/d3/data.tsv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/d3/demo.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/d3/example.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/d3/main.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/d3/test.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/architechture design II.odp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/architechture design.odp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/menu.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/rest api.odt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/table design.odt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/url.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/weexiao.sql" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/wxbanner.psd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/使用帮助.docx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/微信幼儿园功能清单1105.xlsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/simulator/.project" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/simulator/.settings/org.eclipse.core.resources.prefs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/simulator/gui.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/simulator/gui.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/simulator/weixin_api/.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/simulator/weixin_api/.npmignore" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/simulator/weixin_api/.travis.yml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/simulator/weixin_api/LICENSE" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/simulator/weixin_api/README.md" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/simulator/weixin_api/examples/example.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/simulator/weixin_api/index.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/simulator/weixin_api/package.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/simulator/weixin_api/tests/all.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/.project" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/package.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/rest/base.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/rest/index.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/rest/testClass.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/rest/testClassParent.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/rest/testClassTeacher.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/rest/testParentMessage.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/rest/testParentPhoto.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/rest/testSchool.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/rest/testTeacher.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/rest/testTeacherGallery.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/rest/testTeacherLeave.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/rest/testTeacherMessage.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/rest/testTeacherPath.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/rest/testTeacherPhoto.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/testGetToken.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/testREST.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/testSMS.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/testUnreadByParent.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/testUnreadByTeacher.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/testUserByParentOpenId.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/testUserByTeacherOpenId.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/wxbot/index.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/wxbot/parent_leave_message.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/wxbot/parent_register.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/wxbot/school_bind.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/app.js" afterPath="$PROJECT_DIR$/web/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/conf/index.js" afterPath="$PROJECT_DIR$/web/conf/index.js" />
-    </list>
+    <list default="true" id="79727b75-a9dc-4ac1-a69c-380dca9dc0b3" name="Default" comment="" />
     <ignored path="weixiao.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
